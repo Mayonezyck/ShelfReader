@@ -1,4 +1,5 @@
 #this is the backend portal for the shelf chekcing process
+from guizero import App, Text, TextBox, Box, PushButton
 import Book
 import BookList
 #What is the process of shelf checking
@@ -9,6 +10,7 @@ import BookList
 
 
 def main():
+    GUInterface_login()
     #this is non-graphical user interface
     print('------------------------------')
     print('Please input the first book on the shelf')
@@ -21,6 +23,39 @@ def main():
     #to handle this error, request the user to input one book ahead/one book after
     print('Generating the list')
     #
+    
+ 
+def GUInterface_login():
+    loginWindow = App(title="Log in")
+    Text(loginWindow, text="Welcome!", size=40)
+    Text(loginWindow, text="User ID: ",align="left")
+    userNameBox = TextBox(loginWindow,text="Please enter your ID number", width=25, align="left")
+    PushButton(loginWindow, text = 'clear', command = clearTextBox, args = [userNameBox], align = "left")
+    PushButton(loginWindow, text = 'OK', command = GUInterface_listGenerate, args = [loginWindow], align = "bottom")
+    loginWindow.set_full_screen()
+    loginWindow.display()
+
+def clearTextBox(textBox):
+    textBox.clear()
+
+def textDestroy(text):
+    text.destroy()
+
+def GUInterface_listGenerate(previousWindow):
+    appDestroy(previousWindow)
+    shelfCheck = App(title = "list generate")
+    Text(shelfCheck, text="Where to Shelf Check", size=30)
+    firstBarcode = TextBox(shelfCheck,text="Scan in the barcode of the FIRST Book",height="fill", width="fill", align="left")
+    PushButton(shelfCheck, text = 'clear', command = clearTextBox, args = [firstBarcode], align = "left")
+    secondBarcode = TextBox(shelfCheck,text="Scan in the barcode of the LAST Book",height="fill", width="fill", align="left")
+    PushButton(shelfCheck, text = 'clear', command = clearTextBox, args = [secondBarcode], align = "left")
+    PushButton(shelfCheck, text = 'OK', command = GUInterface_checkBooks, args = [shelfCheck], align = "bottom")
+    shelfCheck.set_full_screen()
+    shelfCheck.display()
+    
+def GUInterface_checkBooks(previousWindow):
+    appDestroy(previousWindow)
+    bookCheck = App(title = 'book Check')
     a = Book.Book('Off the record with F.D.R., 1942-1945 /','author',31840001105024,'E807 .H34')
     b = Book.Book('Franklin D. Roosevelt, an informal biography,','author',31840001101684,'E807 .H35')
     c = Book.Book('That man : an insider\'s portrait of Franklin D. Roosevelt /','author', 31840007137245,'E807 .J36 2003')
@@ -45,6 +80,11 @@ def main():
     listRunThrough(BL)
     
     
+    
+
+def appDestroy(app):
+    app.destroy()
+
 def printBreakingLine():
     print('------------------------------')#this method simply organize the UI by inserting breaking lines of the same length
 
@@ -55,7 +95,7 @@ def printAnouncements(something):#similarly, this method organize the a UI by pr
     
 def decisionMaking(barCode, currentNode):
     if(barCode == currentNode.value.getBarcode()):
-        return True#return True if the barcodes match thus indicating the book in place
+        return 0#return True if the barcodes match thus indicating the book in place
     else:
         compareBook = currentNode.next#get the next Node to compare
         while(compareBook != None):#if it is not the end of the list
@@ -63,11 +103,14 @@ def decisionMaking(barCode, currentNode):
             if(compareBarcode == barCode):#if they match
                 print('reach')
                 compareBook.value.needsAnounce()#mark the book who needs action, return false
-                return False
+                return 1
             compareBook = compareBook.next#move to the next book
-        return False#move to another book
+        return -1#move to another book
     
 def listRunThrough(bookList):
+    inPlace = 0
+    notInPlace = 0
+    missing = 0
     currentNode = bookList.getFirstNode()
     currentBook = currentNode.value
     reachLast = False#this flag counts if the list reaches the last element
@@ -79,10 +122,16 @@ def listRunThrough(bookList):
         print('[1] In place | [2] Missing | ')
         response = int(input())
         if(response == 1):
-            decisionMaking(currentBarcode,currentNode)
+            result = decisionMaking(currentBarcode,currentNode)
         else:
-            decisionMaking(response, currentNode)
-            
+            result = decisionMaking(response, currentNode)
+    
+        if(result == 0):
+            inPlace+=1
+        elif(result == -1):
+            missing+=1
+        else:
+            notInPlace+=1
         currentNode = currentNode.next
         if(currentNode == None):
             printAnouncements('You\'ve reached the end of the list, please wait until the report to generate')
