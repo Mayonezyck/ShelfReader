@@ -142,7 +142,7 @@ Generate a report by the tree contents
 every node in the first level that doesn't have a child is misplaced  
 every node in the first level that do have one+ child is missing  
 every node that doesn't appear in the first level of the tree is correctly placed  
-
+The number of misplaced item seems can be compensated by removing the number of missing items' depth in tree(needs more experiment)  
 
 
 
