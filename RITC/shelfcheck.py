@@ -1,5 +1,5 @@
 #this is the backend portal for the shelf chekcing process
-from guizero import App, Text, TextBox, Box, PushButton
+from guizero import *
 import Book
 import BookList
 #What is the process of shelf checking
@@ -27,7 +27,7 @@ def main():
  
 def GUInterface_login():
     loginWindow = App(title="Log in")
-    Text(loginWindow, text="Welcome!", size=40)
+    Text(loginWindow, text="\nWelcome!\n", size=40)
     Text(loginWindow, text="User ID: ",align="left")
     userNameBox = TextBox(loginWindow,text="Please enter your ID number", width=25, align="left")
     PushButton(loginWindow, text = 'clear', command = clearTextBox, args = [userNameBox], align = "left")
@@ -44,18 +44,20 @@ def textDestroy(text):
 def GUInterface_listGenerate(previousWindow):
     appDestroy(previousWindow)
     shelfCheck = App(title = "list generate")
-    Text(shelfCheck, text="Where to Shelf Check", size=30)
-    firstBarcode = TextBox(shelfCheck,text="Scan in the barcode of the FIRST Book",height="fill", width="fill", align="left")
-    PushButton(shelfCheck, text = 'clear', command = clearTextBox, args = [firstBarcode], align = "left")
-    secondBarcode = TextBox(shelfCheck,text="Scan in the barcode of the LAST Book",height="fill", width="fill", align="left")
-    PushButton(shelfCheck, text = 'clear', command = clearTextBox, args = [secondBarcode], align = "left")
-    PushButton(shelfCheck, text = 'OK', command = GUInterface_checkBooks, args = [shelfCheck], align = "bottom")
+    Text(shelfCheck, text="\nWhere to Shelf Check\n", size=30)
+    arrange = Box(shelfCheck, height='fill', width='fill')
+    firstBarcode = TextBox(arrange,text="Scan in the barcode of the FIRST Book",height="fill", width="fill", align="top")
+    PushButton(arrange, text = 'clear', command = clearTextBox, args = [firstBarcode])
+    secondBarcode = TextBox(arrange,text="Scan in the barcode of the LAST Book",height="fill", width="fill", align="top")
+    PushButton(arrange, text = 'clear', command = clearTextBox, args = [secondBarcode])
+    PushButton(shelfCheck, text = 'OK', command = GUInterface_checkBooks, args = [shelfCheck], align = "right")
     shelfCheck.set_full_screen()
     shelfCheck.display()
     
 def GUInterface_checkBooks(previousWindow):
     appDestroy(previousWindow)
     bookCheck = App(title = 'book Check')
+    #temporary book list hard coded just for testing
     a = Book.Book('Off the record with F.D.R., 1942-1945 /','author',31840001105024,'E807 .H34')
     b = Book.Book('Franklin D. Roosevelt, an informal biography,','author',31840001101684,'E807 .H35')
     c = Book.Book('That man : an insider\'s portrait of Franklin D. Roosevelt /','author', 31840007137245,'E807 .J36 2003')
@@ -77,13 +79,20 @@ def GUInterface_checkBooks(previousWindow):
     #Start from the first Book
     #
     #this listRunhrough method starts from the first book in the list, display required books one by one
-    listRunThrough(BL)
+    result = listRunThrough(BL,bookCheck)
     
     
     
 
 def appDestroy(app):
     app.destroy()
+
+def foundButtonPressed(currentBarcode,currentNode,result,buttons):
+    decisionMaking(currentBarcode,currentNode,result,buttons)
+
+def submitButtonPressed(barcodeBox, currentNode,result,buttons):
+    barcodeValue = int(barcodeBox.value)
+    decisionMaking(barcodeValue, currentNode,result,buttons)
 
 def printBreakingLine():
     print('------------------------------')#this method simply organize the UI by inserting breaking lines of the same length
@@ -93,34 +102,73 @@ def printAnouncements(something):#similarly, this method organize the a UI by pr
     print(something)
     printBreakingLine()
     
-def decisionMaking(barCode, currentNode):
+def decisionMaking(barCode, currentNode,result,buttons):
+    print(barCode, '+', currentNode)
     if(barCode == currentNode.value.getBarcode()):
+        print('book Found')
+        result[0] = result[0]+1
+        print(result)
+        currentNode = currentNode.next
         return 0#return True if the barcodes match thus indicating the book in place
     else:
         compareBook = currentNode.next#get the next Node to compare
         while(compareBook != None):#if it is not the end of the list
             compareBarcode = compareBook.value.getBarcode()#get the barcode of next book
             if(compareBarcode == barCode):#if they match
-                print('reach')
+                print('Book out of place but still in the list')
                 compareBook.value.needsAnounce()#mark the book who needs action, return false
+                result[1] = result[1]+1
+                print(result)
+                currentNode = currentNode.next
+                if(currentNode == None):
+                    printAnouncements('You\'ve reached the end of the list, please wait until the report to generate')
                 return 1
             compareBook = compareBook.next#move to the next book
+            if(currentNode == None):
+                printAnouncements('You\'ve reached the end of the list, please wait until the report to generate')
+        print('Book does not belong to this list')
+        result[2] = result[2]+1
+        print(result)
+        currentNode = currentNode.next
+        if(currentNode == None):
+            printAnouncements('You\'ve reached the end of the list, please wait until the report to generate')
         return -1#move to another book
     
-def listRunThrough(bookList):
+def listRunThrough(bookList,GUI_window):
+    Text(GUI_window, text="\nBook info\n", size=30)
     inPlace = 0
     notInPlace = 0
     missing = 0
+    result = [0,0,0]#inplace,notInplace, missing item
     currentNode = bookList.getFirstNode()
     currentBook = currentNode.value
     reachLast = False#this flag counts if the list reaches the last element
+    
     while(reachLast == False):
-        printBreakingLine()
-        currentBook.printBook()
-        printBreakingLine()
+        BookTitle = Text(GUI_window,size = 20)
+        BookAuthor = Text(GUI_window,size = 15)
+        BookBarcode = Text(GUI_window,size = 15)
+        BookCallNumber = Text(GUI_window,size = 13)
+        textList = [BookTitle, BookAuthor, BookBarcode, BookCallNumber]
+        currentBook.GUI_printBook(GUI_window,textList)
         currentBarcode = currentBook.barcode
-        print('[1] In place | [2] Missing | ')
-        response = int(input())
+        boxText = Text(GUI_window, text="Please scan the barcode")
+        barcodeBox = TextBox(GUI_window,text = '123',width = 16)
+        PushButton(GUI_window, text =' Clear', command = clearTextBox, args = [barcodeBox])        
+        checkButton = PushButton(GUI_window, text =' Book Found')
+        submitButton = PushButton(GUI_window, text =' Submit')
+        buttons = [checkButton, submitButton]
+        checkButton.update_command(command = foundButtonPressed, args = [currentBarcode, currentNode,result,buttons])
+        submitButton.update_command(command = submitButtonPressed, args = [barcodeBox, currentNode,result,buttons])
+        GUI_window.set_full_screen()
+        GUI_window.display()
+        print('?')
+        #printBreakingLine()
+        #currentBook.printBook()
+        #printBreakingLine()
+        #currentBarcode = currentBook.barcode
+        #print('[1] In place | [2] Missing | ')
+        #response = int(input())
         if(response == 1):
             result = decisionMaking(currentBarcode,currentNode)
         else:

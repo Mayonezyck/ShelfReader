@@ -1,6 +1,6 @@
 #this class of book represents one single book object that is unique and have a barcode of its
 #own
-
+from guizero import *
 #
 class Book:
     title = ''
@@ -28,6 +28,17 @@ class Book:
         print('[Author]: \n\t' + self.author)
         print('[Call number]: \n\t' + self.call_number)
         
+    def GUI_printBook(self, GUI_window,textList):
+        if(self.hasNote == True):
+            GUI_window.warn("Alert","error message")
+        textList[0].clear()
+        textList[0].append(self.title)
+        textList[1].clear()
+        textList[1].append(self.author)
+        textList[2].clear()
+        textList[2].append(self.barcode)
+        textList[3].clear()
+        textList[3].append(self.call_number)
     def founD(self):
         self.inPlace = True
         
