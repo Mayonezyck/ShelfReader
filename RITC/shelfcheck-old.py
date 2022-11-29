@@ -28,11 +28,10 @@ def main():
 def GUInterface_login():
     loginWindow = App(title="Log in")
     Text(loginWindow, text="\nWelcome!\n", size=40)
-    box=Box(loginWindow, height="fill")
-    Text(box, text="User ID: ", width=15, align="left")
-    userNameBox = TextBox(box,text="Please enter your ID number", width=25, align="left")
-    PushButton(box, text = 'clear', command = clearTextBox, args = [userNameBox], align = "bottom")
-    PushButton(loginWindow, text = 'OK', command = GUInterface_listGenerate, args = [loginWindow], align = "right")
+    Text(loginWindow, text="User ID: ",align="left")
+    userNameBox = TextBox(loginWindow,text="Please enter your ID number", width=25, align="left")
+    PushButton(loginWindow, text = 'clear', command = clearTextBox, args = [userNameBox], align = "left")
+    PushButton(loginWindow, text = 'OK', command = GUInterface_listGenerate, args = [loginWindow], align = "bottom")
     loginWindow.set_full_screen()
     loginWindow.display()
 
@@ -88,23 +87,11 @@ def GUInterface_checkBooks(previousWindow):
 def appDestroy(app):
     app.destroy()
 
-def foundButtonPressed(barcodeBox,currentNode,result,buttons,GUI_window,textList):
-    if(currentNode.next == None):
-        GUI_window.warn(title = "Warning", text = "no more books in the list");
-        return
-    currentNode.next.value.GUI_printBook(GUI_window,textList)
-    currentBarcode = currentNode.value.getBarcode()
+def foundButtonPressed(currentBarcode,currentNode,result,buttons):
     decisionMaking(currentBarcode,currentNode,result,buttons)
-    currentNode = currentNode.next
-    if(currentNode == None):
-        GUI_window.warn(title = "Warning", text = "no more books in the list");
-        return
-    currentBarcode = currentNode.value.getBarcode()
-    buttons[0].update_command(command = foundButtonPressed, args = [currentBarcode, currentNode,result,buttons,GUI_window,textList])
-    buttons[1].update_command(command = submitButtonPressed, args = [barcodeBox, currentNode,result,buttons,GUI_window,textList])
-    
-def submitButtonPressed(barcodeBox, currentNode,result,buttons,GUI_window,textList):
-    barcodeValue = barcodeBox
+
+def submitButtonPressed(barcodeBox, currentNode,result,buttons):
+    barcodeValue = int(barcodeBox.value)
     decisionMaking(barcodeValue, currentNode,result,buttons)
 
 def printBreakingLine():
@@ -146,9 +133,7 @@ def decisionMaking(barCode, currentNode,result,buttons):
         if(currentNode == None):
             printAnouncements('You\'ve reached the end of the list, please wait until the report to generate')
         return -1#move to another book
-def terminate(GUI_window):
-    GUI_window.info('notice','You have decided to quit.')
-    GUI_window.destroy()
+    
 def listRunThrough(bookList,GUI_window):
     Text(GUI_window, text="\nBook info\n", size=30)
     inPlace = 0
@@ -173,35 +158,34 @@ def listRunThrough(bookList,GUI_window):
         checkButton = PushButton(GUI_window, text =' Book Found')
         submitButton = PushButton(GUI_window, text =' Submit')
         buttons = [checkButton, submitButton]
-        checkButton.update_command(command = foundButtonPressed, args = [barcodeBox, currentNode,result,buttons,GUI_window,textList])
-        submitButton.update_command(command = submitButtonPressed, args = [barcodeBox, currentNode,result,buttons,GUI_window,textList])
-        terminateButton = PushButton(GUI_window, text ='That\'s it!', command = terminate, args = [GUI_window]);
+        checkButton.update_command(command = foundButtonPressed, args = [currentBarcode, currentNode,result,buttons])
+        submitButton.update_command(command = submitButtonPressed, args = [barcodeBox, currentNode,result,buttons])
         GUI_window.set_full_screen()
         GUI_window.display()
+        print('?')
         #printBreakingLine()
         #currentBook.printBook()
         #printBreakingLine()
         #currentBarcode = currentBook.barcode
         #print('[1] In place | [2] Missing | ')
         #response = int(input())
-        #if(response == 1):
-         #   result = decisionMaking(currentBarcode,currentNode)
-        #else:
-        #    result = decisionMaking(response, currentNode)
+        if(response == 1):
+            result = decisionMaking(currentBarcode,currentNode)
+        else:
+            result = decisionMaking(response, currentNode)
     
-        #if(result == 0):
-        #    inPlace+=1
-        #elif(result == -1):
-        #    missing+=1
-        #else:
-        #    notInPlace+=1
-        #currentNode = currentNode.next
-        #if(currentNode == None):
-            #printAnouncements('You\'ve reached the end of the list, please wait until the report to generate')
-        #    app.info("Notice", "You\'ve reached the end of the list, please wait until the report to generate")
-        #    reachLast = True
-        #else:    
-         #   currentBook = currentNode.value
+        if(result == 0):
+            inPlace+=1
+        elif(result == -1):
+            missing+=1
+        else:
+            notInPlace+=1
+        currentNode = currentNode.next
+        if(currentNode == None):
+            printAnouncements('You\'ve reached the end of the list, please wait until the report to generate')
+            reachLast = True
+        else:    
+            currentBook = currentNode.value
 
     
     
