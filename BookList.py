@@ -1,10 +1,11 @@
 #BookList starts with one book object and start building up.
 #One booklist
-import llist
-from llist import sllist, sllistnode
-
 class BookList:
-    book_list = None
+
+    value = None
+    nextNode = None
+    previousNode = None
+    
     def __init__(self):
         self.book_list = sllist([])
     
