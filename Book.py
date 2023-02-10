@@ -30,7 +30,7 @@ class Book:
         
     def GUI_printBook(self, GUI_window,textList):
         if(self.hasNote == True):
-            GUI_window.warn("Alert","error message")
+            GUI_window.warn("Alert","Next Book was found before, place it back in")
         textList[0].clear()
         textList[0].append(self.title)
         textList[1].clear()

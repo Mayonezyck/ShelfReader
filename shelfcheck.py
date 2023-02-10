@@ -89,23 +89,35 @@ def appDestroy(app):
     app.destroy()
 
 def foundButtonPressed(barcodeBox,currentNode,result,buttons,GUI_window,textList):
-    if(currentNode == None):
-        GUI_window.warn()
+    if(currentNode.next == None):
+        GUI_window.warn(title = "Warning", text = "no more books in the list");
         return
     currentNode.next.value.GUI_printBook(GUI_window,textList)
     currentBarcode = currentNode.value.getBarcode()
     decisionMaking(currentBarcode,currentNode,result,buttons)
     currentNode = currentNode.next
     if(currentNode == None):
-        GUI_window.warn()
+        GUI_window.warn(title = "Warning", text = "no more books in the list");
         return
     currentBarcode = currentNode.value.getBarcode()
     buttons[0].update_command(command = foundButtonPressed, args = [currentBarcode, currentNode,result,buttons,GUI_window,textList])
-    buttons[1].update_command(command = submitButtonPressed, args = [])
+    buttons[1].update_command(command = submitButtonPressed, args = [barcodeBox, currentNode,result,buttons,GUI_window,textList])
     
 def submitButtonPressed(barcodeBox, currentNode,result,buttons,GUI_window,textList):
+    if(currentNode.next == None):
+        GUI_window.warn(title = "Warning", text = "no more books in the list");
+        return
     barcodeValue = int(barcodeBox.value)
+    currentNode.next.value.GUI_printBook(GUI_window,textList)
+    currentBarcode = currentNode.value.getBarcode()
     decisionMaking(barcodeValue, currentNode,result,buttons)
+    currentNode = currentNode.next
+    if(currentNode == None):
+        GUI_window.warn(title = "Warning", text = "no more books in the list");
+        return
+    currentBarcode = currentNode.value.getBarcode()
+    buttons[0].update_command(command = foundButtonPressed, args = [currentBarcode, currentNode,result,buttons,GUI_window,textList])
+    buttons[1].update_command(command = submitButtonPressed, args = [barcodeBox, currentNode,result,buttons,GUI_window,textList])
 
 def printBreakingLine():
     print('------------------------------')#this method simply organize the UI by inserting breaking lines of the same length
@@ -116,7 +128,7 @@ def printAnouncements(something):#similarly, this method organize the a UI by pr
     printBreakingLine()
     
 def decisionMaking(barCode, currentNode,result,buttons):
-    print(barCode, '+', currentNode)
+    #print(barCode, '+', currentNode)
     if(barCode == currentNode.value.getBarcode()):
         print('book Found')
         result[0] = result[0]+1
@@ -146,7 +158,9 @@ def decisionMaking(barCode, currentNode,result,buttons):
         if(currentNode == None):
             printAnouncements('You\'ve reached the end of the list, please wait until the report to generate')
         return -1#move to another book
-    
+def terminate(GUI_window):
+    GUI_window.info('notice','You have decided to quit.')
+    GUI_window.destroy()
 def listRunThrough(bookList,GUI_window):
     Text(GUI_window, text="\nBook info\n", size=30)
     inPlace = 0
@@ -173,32 +187,33 @@ def listRunThrough(bookList,GUI_window):
         buttons = [checkButton, submitButton]
         checkButton.update_command(command = foundButtonPressed, args = [barcodeBox, currentNode,result,buttons,GUI_window,textList])
         submitButton.update_command(command = submitButtonPressed, args = [barcodeBox, currentNode,result,buttons,GUI_window,textList])
+        terminateButton = PushButton(GUI_window, text ='That\'s it!', command = terminate, args = [GUI_window]);
         GUI_window.set_full_screen()
         GUI_window.display()
-        print('?')
         #printBreakingLine()
         #currentBook.printBook()
         #printBreakingLine()
         #currentBarcode = currentBook.barcode
         #print('[1] In place | [2] Missing | ')
         #response = int(input())
-        if(response == 1):
-            result = decisionMaking(currentBarcode,currentNode)
-        else:
-            result = decisionMaking(response, currentNode)
+        #if(response == 1):
+         #   result = decisionMaking(currentBarcode,currentNode)
+        #else:
+        #    result = decisionMaking(response, currentNode)
     
-        if(result == 0):
-            inPlace+=1
-        elif(result == -1):
-            missing+=1
-        else:
-            notInPlace+=1
-        currentNode = currentNode.next
-        if(currentNode == None):
-            printAnouncements('You\'ve reached the end of the list, please wait until the report to generate')
-            reachLast = True
-        else:    
-            currentBook = currentNode.value
+        #if(result == 0):
+        #    inPlace+=1
+        #elif(result == -1):
+        #    missing+=1
+        #else:
+        #    notInPlace+=1
+        #currentNode = currentNode.next
+        #if(currentNode == None):
+            #printAnouncements('You\'ve reached the end of the list, please wait until the report to generate')
+        #    app.info("Notice", "You\'ve reached the end of the list, please wait until the report to generate")
+        #    reachLast = True
+        #else:    
+         #   currentBook = currentNode.value
 
     
     
