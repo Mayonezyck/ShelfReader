@@ -153,7 +153,7 @@ Spring semester notes:
 
 ***!! New Thought!!*** 
 
-okkkkkkk
+
 
 SSH in from office computer for file transfer.
 Per launching of the program, load the booklist.csv and start right away.
