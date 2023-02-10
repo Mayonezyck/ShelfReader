@@ -151,10 +151,13 @@ The number of misplaced item seems can be compensated by removing the number of 
 
 Spring semester notes:
 
+***!! New Thought!!*** 
+
+SSH in from office computer for file transfer.
+Per launching of the program, load the booklist.csv and start right away.
+
 Switch gear to using the "Shelf-Reading Tool" 
-Download the 
-
-
+Download the file from shelf-reading tool and pre-process the file, load all data into book classes.
 
 
 
