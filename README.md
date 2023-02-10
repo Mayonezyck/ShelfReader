@@ -147,7 +147,12 @@ The number of misplaced item seems can be compensated by removing the number of 
 
 
 
+-----------------------------------------
 
+Spring semester notes:
+
+Switch gear to using the "Shelf-Reading Tool" 
+Download the 
 
 
 
