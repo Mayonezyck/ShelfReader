@@ -27,7 +27,7 @@ list_wb.save('shelflist1.xlsx')
 # 创建书本字典
 book_info = {}
 
-# 从第二行开始读取工作表中的信息
+# 从第二行开始读取【shelflist1.xlsx】的信息
 for row in list_ws.iter_rows(min_row=2, values_only=True):    
     barcode = row[2] 
     book_info[barcode] = {
