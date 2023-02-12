@@ -1,27 +1,37 @@
 #BookList starts with one book object and start building up.
 #One booklist
-class BookList:
+import Book
 
-    value = None
-    nextNode = None
-    previousNode = None
-    
-    def __init__(self):
-        self.book_list = sllist([])
-    
-    def addBook(self,theBook):
-        self.book_list.append(theBook)
-        
+class BookList:
+    def __init__(self, book_list = None):
+        self.head = None
+        self.tail = None
+        if book_list is not None:
+            self.addMultipleBooks(book_list)
+    def __str__(self):
+        return ' -> '.join([str(node) for node in self])
+    def __iter__(self):
+        current = self.head
+        while current:
+            yield current
+            current = current.next_book
+    def addBook(self,title,barcode,callnumber):
+        if self.head is None:
+            self.tail = self.head = Book.Book(title,barcode,callnumber)
+        else:
+            self.tail.next_book = Book.Book(title,barcode,callnumber)
+            self.tail = self.tail.next_book
+            return self.tail
+    def addMultipleBooks(self,booklist):
+        for each in booklist:
+            each = booklist[each]
+            self.addBook(each['title'],each['barcode'],each['call number'])
     def printList(self):
-        print(self.book_list)
-        
+        pass
     def printLength(self):
-        print(self.book_list.size)
-        
-    def getFirstNode(self):
-        return self.book_list.first
-    
-    def printFirst(self):
-        book = self.book_list.first.value
-        book.printBook()
+        pass
+    def getHead(self):
+        pass
+    def getTail(self):
+        pass
     

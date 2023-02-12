@@ -3,16 +3,17 @@
 from guizero import *
 #
 class Book:
-    def __init__(self, title = 'Something', author = 'Nobody', barcode = '-1', call_number = '-1', next_book = None, pre_book = None):
+    def __init__(self, title = 'Something', barcode = '-1', call_number = '-1', next_book = None, pre_book = None):
         self.title = title
-        self.author = author
         self.barcode = barcode
         self.call_number = call_number
         self.inPlace = False
         self.hasNote = False
         self.next_book = next_book
         self.pre_book = pre_book
-        
+    
+    def __str__(self):
+        return self.title  + str(self.call_number) + str(self.barcode)
     def getBarcode(self):
         return self.barcode
     
@@ -24,6 +25,7 @@ class Book:
         print('[Author]: \n\t' + self.author)
         print('[Call number]: \n\t' + self.call_number)
         
+
     def GUI_printBook(self, GUI_window,textList):
         if(self.hasNote == True):
             GUI_window.warn("Alert","Next Book was found before, place it back in")
