@@ -15,6 +15,13 @@ class BookList:
         while current:
             yield current
             current = current.next_book
+    def __len__(self):
+        count = 0
+        node = self.head
+        while node:
+            count += 1
+            node = node.next_book
+        return count
     def addBook(self,title,barcode,callnumber):
         if self.head is None:
             self.tail = self.head = Book.Book(title,barcode,callnumber)
@@ -26,12 +33,3 @@ class BookList:
         for each in booklist:
             each = booklist[each]
             self.addBook(each['title'],each['barcode'],each['call number'])
-    def printList(self):
-        pass
-    def printLength(self):
-        pass
-    def getHead(self):
-        pass
-    def getTail(self):
-        pass
-    
