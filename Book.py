@@ -22,7 +22,6 @@ class Book:
             print('!!!!!!!!!!!!!!')
             print('Action Needed')
         print('[Title]: \n\t' + self.title)
-        print('[Author]: \n\t' + self.author)
         print('[Call number]: \n\t' + self.call_number)
         
 
@@ -32,11 +31,9 @@ class Book:
         textList[0].clear()
         textList[0].append(self.title)
         textList[1].clear()
-        textList[1].append(self.author)
+        textList[1].append(self.barcode)
         textList[2].clear()
-        textList[2].append(self.barcode)
-        textList[3].clear()
-        textList[3].append(self.call_number)
+        textList[2].append(self.call_number)
     def founD(self):
         self.inPlace = True
         

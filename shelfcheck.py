@@ -2,6 +2,7 @@
 from guizero import *
 import Book
 import BookList
+import readfile
 #What is the process of shelf checking
 #Get the area of interest-> Fetch a list of book from Alma
 #->compile a list of books based on the inputs
@@ -58,23 +59,8 @@ def GUInterface_listGenerate(previousWindow):
 def GUInterface_checkBooks(previousWindow):
     appDestroy(previousWindow)
     bookCheck = App(title = 'book Check')
-    #temporary book list hard coded just for testing
-    a = Book.Book('Off the record with F.D.R., 1942-1945 /','author',31840001105024,'E807 .H34')
-    b = Book.Book('Franklin D. Roosevelt, an informal biography,','author',31840001101684,'E807 .H35')
-    c = Book.Book('That man : an insider\'s portrait of Franklin D. Roosevelt /','author', 31840007137245,'E807 .J36 2003')
-    d = Book.Book('The juggler : Franklin Roosevelt as wartime statesman /','author',31840003303312,'E807 .K48 1991')
-    e = Book.Book('Commander in chief : Franklin Delano Roosevelt, his lieutenants, and their war /','author',31840002844209,'E807 .L26 1987')
-    f = Book.Book('White house physician /','author',31840001105032,'E807 .M2')
-    #
-    BL = BookList.BookList()
-    #A loop should go through every book in a list
-    #for now it is just hard coding 
-    BL.addBook(a)
-    BL.addBook(b)
-    BL.addBook(c)
-    BL.addBook(d)
-    BL.addBook(e)
-    BL.addBook(f)
+    filename = 'shelflist.xlsx'
+    BL = readfile.readfile(filename)
     #
     #Now that the Book list was initialized
     #Start from the first Book
@@ -161,14 +147,15 @@ def decisionMaking(barCode, currentNode,result,buttons):
 def terminate(GUI_window):
     GUI_window.info('notice','You have decided to quit.')
     GUI_window.destroy()
+
 def listRunThrough(bookList,GUI_window):
     Text(GUI_window, text="\nBook info\n", size=30)
     inPlace = 0
     notInPlace = 0
     missing = 0
     result = [0,0,0]#inplace,notInplace, missing item
-    currentNode = bookList.getFirstNode()
-    currentBook = currentNode.value
+    currentNode = bookList.getHead()
+    currentBook = bookList.head
     reachLast = False#this flag counts if the list reaches the last element
     
     while(reachLast == False):

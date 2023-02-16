@@ -22,6 +22,10 @@ class BookList:
             count += 1
             node = node.next_book
         return count
+
+    def getHead(self):
+        return self.head
+        
     def addBook(self,title,barcode,callnumber):
         if self.head is None:
             self.tail = self.head = Book.Book(title,barcode,callnumber)
