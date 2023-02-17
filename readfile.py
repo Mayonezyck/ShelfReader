@@ -38,10 +38,9 @@ def readfile(filename):
             'call number': row[0],
             'version': row[3]
             }
-        print(row[3])
         #print(book_info[barcode]['barcode'],'\n')
     list = BookList.BookList(book_info)
     return list
 
 
-print(readfile('shelflist.xlsx'))
+#print(readfile('shelflist.xlsx'))
