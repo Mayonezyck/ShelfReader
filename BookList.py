@@ -26,14 +26,14 @@ class BookList:
     def getHead(self):
         return self.head
 
-    def addBook(self,title,barcode,callnumber):
+    def addBook(self,title,barcode,callnumber,version):
         if self.head is None:
-            self.tail = self.head = Book.Book(title,barcode,callnumber)
+            self.tail = self.head = Book.Book(title,barcode,callnumber,version)
         else:
-            self.tail.next_book = Book.Book(title,barcode,callnumber)
+            self.tail.next_book = Book.Book(title,barcode,callnumber,version)
             self.tail = self.tail.next_book
             return self.tail
     def addMultipleBooks(self,booklist):
         for each in booklist:
             each = booklist[each]
-            self.addBook(each['title'],each['barcode'],each['call number'])
+            self.addBook(each['title'],each['barcode'],each['call number'],each['version'])

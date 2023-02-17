@@ -3,17 +3,18 @@
 from guizero import *
 #
 class Book:
-    def __init__(self, title = 'Something', barcode = '-1', call_number = '-1', next_book = None, pre_book = None):
+    def __init__(self, title = 'Something', barcode = '-1', call_number = '-1', version = '', next_book = None, pre_book = None):
         self.title = title
         self.barcode = barcode
         self.call_number = call_number
+        self.version = version
         self.inPlace = False
         self.hasNote = False
         self.next_book = next_book
         self.pre_book = pre_book
     
     def __str__(self):
-        return self.title  + str(self.call_number) + str(self.barcode)
+        return self.title +'\t'+ str(self.call_number) + '\t'+ str(self.version) +'\t'+ str(self.barcode)
     def getBarcode(self):
         return self.barcode
     
