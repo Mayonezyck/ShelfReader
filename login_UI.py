@@ -7,17 +7,17 @@ import Student
 class login_UI:
 	
 	def addStaff(id):
-		pass
+		print('here')#
 
 	def checkExist(id):
-		with open("studentInfo.csv", 'r') as file:
+		with open("studentInfo.csv", 'r+') as file:
 			csvreader = csv.reader(file)
 			for row in csvreader:
 				print(row)
 				if id == row:
 					return Student.student(id)
 				else:
-					addStaff(id)
+					login_UI.addStaff(id)
 		return None
 
 	
