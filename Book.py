@@ -18,12 +18,12 @@ class Book:
     def getBarcode(self):
         return self.barcode
     
-    def printBook(self):
-        if(self.hasNote):
-            print('!!!!!!!!!!!!!!')
-            print('Action Needed')
-        print('[Title]: \n\t' + self.title)
-        print('[Call number]: \n\t' + self.call_number)
+    # def printBook(self):
+    #     if(self.hasNote):
+    #         print('!!!!!!!!!!!!!!')
+    #         print('Action Needed')
+    #     print('[Title]: \n\t' + self.title)
+    #     print('[Call number]: \n\t' + self.call_number)
         
 
     def GUI_printBook(self, GUI_window,textList):
@@ -35,6 +35,7 @@ class Book:
         textList[1].append(self.barcode)
         textList[2].clear()
         textList[2].append(self.call_number)
+        
     def founD(self):
         self.inPlace = True
         
