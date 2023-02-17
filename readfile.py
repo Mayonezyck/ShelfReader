@@ -34,9 +34,12 @@ def readfile(filename):
         barcode = row[2] 
         book_info[barcode] = {
             'barcode': barcode,
-            'title': row[1],
-            'call number': row[0]}
+            'title': row[1]+row[3],
+            'call number': row[0]
+            }
         #print(book_info[barcode]['barcode'],'\n')
     list = BookList.BookList(book_info)
     return list
-#readfile('shelflist.xlsx')
+
+#sreadfile('shelflist.xlsx')
+
