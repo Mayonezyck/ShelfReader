@@ -9,7 +9,7 @@ class BookList:
         if book_list is not None:
             self.addMultipleBooks(book_list)
     def __str__(self):
-        return ' -> '.join([str(node) for node in self])
+        return '\n -> '.join([str(node) for node in self])
     def __iter__(self):
         current = self.head
         while current:
@@ -25,7 +25,7 @@ class BookList:
 
     def getHead(self):
         return self.head
-        
+
     def addBook(self,title,barcode,callnumber):
         if self.head is None:
             self.tail = self.head = Book.Book(title,barcode,callnumber)
