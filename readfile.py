@@ -44,4 +44,4 @@ def readfile(filename):
     return list
 
 
-print(readfile('shelflist.xlsx'))
+#print(readfile('shelflist.xlsx'))
