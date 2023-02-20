@@ -26,7 +26,6 @@ class tracetree:
         for branch in self.questionableBookList:
             if(branch.getHead().barcode == bookBarcode):
                 return -1 #meaning the book is already in the first layer of the tree
-        books
         book_info = {
             'barcode': bookBarcode,
             'title': None,
