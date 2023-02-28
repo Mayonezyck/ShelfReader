@@ -161,6 +161,11 @@ Per launching of the program, load the booklist.csv and start right away.
 Switch gear to using the "Shelf-Reading Tool" 
 Download the file from shelf-reading tool and pre-process the file, load all data into book classes.
 
+--------------------------------------------
+
+New Approach on the shelf checking, inspired by professor Islam.
+Professor Islam suggested that this problem seems like a perfect fit for looking in an "edit distance" way.
+
 
 
 
