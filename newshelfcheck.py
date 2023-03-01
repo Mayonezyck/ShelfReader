@@ -3,9 +3,9 @@
 #This will replace the shelfcheck.py after its completion
 #from guizero import *
 import Book,BookList
-#import login_UI
+import login_UI
 import checking_UI
 
 student = None
-#student = login_UI()
+student = login_UI()
 checking_UI.start(student)

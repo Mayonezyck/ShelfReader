@@ -164,7 +164,12 @@ Download the file from shelf-reading tool and pre-process the file, load all dat
 --------------------------------------------
 
 New Approach on the shelf checking, inspired by professor Islam.
-Professor Islam suggested that this problem seems like a perfect fit for looking in an "edit distance" way.
+Professor Islam suggested that this problem seems like a perfect fit for looking in an ***"edit distance"*** way.
+
+One Levenshtein matrix will be generated, based on the requried book list and the other matrix would be of the same size but binary,
+indicating the matching items' locations in the Levenshtein matrix.
+
+using these two matrices, instructions can be generated backwards from the matrix. the priority of proceeding the matrix is: current > replacing -> adding == removing
 
 
 
