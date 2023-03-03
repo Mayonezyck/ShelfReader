@@ -29,13 +29,13 @@ def login_UI(student):
 
 
 def GUI_login():
-	loginWindow = App(title="Log in")
-    Text(loginWindow, text="\nWelcome!\n", size=40)
-    Text(loginWindow, text="User ID: ",align="left")
-    userIdBox = TextBox(loginWindow,text="Please enter your ID number", width=25, align="left")
-    PushButton(loginWindow, text = 'clear', command = clearTextBox, args = [userNameBox], align = "left")
-    PushButton(loginWindow, text = 'OK', align = "bottom")
-    # PushButton(loginWindow, text = 'OK', command = GUInterface_listGenerate, args = [loginWindow], align = "bottom")
-    login_UI(userIdBox)
-    # loginWindow.set_full_screen()
-    loginWindow.display()
+	# loginWindow = App(title="Log in")
+    # Text(loginWindow, text="\nWelcome!\n", size=40)
+    # Text(loginWindow, text="User ID: ",align="left")
+    # userIdBox = TextBox(loginWindow,text="Please enter your ID number", width=25, align="left")
+    # PushButton(loginWindow, text = 'clear', command = clearTextBox, args = [userNameBox], align = "left")
+    # PushButton(loginWindow, text = 'OK', align = "bottom")
+    # # PushButton(loginWindow, text = 'OK', command = GUInterface_listGenerate, args = [loginWindow], align = "bottom")
+    # login_UI(userIdBox)
+    # # loginWindow.set_full_screen()
+    # loginWindow.display()
