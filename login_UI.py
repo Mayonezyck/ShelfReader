@@ -29,6 +29,7 @@ def login_UI(student):
 
 
 def GUI_login():
+	pass
 	# loginWindow = App(title="Log in")
     # Text(loginWindow, text="\nWelcome!\n", size=40)
     # Text(loginWindow, text="User ID: ",align="left")
@@ -38,4 +39,4 @@ def GUI_login():
     # # PushButton(loginWindow, text = 'OK', command = GUInterface_listGenerate, args = [loginWindow], align = "bottom")
     # login_UI(userIdBox)
     # # loginWindow.set_full_screen()
-    # loginWindow.display()
+    #loginWindow.display()
