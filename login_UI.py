@@ -6,7 +6,7 @@ import Student
 
 filename = 'studentInfo.csv'
 loginWindow = App(title="Log in")
-instruct = Text(loginWindow, text="Please enter your ID number")
+# instruct = Text(loginWindow, text="Please enter your ID number")
 Id_number = ' '
 
 def addStaff(id):
@@ -30,7 +30,7 @@ def checkExist(id):
 def login_UI(student):
 	Text(loginWindow, text="\nWelcome!\n", size=40)
 	Text(loginWindow, text="User ID: ",align="left")
-	UserIdBox = TextBox(loginWindow,instruct.disable(), width=25, align="left")
+	UserIdBox = TextBox(loginWindow,text="Please enter your ID number", width=25, align="left")
 	PushButton(loginWindow, text = 'clear', command = clearTextBox, args = [UserIdBox], align = "left")
 	
 	Id_number = str(UserIdBox.value)
@@ -40,7 +40,7 @@ def login_UI(student):
 		login_UI(Id_number)
 	print(Id_number)
     
-	PushButton(loginWindow, text = 'OK', align = "bottom")
+	PushButton(loginWindow, text = 'OK', align = "bottom") 
     # PushButton(loginWindow, text = 'OK', command = GUInterface_listGenerate, args = [loginWindow], align = "bottom")
     # loginWindow.set_full_screen()
 	loginWindow.display()
