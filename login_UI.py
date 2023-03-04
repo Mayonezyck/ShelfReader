@@ -47,3 +47,5 @@ def login_UI(student):
 
 def clearTextBox(textBox):
     textBox.clear()
+
+login_UI(1)
