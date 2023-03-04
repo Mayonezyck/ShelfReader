@@ -29,7 +29,8 @@ def toEnter():
     UserIdBox.value = ''
     UserIdBox.text_color='black'
 
-def check(id):
+def check(idbox):
+	id = idbox.value
 	if len(id) == 7:
 		print(len(id))
 		checkExist(id)	
@@ -44,7 +45,7 @@ UserIdBox.when_clicked = toEnter   # clear text in textbox when click on it
 id_number = str(UserIdBox.value)  
 # value is "Please enter your ID number", use UserIdBox.append(string) to update
 arrange_box=Box(loginWindow, height="fill")
-PushButton(arrange_box, text = 'OK', command = check, args = [id_number], align = "right")
+PushButton(arrange_box, text = 'OK', command = check, args = [UserIdBox], align = "right")
 # PushButton(loginWindow, text = 'Next', command = GUInterface_listGenerate, args = [loginWindow], align = "bottom")
 # loginWindow.set_full_screen()
 loginWindow.display()
