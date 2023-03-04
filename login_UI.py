@@ -3,6 +3,7 @@
 from guizero import *
 import csv
 import Student
+# import task_UI
 
 filename = 'studentInfo.csv'
 loginWindow = App(title="Log in")
@@ -25,29 +26,31 @@ def checkExist(id):
 			addStaff(id)
 	return Student.Student(id)
 
-def toEnter():
-    UserIdBox.value = ''
-    UserIdBox.text_color='black'
+# make the user interface
+def login():
+	Text(loginWindow, text="\nWelcome!\n", size=40)
+	Text(loginWindow, text="ID number: ",align="left")
+	UserIdBox = TextBox(loginWindow, text="Please enter your ID number", width=25, align="left")
+	UserIdBox.text_color = 'grey'
+	UserIdBox.when_clicked = toEnter   # clear text in textbox when click on it
+	arrange_box=Box(loginWindow, height="fill")
+	PushButton(arrange_box, text = 'OK', command = check, args = [UserIdBox], align = "right")	
+	nextPage = PushButton(loginWindow, text = 'Next', align = "bottom")
+	# nextPage.when_clicked = nextWindow
+	# loginWindow.set_full_screen()
+	loginWindow.display()
 
+	def toEnter():
+   		UserIdBox.value = '';UserIdBox.text_color='black'
+	
 def check(idbox):
-	id = idbox.value
-	if len(id) == 7:
-		print(len(id))
-		checkExist(id)	
-	else:
-		loginWindow.error('!!!', 'ID number must be 7 digit!')	
+		id = idbox.value
+		if len(id) == 7:
+			# print(len(id))
+			checkExist(id)	
+		else:
+			loginWindow.error('!!!', 'ID number must be 7 digit!')	
 
-Text(loginWindow, text="\nWelcome!\n", size=40)
-Text(loginWindow, text="ID number: ",align="left")
-UserIdBox = TextBox(loginWindow, text="Please enter your ID number", width=25, align="left")
-UserIdBox.text_color = 'grey'
-UserIdBox.when_clicked = toEnter   # clear text in textbox when click on it
-id_number = str(UserIdBox.value)  
-# value is "Please enter your ID number", use UserIdBox.append(string) to update
-arrange_box=Box(loginWindow, height="fill")
-PushButton(arrange_box, text = 'OK', command = check, args = [UserIdBox], align = "right")
-# PushButton(loginWindow, text = 'Next', command = GUInterface_listGenerate, args = [loginWindow], align = "bottom")
-# loginWindow.set_full_screen()
-loginWindow.display()
-
-
+# def nextWindow():
+# 	loginWindow.hide()
+# 	task_UI.task()
