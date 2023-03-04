@@ -36,10 +36,11 @@ def GUI_login():
     PushButton(loginWindow, text = 'clear', command = clearTextBox, args = [userNameBox], align = "left")
 	Id_number = str(userInput.value)
 	if len(Id_number) != 7:
-		error('!!!', 'ID number must be 7 digit!')
-	login_UI(Id_number)
+		loginWindow.error('!!!', 'ID number must be 7 digit!')
+	else:
+		login_UI(Id_number)
 	print(Id_number)
     PushButton(loginWindow, text = 'OK', align = "bottom")
     # # PushButton(loginWindow, text = 'OK', command = GUInterface_listGenerate, args = [loginWindow], align = "bottom")
     # # loginWindow.set_full_screen()
-    # loginWindow.display()
+    loginWindow.display()
