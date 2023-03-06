@@ -57,7 +57,16 @@ Repeat the step 7 and step 8 until we have no more books to do in this shelfread
 
 The session will be done, timer stops, and a report should be generated. The report will be stored in one file that is retrievable by the client.
 
+
+
 ___________________- Legacy content, original idea is below.
+
+
+
+
+
+
+
 Legacy files can be found in the legacy folder 
 #book finding logic 2.X  
 Say: we are looking for Book A.  

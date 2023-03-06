@@ -16,7 +16,7 @@ class instructionGenerate:
             [0,0,0,0,0,1,0],[0,0,0,0,1,0,0],[0,0,0,0,0,0,0],
             [0,0,1,0,0,0,0],[0,0,0,0,0,0,1]
             ]
-            
+        self.posx, self.posy = self.getSize()
         
         pass
     def __str__(self):
@@ -31,7 +31,45 @@ class instructionGenerate:
         
     pass
 
+    def printMinSteps(self):
+        print("It takes at least " + str(self.workingMatrix[-1][-1]) + " steps to reorder")
+
+    def checkXY(self):
+        return not( self.posx == 0 and self.posy == 0) 
+    def printXY(self):
+        print("The " + str(self.posx) +" and " + str(self.posy) + " were reached\n\tValue: " + str(self.workingMatrix[self.posx][self.posy]))
+        #return posx, posy
+    def traceBack(self, posx, posy):
+        if(posx == 0 and posy == 0):
+            print("Debug: The top left node was reached")
+            return -1, -1
+        elif(posx == 0 and posy != 0):
+            return posx, posy-1
+        elif(posx != 0 and posy == 0):
+            return posx-1, posy
+        else:
+            if(self.workingMatrix[posx-1][posy-1] == self.workingMatrix[posx][posy]-1): return posx-1,posy-1
+            else:
+                left = self.workingMatrix[posx][posy-1]
+                top = self.workingMatrix[posx-1][posy]
+                topleft = self.workingMatrix[posx-1][posy-1]
+                if left < top and left < topleft:
+                    return posx, posy-1
+                elif left > top and top < topleft:
+                    return posx-1, posy
+                else:
+                    return posx-1, posy-1
+    def getSize(self):
+        return len(self.workingMatrix)-1 , len(self.workingMatrix[0])-1
+    def traceBackOnce(self):
+        self.posx, self.posy = self.traceBack(self.posx,self.posy)
 
 #testing is here
 a = instructionGenerate();
 print(a)
+a.printMinSteps()
+print('')
+a.printXY()
+while(a.checkXY()):
+    a.traceBackOnce()
+    a.printXY()
