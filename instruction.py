@@ -4,7 +4,7 @@
 #The output is supposed to be a list of strings, that the student should complete in order.
 #
 class instructionGenerate:
-    def __init__(self) -> None:
+    def __init__(self, workingMatrix = None, matchingMatrix = None) -> None:
         self.workingMatrix = [
             [0,1,2,3,4,5,6],[1,0,1,2,3,4,5],[2,1,1,1,2,3,4],
             [3,2,2,2,2,2,3],[4,3,3,3,2,3,3],[5,4,4,4,3,3,4],
@@ -16,8 +16,10 @@ class instructionGenerate:
             [0,0,0,0,0,1,0],[0,0,0,0,1,0,0],[0,0,0,0,0,0,0],
             [0,0,1,0,0,0,0],[0,0,0,0,0,0,1]
             ]
+        #self.workingMatrix = workingMatrix
+        #self.matchingMatrix = matchingMatrix
         self.posx, self.posy = self.getSize()
-
+        
     def __str__(self):
         result = "The Working Matrix is:\n"
         for each in self.workingMatrix:
@@ -55,6 +57,7 @@ class instructionGenerate:
                 elif left > top and top < topleft:
                     return posx-1, posy
                 else:
+                    print("this step can be omited because of matching elements")
                     return posx-1, posy-1
     def getSize(self):
         return len(self.workingMatrix)-1 , len(self.workingMatrix[0])-1
