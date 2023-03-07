@@ -17,8 +17,7 @@ class instructionGenerate:
             [0,0,1,0,0,0,0],[0,0,0,0,0,0,1]
             ]
         self.posx, self.posy = self.getSize()
-        
-        pass
+
     def __str__(self):
         result = "The Working Matrix is:\n"
         for each in self.workingMatrix:
@@ -27,9 +26,7 @@ class instructionGenerate:
         for each in self.matchingMatrix:
             result += str(each) + "\n"
         return result
-        pass
         
-    pass
 
     def printMinSteps(self):
         print("It takes at least " + str(self.workingMatrix[-1][-1]) + " steps to reorder")
