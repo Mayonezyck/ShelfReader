@@ -19,6 +19,8 @@ class instructionGenerate:
         #self.workingMatrix = workingMatrix
         #self.matchingMatrix = matchingMatrix
         self.posx, self.posy = self.getSize()
+        self.solutionStepCount = self.posx
+        self.solutionDictionary = {}
         
     def __str__(self):
         result = "The Working Matrix is:\n"
@@ -36,7 +38,7 @@ class instructionGenerate:
     def checkXY(self):
         return not( self.posx == 0 and self.posy == 0) 
     def printXY(self):
-        print("The " + str(self.posx) +" and " + str(self.posy) + " were reached\n\tValue: " + str(self.workingMatrix[self.posx][self.posy]))
+        print("The " + str(self.posx) +" and " + str(self.posy) + " were reached\n\tValue: " + str(self.workingMatrix[self.posx][self.posy]) + "\n")
         #return posx, posy
     def traceBack(self, posx, posy):
         if(posx == 0 and posy == 0):
@@ -47,7 +49,10 @@ class instructionGenerate:
         elif(posx != 0 and posy == 0):
             return posx-1, posy
         else:
-            if(self.workingMatrix[posx-1][posy-1] == self.workingMatrix[posx][posy]-1): return posx-1,posy-1
+            if(self.workingMatrix[posx-1][posy-1] == self.workingMatrix[posx][posy]-1): 
+                print("Replace the book at the " + str(posx) + " with the book at " + str(posy) + " position in the correct list")
+                self.solutionDictionary[str(posx)] = str(posy)
+                return posx-1,posy-1
             else:
                 left = self.workingMatrix[posx][posy-1]
                 top = self.workingMatrix[posx-1][posy]
@@ -55,9 +60,12 @@ class instructionGenerate:
                 if left < top and left < topleft:
                     return posx, posy-1
                 elif left > top and top < topleft:
+                    print("Remove the book at the " + str(posx) + " position")
+                    self.solutionDictionary[str(posx)] = "-1"
                     return posx-1, posy
                 else:
                     print("this step can be omited because of matching elements")
+                    self.solutionStepCount -= 1
                     return posx-1, posy-1
     def getSize(self):
         return len(self.workingMatrix)-1 , len(self.workingMatrix[0])-1
@@ -69,7 +77,9 @@ a = instructionGenerate();
 print(a)
 a.printMinSteps()
 print('')
-a.printXY()
+#print(a.solutionStepCount)
+#a.printXY()
 while(a.checkXY()):
     a.traceBackOnce()
     a.printXY()
+print(a.solutionDictionary)
