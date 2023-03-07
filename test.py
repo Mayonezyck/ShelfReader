@@ -1,8 +1,15 @@
 #test file
-import Book, BookList,readfile
+import matrixgenerate, instruction
 
-filename = 'shelflist.xlsx'
-booklist = readfile.readfile(filename)
-print(booklist.head.next_book)
-print(booklist.tail.next_book)
-print(booklist)
+mg = matrixgenerate.matrixgenerate()
+matrix = mg.getMatrix()
+ig = instruction.instructionGenerate(matrix)
+print(ig)
+ig.printMinSteps()
+print('')
+#print(a.solutionStepCount)
+#a.printXY()
+ig.tracBackToTop()
+ig.flipSolutionIndex()
+for step in ig.solutionIndex:
+    print(step + " replace with " + ig.solutionDictionary[step])

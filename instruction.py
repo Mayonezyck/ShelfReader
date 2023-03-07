@@ -10,8 +10,7 @@ class instructionGenerate:
         #    [3,2,2,2,2,2,3],[4,3,3,3,2,3,3],[5,4,4,4,3,3,4],
         #    [6,5,4,5,4,4,4],[7,6,5,5,5,5,4]
         #    ]
-        self.workingMatrix = [[0,1,2,3,4,5,6,7],[1,0,1,2,3,4,5,6],[2,1,1,2,2,3,4,5],[3,2,2,1,2,3,4,5],[4,3,3,2,2,3,3,4]
-                              ,[5,4,3,3,3,3,4,5],[6,5,4,4,4,4,4,4],[7,6,5,5,5,4,5,5]]
+        self.workingMatrix = workingMatrix
         #self.matchingMatrix = [
             #[1,0,0,0,0,0,0],[0,1,0,0,0,0,0],[0,0,0,1,0,0,0],
             #[0,0,0,0,0,1,0],[0,0,0,0,1,0,0],[0,0,0,0,0,0,0],
@@ -71,6 +70,8 @@ class instructionGenerate:
                     print("this step can be omited because of matching elements")
                     self.solutionStepCount -= 1
                     return posx-1, posy-1
+    def flipSolutionIndex(self):
+        self.solutionIndex = self.solutionIndex[::-1]
     def getSize(self):
         return len(self.workingMatrix)-1 , len(self.workingMatrix[0])-1
     def getSolution(self):
@@ -81,17 +82,3 @@ class instructionGenerate:
         while(self.checkXY()):
             self.traceBackOnce()
             self.printXY()
-#testing is here
-a = instructionGenerate();
-print(a)
-a.printMinSteps()
-print('')
-#print(a.solutionStepCount)
-#a.printXY()
-a.tracBackToTop()
-print(a.solutionDictionary)
-print(a.solutionIndex)
-a.solutionIndex = a.solutionIndex[::-1]
-for step in a.solutionIndex:
-    print(step + " replace with " + a.solutionDictionary[step])
-
