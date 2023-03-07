@@ -4,31 +4,33 @@
 #The output is supposed to be a list of strings, that the student should complete in order.
 #
 class instructionGenerate:
-    def __init__(self, workingMatrix = None, matchingMatrix = None) -> None:
-        self.workingMatrix = [
-            [0,1,2,3,4,5,6],[1,0,1,2,3,4,5],[2,1,1,1,2,3,4],
-            [3,2,2,2,2,2,3],[4,3,3,3,2,3,3],[5,4,4,4,3,3,4],
-            [6,5,4,5,4,4,4],[7,6,5,5,5,5,4]
-            ]
-        
-        self.matchingMatrix = [
-            [1,0,0,0,0,0,0],[0,1,0,0,0,0,0],[0,0,0,1,0,0,0],
-            [0,0,0,0,0,1,0],[0,0,0,0,1,0,0],[0,0,0,0,0,0,0],
-            [0,0,1,0,0,0,0],[0,0,0,0,0,0,1]
-            ]
+    def __init__(self, workingMatrix = None) -> None:
+        #self.workingMatrix = [
+        #   [0,1,2,3,4,5,6],[1,0,1,2,3,4,5],[2,1,1,1,2,3,4],
+        #    [3,2,2,2,2,2,3],[4,3,3,3,2,3,3],[5,4,4,4,3,3,4],
+        #    [6,5,4,5,4,4,4],[7,6,5,5,5,5,4]
+        #    ]
+        self.workingMatrix = [[0,1,2,3,4,5,6,7],[1,0,1,2,3,4,5,6],[2,1,1,2,2,3,4,5],[3,2,2,1,2,3,4,5],[4,3,3,2,2,3,3,4]
+                              ,[5,4,3,3,3,3,4,5],[6,5,4,4,4,4,4,4],[7,6,5,5,5,4,5,5]]
+        #self.matchingMatrix = [
+            #[1,0,0,0,0,0,0],[0,1,0,0,0,0,0],[0,0,0,1,0,0,0],
+            #[0,0,0,0,0,1,0],[0,0,0,0,1,0,0],[0,0,0,0,0,0,0],
+            #[0,0,1,0,0,0,0],[0,0,0,0,0,0,1]
+            #]
         #self.workingMatrix = workingMatrix
         #self.matchingMatrix = matchingMatrix
         self.posx, self.posy = self.getSize()
         self.solutionStepCount = self.posx
         self.solutionDictionary = {}
+        self.solutionIndex = []
         
     def __str__(self):
         result = "The Working Matrix is:\n"
         for each in self.workingMatrix:
             result += str(each) + "\n"
-        result += "The binary matching matrix is: \n"
-        for each in self.matchingMatrix:
-            result += str(each) + "\n"
+        #result += "The binary matching matrix is: \n"
+        #for each in self.matchingMatrix:
+        #    result += str(each) + "\n"
         return result
         
 
@@ -52,6 +54,7 @@ class instructionGenerate:
             if(self.workingMatrix[posx-1][posy-1] == self.workingMatrix[posx][posy]-1): 
                 print("Replace the book at the " + str(posx) + " with the book at " + str(posy) + " position in the correct list")
                 self.solutionDictionary[str(posx)] = str(posy)
+                self.solutionIndex.append(str(posx))
                 return posx-1,posy-1
             else:
                 left = self.workingMatrix[posx][posy-1]
@@ -62,6 +65,7 @@ class instructionGenerate:
                 elif left > top and top < topleft:
                     print("Remove the book at the " + str(posx) + " position")
                     self.solutionDictionary[str(posx)] = "-1"
+                    self.solutionIndex.append(str(posx))
                     return posx-1, posy
                 else:
                     print("this step can be omited because of matching elements")
@@ -69,9 +73,14 @@ class instructionGenerate:
                     return posx-1, posy-1
     def getSize(self):
         return len(self.workingMatrix)-1 , len(self.workingMatrix[0])-1
+    def getSolution(self):
+        return self.solutionDictionary,self.solutionIndex
     def traceBackOnce(self):
         self.posx, self.posy = self.traceBack(self.posx,self.posy)
-
+    def tracBackToTop(self):
+        while(self.checkXY()):
+            self.traceBackOnce()
+            self.printXY()
 #testing is here
 a = instructionGenerate();
 print(a)
@@ -79,7 +88,10 @@ a.printMinSteps()
 print('')
 #print(a.solutionStepCount)
 #a.printXY()
-while(a.checkXY()):
-    a.traceBackOnce()
-    a.printXY()
+a.tracBackToTop()
 print(a.solutionDictionary)
+print(a.solutionIndex)
+a.solutionIndex = a.solutionIndex[::-1]
+for step in a.solutionIndex:
+    print(step + " replace with " + a.solutionDictionary[step])
+
