@@ -9,9 +9,7 @@ class login_UI:
         self.filename = 'studentInfo.csv'
         self.loginWindow = App(title="Log in")
         self.currentStudent = None
-        pass
-    
-    
+
     def addStaff(self,id):
         with open(self.filename, 'a+') as file:
             file.write("\n" + str(id))
