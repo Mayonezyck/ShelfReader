@@ -29,8 +29,8 @@ class task_UI:
         Text(confirm_firstBook, text=self.book.call_number, size=14)
         Text(confirm_firstBook, text=self.book.title, size=12)
         #self.taskWindow.set_full_screen()
+        #TODO:button for confirm
+        #TODO:button for abort
         self.taskWindow.display()
+    
 
-
-test = task_UI()
-test.task()
