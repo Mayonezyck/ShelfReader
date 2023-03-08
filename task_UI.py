@@ -18,16 +18,16 @@ datestamp = datetime.fromtimestamp(timestamp)
 # bookList = readfile.readfile(path)
 # book = bookList.getHead()
 
-def task():
+def task(self):
     taskWindow = App(title="Confirm your task")
     confirm_date = TitleBox(taskWindow, "Today is")
     Text(confirm_date, text=today, size=14)
     confirm_fileDate = TitleBox(taskWindow, "The file is uploaded on")
     Text(confirm_fileDate, text=datestamp, size=14)
     confirm_firstBook = TitleBox(taskWindow, "The first book in this list is")
-    # Text(confirm_firstBook, text=book.call_number, size=14)
-    # Text(confirm_firstBook, text=book.title, size=12)
-    # taskWindow.set_full_screen()
+    Text(confirm_firstBook, text=self.book.call_number, size=14)
+    Text(confirm_firstBook, text=self.book.title, size=12)
+    #taskWindow.set_full_screen()
     taskWindow.display()
 
 

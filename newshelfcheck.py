@@ -10,5 +10,6 @@ student = login_UI.login_UI()
 student.login()
 currentStudent = student.getStudent()
 print("something")
+
 cui = checking_UI.checking_UI()
 cui.start(currentStudent)
