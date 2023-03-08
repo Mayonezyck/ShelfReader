@@ -32,7 +32,7 @@ march.
 
 The modules from the office side to the shelf side are:
 the officer should be able to upload the files into the device: so there should be a program for file management and tranfer to 
-the device using ssh/remote in, somehow. So this is the uppermost program(1)
+the device using ssh/remote in, somehow. So this is the uppermost program(1) TODO
 
 Once the device side get the file, it can read it in to be future use in the local program. This is the program which will be called at the
 beginning(2)
