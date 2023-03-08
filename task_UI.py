@@ -18,17 +18,26 @@ class task_UI:
    
 
     def task(self):
+        Text(self.taskWindow, text="Is this your today's task?\n", size=30)
         confirm_date = TitleBox(self.taskWindow, "Today is", height="fill", width="fill")
-        confirm_date.font
         Text(confirm_date, text=self.today, size=14)
         confirm_fileDate = TitleBox(self.taskWindow, "The file is uploaded on", height="fill", width="fill")
         Text(confirm_fileDate, text=self.datestamp, size=14)
         confirm_firstBook = TitleBox(self.taskWindow, "The first book in this list is", height="fill", width="fill")
         Text(confirm_firstBook, text=self.book.call_number, size=14)
         Text(confirm_firstBook, text=self.book.title, size=14)
-        #self.taskWindow.set_full_screen()
         #TODO:button for confirm
+        PushButton(self.taskWindow, text='Yes', command=self.killWindow, align='left')
         #TODO:button for abort
+        PushButton(self.taskWindow, text='No', command=self.findHelp, align="right")
+        #self.taskWindow.set_full_screen()
         self.taskWindow.display()
     
-
+    def killWindow(self):
+        self.taskWindow.destroy() 
+    
+    def findHelp(self):
+        print("?")
+        self.taskWindow.warn("Stop", "Go back and talk to your supervisor!")  
+        print("?")
+        

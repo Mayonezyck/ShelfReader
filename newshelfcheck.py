@@ -1,6 +1,5 @@
 #This program is the newer version of shelfcheck.py
-#This will be an under-construction version.
-#This will replace the shelfcheck.py after its completion
+#This will be an under-construction version. 
 #from guizero import *
 import Book,BookList
 import login_UI
@@ -13,5 +12,5 @@ currentStudent = student.getStudent()
 print("something")
 taskUI = task_UI.task_UI()
 taskUI.task()
-cui = checking_UI.checking_UI()
-cui.start(currentStudent)
+#cui = checking_UI.checking_UI()
+#cui.start(currentStudent)
