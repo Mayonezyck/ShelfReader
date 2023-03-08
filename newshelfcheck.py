@@ -6,6 +6,9 @@ import Book,BookList
 import login_UI
 import checking_UI
 
-student = None
-student = login_UI()
-checking_UI.start(student)
+student = login_UI.login_UI()
+student.login()
+currentStudent = student.getStudent()
+print("something")
+cui = checking_UI.checking_UI()
+cui.start(currentStudent)

@@ -8,6 +8,7 @@ class login_UI:
     def __init__(self) -> None:
         self.filename = 'studentInfo.csv'
         self.loginWindow = App(title="Log in")
+        self.currentStudent = None
         pass
     
     
@@ -28,7 +29,7 @@ class login_UI:
             if isExist == False:
                 self.addStaff(id)
         return Student.Student(id)
-
+	
 # make the user interface
     def login(self):
         def toEnter():
@@ -41,19 +42,25 @@ class login_UI:
         UserIdBox.text_color = 'grey'
         UserIdBox.when_clicked = toEnter   # clear text in textbox when click on it
         arrange_box=Box(self.loginWindow, height="fill")
+        #PushButton(arrange_box, text = 'OK', command = self.check, args = [UserIdBox], align = "right")  
         PushButton(arrange_box, text = 'OK', command = self.check, args = [UserIdBox], align = "right")  
-        nextPage = PushButton(self.loginWindow, text = 'Next', align = "bottom")
+        #nextPage = PushButton(self.loginWindow, text = 'Next', align = "bottom")
         # nextPage.when_clicked = nextWindow
         # loginWindow.set_full_screen()
-        self.loginWindow.display()       
-
-        
+        self.loginWindow.display()  
+             
+    def getStudent(self):
+        return self.currentStudent
+	
+    def killWindow(self):
+        self.loginWindow.destroy()  
     
     def check(self,idbox):
         id = idbox.value
         if len(id) == 7:
                 # print(len(id))
-            self.checkExist(id)  
+            self.currentStudent = self.checkExist(id)  
+            self.killWindow()
         else:
             self.loginWindow.error('!!!', 'ID number must be 7 digit!')  
 
