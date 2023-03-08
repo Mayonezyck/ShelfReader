@@ -22,10 +22,12 @@ class checking_UI:
         self.desiredBookArray = []
         self.expandDesiredBookArray(self.N)
         self.actualBookArray = []
+
     def expandDesiredBookArray(self, count = 1):
         for i in range(count):
             self.desiredBookArray.append(self.theNthBookTracer)
             self.theNthBookTracer = self.theNthBookTracer.next_book
+
     def start(self, student = None):
         def toEnter():
             self.barcodeBox.value = ''
@@ -42,7 +44,7 @@ class checking_UI:
             self.ButtonBookFound = PushButton(self.shelfCheckWindow, text = 'Book Found', command = self.foundButtonPressed)
             self.ButtonSubmit = PushButton(self.shelfCheckWindow, text = 'Submit', command = self.submitButtonPressed)
             self.shelfCheckWindow.display()
-        pass
+        
     def showNextBook(self):
         self.currentBook = self.currentBook.next_book
         self.BookTitle.clear()
@@ -51,6 +53,7 @@ class checking_UI:
         self.BookCallNum.append(self.currentBook.call_number)
         self.BookVersion.clear()
         self.BookVersion.append(self.currentBook.version)
+        
     def foundButtonPressed(self):
         if(self.startCounting):
             pass

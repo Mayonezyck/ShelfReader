@@ -5,12 +5,18 @@ import Book,BookList
 import login_UI
 import checking_UI
 import task_UI
+import time
 
 student = login_UI.login_UI()
 student.login()
 currentStudent = student.getStudent()
-print("something")
+
 taskUI = task_UI.task_UI()
 taskUI.task()
-#cui = checking_UI.checking_UI()
-#cui.start(currentStudent)
+
+startTime = time.perf_counter()
+
+cui = checking_UI.checking_UI()
+cui.start(currentStudent)
+
+endTime = time.perf_counter()

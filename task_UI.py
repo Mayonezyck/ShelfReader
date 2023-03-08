@@ -37,7 +37,5 @@ class task_UI:
         self.taskWindow.destroy() 
     
     def findHelp(self):
-        print("?")
         self.taskWindow.warn("Stop", "Go back and talk to your supervisor!")  
-        print("?")
         
