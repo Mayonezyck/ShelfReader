@@ -5,19 +5,7 @@
 #
 class instructionGenerate:
     def __init__(self, workingMatrix = None) -> None:
-        #self.workingMatrix = [
-        #   [0,1,2,3,4,5,6],[1,0,1,2,3,4,5],[2,1,1,1,2,3,4],
-        #    [3,2,2,2,2,2,3],[4,3,3,3,2,3,3],[5,4,4,4,3,3,4],
-        #    [6,5,4,5,4,4,4],[7,6,5,5,5,5,4]
-        #    ]
         self.workingMatrix = workingMatrix
-        #self.matchingMatrix = [
-            #[1,0,0,0,0,0,0],[0,1,0,0,0,0,0],[0,0,0,1,0,0,0],
-            #[0,0,0,0,0,1,0],[0,0,0,0,1,0,0],[0,0,0,0,0,0,0],
-            #[0,0,1,0,0,0,0],[0,0,0,0,0,0,1]
-            #]
-        #self.workingMatrix = workingMatrix
-        #self.matchingMatrix = matchingMatrix
         self.posx, self.posy = self.getSize()
         self.solutionStepCount = self.posx
         self.solutionDictionary = {}
@@ -27,12 +15,8 @@ class instructionGenerate:
         result = "The Working Matrix is:\n"
         for each in self.workingMatrix:
             result += str(each) + "\n"
-        #result += "The binary matching matrix is: \n"
-        #for each in self.matchingMatrix:
-        #    result += str(each) + "\n"
         return result
         
-
     def printMinSteps(self):
         print("It takes at least " + str(self.workingMatrix[-1][-1]) + " steps to reorder")
 

@@ -1,6 +1,8 @@
 #test file
 import matrixgenerate, instruction
 
+pseudoBookList = [None,"Book1", "Book2", "Book3", "Book4", "Book5", "Book6", "Book7"]#None acts as a padding component for empty string
+pseudoShelfList = [None, "Book1", "Book4", "Book3", "Book6", "Book2", "Book7", "Book5"]#None acts as a padding component
 mg = matrixgenerate.matrixgenerate()
 matrix = mg.getMatrix()
 ig = instruction.instructionGenerate(matrix)
@@ -11,5 +13,19 @@ print('')
 #a.printXY()
 ig.tracBackToTop()
 ig.flipSolutionIndex()
-for step in ig.solutionIndex:
-    print(step + " replace with " + ig.solutionDictionary[step])
+solutionDic, solutionInd = ig.getSolution()
+for step in solutionInd:
+    shelfind = int(step)
+    bookind = int(solutionDic[step])
+    print(pseudoShelfList[shelfind] + " replace with " + pseudoBookList[bookind])
+
+print(solutionInd)
+#for step in solutionInd:
+#    solutionInd.remove(step)
+#bookInHand = pseudoShelfList[]
+
+
+
+print(solutionInd)
+
+
