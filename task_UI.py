@@ -1,7 +1,7 @@
 # confirm the date and the booklist waiting for check
 
 from guizero import *
-from datetime import *
+import time
 import os
 import readfile
 #import login_UI
@@ -9,25 +9,23 @@ import readfile
 class task_UI:
 
     def __init__(self) -> None:
-        self.today = date.today().strftime("%B %d, %Y") 
+        self.today = time.ctime(time.time())
         self.path = 'shelflist.xlsx'
         self.taskWindow = App(title="Confirm your task")
-        self.datestamp = datetime.fromtimestamp(os.path.getmtime(self.path))
+        self.datestamp = time.ctime(os.path.getmtime(self.path)) # get file modified date
         self.bookList = readfile.readfile(self.path)
         self.book = self.bookList.getHead()
-    # get file modified date
-    
-
-    # 
+   
 
     def task(self):
-        confirm_date = TitleBox(self.taskWindow, "Today is")
+        confirm_date = TitleBox(self.taskWindow, "Today is", height="fill", width="fill")
+        confirm_date.font
         Text(confirm_date, text=self.today, size=14)
-        confirm_fileDate = TitleBox(self.taskWindow, "The file is uploaded on")
+        confirm_fileDate = TitleBox(self.taskWindow, "The file is uploaded on", height="fill", width="fill")
         Text(confirm_fileDate, text=self.datestamp, size=14)
-        confirm_firstBook = TitleBox(self.taskWindow, "The first book in this list is")
+        confirm_firstBook = TitleBox(self.taskWindow, "The first book in this list is", height="fill", width="fill")
         Text(confirm_firstBook, text=self.book.call_number, size=14)
-        Text(confirm_firstBook, text=self.book.title, size=12)
+        Text(confirm_firstBook, text=self.book.title, size=14)
         #self.taskWindow.set_full_screen()
         #TODO:button for confirm
         #TODO:button for abort
