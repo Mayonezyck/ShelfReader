@@ -60,7 +60,7 @@ class login_UI:
             self.currentStudent = self.checkExist(id)  
             self.killWindow()
         else:
-            self.loginWindow.error('!!!', 'ID number must be 7 digit!')  
+            self.loginWindow.error('!!!', 'ID number must be 7 digit!')  #TODO: The login should also capture non-arabic-number-inputs
 
 # def nextWindow():
 #   loginWindow.hide()
