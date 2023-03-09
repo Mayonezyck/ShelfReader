@@ -1,8 +1,6 @@
 # ShelfReader  
 
 
-
-
 -----------------------------------------
 
 Spring semester notes:
