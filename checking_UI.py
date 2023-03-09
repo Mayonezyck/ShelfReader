@@ -55,17 +55,19 @@ class checking_UI:
         self.BookVersion.append(self.currentBook.version)
         
     def foundButtonPressed(self):
-        if(self.startCounting):
+        #when the foundbutton has been pressed, check if the startCounting flag is on
+        #The startCounting flag should be on when within a small session, the first "not in place" book was encountered.
+        if(self.startCounting):#this if and else block is used to do the shifitng of the N size block along the linked list
             pass
         else:
             self.desiredBookArray.remove(self.desiredBookArray[0])
-            self.expandDesiredBookArray()
+            self.expandDesiredBookArray()#TODO: if nothing will be done in the if statement block, omit it.
+        
         self.showNextBook()
-        for i in self.desiredBookArray:
+
+        for i in self.desiredBookArray:# this is for debugging
             print(i)
         print('')
-        #when the foundbutton has been pressed, the current barcode should be used to compare with the
-        #list node that we are looking at, pass the currentBook.barcode to 
         
         pass
 
@@ -75,6 +77,15 @@ class checking_UI:
         #BookTitle
         pass
 
-    def debug_visualizeTree(self): #this method is here for debug purpose
-                        #will not be included in real implementation.
+    def reorderLoop(self): #this method initiates the reorder loop.
+        #It takes in the actualBookArray and desiredBookArray, it will call the matrixgenerate.py
+        #after getting the matrix back from the call, it will pass the matrix to the instruction.py
+        #the instruction.py will have a solution dictionary and solution index passed back. 
+        #Using the solution dictionary and solution index, the book reordering solution should be performed at this order
+        #Create a temporary Book object, as "Book in the hand", its initial value should be the first book needed to be fixed on the shelf
+        #The loop should be: use the "Book in the hand" as the key, find where it should fit, replace it, and the replaced book is the new
+        #"Book in the hand" 
+        #For the extra book in the list, it will point to "-1". We can let the student pull out all the books needed to be picked out first
+        
+                   
         pass
