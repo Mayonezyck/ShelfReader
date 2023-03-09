@@ -52,18 +52,19 @@ class login_UI:
 	
     def killWindow(self):
         self.loginWindow.destroy()  
-    
+
+    def strToInt(self,id):
+        try:
+            int(id)
+        except(ValueError):
+            self.loginWindow.error('!!!', 'ID number cannot contain any letters or special symbols or spaces!')
+
     def check(self,idbox):
         id = idbox.value
-        if len(id) == 7:
-                # print(len(id))
+        self.strToInt(id)
+        if len(id) == 7 and 0 <= int(id) < 10000000:
+            # print(len(id))
             self.currentStudent = self.checkExist(id)  
-            self.killWindow()
-        else:
-            self.loginWindow.error('!!!', 'ID number must be 7 digit!')  #TODO: The login should also capture non-arabic-number-inputs
-
-# def nextWindow():
-#   loginWindow.hide()
-#   task_UI.task()
-
-
+            self.killWindow()     
+        else:    
+            self.loginWindow.error('!!!', 'ID number must be 7 in length!')
