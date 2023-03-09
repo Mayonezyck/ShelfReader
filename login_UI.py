@@ -57,14 +57,14 @@ class login_UI:
         try:
             int(id)
         except(ValueError):
-            self.loginWindow.error('!!!', 'ID number cannot contain any letters or special symbols or spaces!')
+            self.loginWindow.error('!!!', 'ID number cannot contain any letters, special symbols or spaces, nor be empty!')
 
     def check(self,idbox):
         id = idbox.value
         self.strToInt(id)
-        if len(id) == 7 and 0 <= int(id) < 10000000:
+        if len(id) == 7 and 0 < int(id) < 10000000:
             # print(len(id))
             self.currentStudent = self.checkExist(id)  
-            self.killWindow()     
+            self.killWindow()  
         else:    
             self.loginWindow.error('!!!', 'ID number must be 7 in length!')
