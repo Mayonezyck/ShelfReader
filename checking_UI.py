@@ -54,10 +54,10 @@ class checking_UI:
         self.BookVersion.clear()
         self.BookVersion.append(self.currentBook.version)
 
-    def checkIfIsTimeToStop(self):
+    def checkIfIsTimeToReorder(self):
         #A session should only stop when: startcounting is set
         #and
-        #The 
+        #The size of actualBook became N
         pass
 
     def foundButtonPressed(self):
@@ -87,6 +87,7 @@ class checking_UI:
         if not self.startCounting:
             self.startCounting = True
         #The nextbook should sure be printed 
+        self.showNextBook()
         pass
 
     def reorderLoop(self): #this method initiates the reorder loop.
