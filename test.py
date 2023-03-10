@@ -14,10 +14,16 @@ print('')
 ig.tracBackToTop()
 ig.flipSolutionIndex()
 solutionDic, solutionInd = ig.getSolution()
+print(solutionDic)
 for step in solutionInd:
     shelfind = int(step)
     bookind = int(solutionDic[step])
-    print(pseudoShelfList[shelfind] + " replace with " + pseudoBookList[bookind])
+    if(bookind == -1):
+        print("Remove " + pseudoShelfList[shelfind])
+    elif(bookind == -2):
+        print("Add in " + pseudoShelfList[shelfind])
+    else:
+        print(pseudoShelfList[shelfind] + " replace with " + pseudoBookList[bookind])
 
 print(solutionInd)
 #for step in solutionInd:

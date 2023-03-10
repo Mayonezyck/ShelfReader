@@ -44,6 +44,9 @@ class instructionGenerate:
                 top = self.workingMatrix[posx-1][posy]
                 topleft = self.workingMatrix[posx-1][posy-1]
                 if left < top and left < topleft:
+                    print("Book should be taken somewhere else and insert to here")
+                    self.solutionDictionary[str(posx)] = "-2"#TODO:fill
+                    self.solutionIndex.append(str(posx))
                     return posx, posy-1
                 elif left > top and top < topleft:
                     print("Remove the book at the " + str(posx) + " position")
