@@ -14,35 +14,24 @@ class matrixgenerate:
                 temp += 1
             for i in range(1,len(desiredBookArray)+1):
                 self.result[0].append(i)
-        #print(self.result)
-        #TODO: figure out the matrix generating technique
+        # print(self.result)
     
     def A_Match_D(a,b,c):
-        return min(a,b,c,d)+0
+        return min(a,b,c)+0
 
-    def A_notMatch_D(a,b,c,d):
-        return min(a,b,c,d)+1
+    def A_notMatch_D(a,b,c):
+        return min(a,b,c)+1
     
     def generating(self):
         d_length = len(self.desiredBookArray)
         a_length = len(self.actualBookArray)
         for i_dBook in range(1,d_length+1):
-            for i_aBook in self.actualBookArray:
+            for i_aBook in range(1,a_length+1):
                 if self.actualBookArray[i_aBook] == self.desiredBookArray[i_dBook]:
                     self.result[i_dBook].append(self.A_Match_D(self.result[i_dBook-1][i_aBook-1],self.result[i_dBook][i_aBook-1],self.result[i_dBook-1][i_aBook]))
                 else:
                     self.result[i_dBook].append(self.A_notMatch_D(self.result[i_dBook-1][i_aBook-1],self.result[i_dBook][i_aBook-1],self.result[i_dBook-1][i_aBook]))
-
-            
-        # for index_d in range(1,d_length+1):
-        #     desired_book = self.desiredBookArray[index_d]
-        #     for index_a in range(1,a_length+1):
-        #         actual_book = self.actualBookArray[index_a]
-        #         if desired_book == actual_book:
-        #             self.result.append(self.A_Match_D(index_d,desired_book,index_a,actual_book))
-        #         else:
-        #             self.result.append(self.A_notMatch_D(index_d,desired_book,index_a,actual_book))
-        # print(self.result)
+        print(self.result)
 
         #                ' ',1,2,3,4,5,6]        i_dBook = 1 -> 1
         #  self.    ' '  [0,1,2,3,4,5,6,7],     
@@ -60,3 +49,4 @@ class matrixgenerate:
 db = [1,2,3,4,5,6]#desired book array
 ab = [1,2,3,5,6,4,7]#actual book array
 m = matrixgenerate(db, ab)
+m.generating()
