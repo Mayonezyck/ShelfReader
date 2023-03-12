@@ -14,7 +14,8 @@ class matrixgenerate:
                 temp += 1
             for i in range(1,len(desiredBookArray)+1):
                 self.result[0].append(i)
-        # print(self.result)
+            self.generating()
+        print(self.result)
     
     def A_Match_D(a,b,c):
         return min(a,b,c)+0
@@ -28,19 +29,19 @@ class matrixgenerate:
         for i_dBook in range(1,d_length+1):
             for i_aBook in range(1,a_length+1):
                 if self.actualBookArray[i_aBook] == self.desiredBookArray[i_dBook]:
-                    self.result[i_dBook].append(self.A_Match_D(self.result[i_dBook-1][i_aBook-1],self.result[i_dBook][i_aBook-1],self.result[i_dBook-1][i_aBook]))
+                    self.result[i_dBook][i_aBook].append(self.A_Match_D(self.result[i_dBook-1][i_aBook-1],self.result[i_dBook][i_aBook-1],self.result[i_dBook-1][i_aBook]))
                 else:
-                    self.result[i_dBook].append(self.A_notMatch_D(self.result[i_dBook-1][i_aBook-1],self.result[i_dBook][i_aBook-1],self.result[i_dBook-1][i_aBook]))
+                    self.result[i_dBook][i_aBook].append(self.A_notMatch_D(self.result[i_dBook-1][i_aBook-1],self.result[i_dBook][i_aBook-1],self.result[i_dBook-1][i_aBook]))
         print(self.result)
 
         #                ' ',1,2,3,4,5,6]        i_dBook = 1 -> 1
-        #  self.    ' '  [0,1,2,3,4,5,6,7],     
+        #  self.    ' '  [0,1,2,3,4,5,6,7]    
         #            1   [1,"0,1,2,3,4,5,6]      i_aBook = 1 
-        #            2   [2,"1,1,2,3,4,5,5],
+        #            2   [2,"1,1,2,3,4,5,5]
         #            3   [3,"2,1,2,3,4,5,6]
         #            5   [4,"3,2,1,2,3,4,5]
-        #            6   [5,"4,3,2,1,2,3,4],
-        #            4   [6,"5,4,3,2,1,2,3],
+        #            6   [5,"4,3,2,1,2,3,4]
+        #            4   [6,"5,4,3,2,1,2,3]
         #            7   [7,"6,5,4,3,2,1,2]]
 
     def getMatrix(self):
@@ -49,4 +50,3 @@ class matrixgenerate:
 db = [1,2,3,4,5,6]#desired book array
 ab = [1,2,3,5,6,4,7]#actual book array
 m = matrixgenerate(db, ab)
-m.generating()
