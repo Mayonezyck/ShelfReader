@@ -14,25 +14,37 @@ class matrixgenerate:
                 temp += 1
             for i in range(1,len(desiredBookArray)+1):
                 self.result[0].append(i)
-            self.generating(desiredBookArray,actualBookArray)
         print(self.result)
     
     def A_Match_D(a,b,c):
-        return min(a,b,c)+0
+        min = min(a,b,c) + 0
+        return min
 
     def A_notMatch_D(a,b,c):
-        return min(a,b,c)+1
+        min = min(a,b,c) + 1
+        return min
     
     def generating(self,desiredBookArray,actualBookArray):
         d_length = len(desiredBookArray)
         a_length = len(actualBookArray)
-        for i_dBook in range(1,d_length+1):
-            for i_aBook in range(1,a_length+1):
+        row = 0
+        for i_dBook in range(d_length+1):
+            col = 0
+            for i_aBook in range(a_length+1):   
+                print(i_aBook)
+                up_left = self.result[row][col]
+                up_right = self.result[row][col+1]
+                down_left = self.result[row+1][col]
+                print(up_left, up_right, down_left)
                 if actualBookArray[i_aBook] == desiredBookArray[i_dBook]:
-                    self.result[i_dBook][i_aBook].append(self.A_Match_D(self.result[i_dBook-1][i_aBook-1],self.result[i_dBook][i_aBook-1],self.result[i_dBook-1][i_aBook]))
+                     no_action = self.A_Match_D(up_left,up_right,down_left)
+                     self.result[i_dBook][i_aBook] = no_action
                 else:
-                    self.result[i_dBook][i_aBook].append(self.A_notMatch_D(self.result[i_dBook-1][i_aBook-1],self.result[i_dBook][i_aBook-1],self.result[i_dBook-1][i_aBook]))
-        print(self.result)
+                     do_oneStep = self.A_notMatch_D(up_left,up_right,down_left)
+                     self.result[i_dBook][i_aBook] = do_oneStep
+                col += 1
+            row += 1
+        # print(self.result)
 
         #                ' ',1,2,3,4,5,6]        i_dBook = 1 -> 1
         #  self.    ' '  [0,1,2,3,4,5,6,7]    
@@ -50,3 +62,4 @@ class matrixgenerate:
 db = [1,2,3,4,5,6]#desired book array
 ab = [1,2,3,5,6,4,7]#actual book array
 m = matrixgenerate(db,ab)
+m.generating(db,ab)
