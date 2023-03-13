@@ -35,18 +35,19 @@ class matrixgenerate:
                 print(up_left, up_right, down_left)
                 if actualBookArray[i_aBook] == desiredBookArray[i_dBook]:
                      no_action = self.A_Match_D(up_left,up_right,down_left)
-                     self.result.append(no_action) 
+                     self.result[col+1].append(no_action) 
                 else:
                      do_oneStep = self.A_notMatch_D(up_left,up_right,down_left)
-                     self.result.append(do_oneStep)
+                     self.result[col+1].append(do_oneStep)
                 col += 1
-                print(self.result[i_dBook][i_aBook])
+                #print(self.result[i_dBook][i_aBook])
+                print(self.result)
             row += 1
         print(self.result)
 
         #                ' ',1,2,3,4,5,6]        i_dBook = 1 -> 1
         #  self.    ' '  [0,1,2,3,4,5,6,7]    
-        #            1   [1,"0,1,2,3,4,5,6]      i_aBook = 1 
+        #            1   [1,0,1,"2,3,4,5,6]      i_aBook = 1 
         #            2   [2,"1,1,2,3,4,5,5]
         #            3   [3,"2,1,2,3,4,5,6]
         #            5   [4,"3,2,1,2,3,4,5]
