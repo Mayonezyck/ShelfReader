@@ -25,20 +25,20 @@ class matrixgenerate:
     def generating(self,desiredBookArray,actualBookArray):
         d_length = len(desiredBookArray)
         a_length = len(actualBookArray)
-        row = 0
+        row = 1
         for i_dBook in range(d_length+1):
-            col = 0
+            col = 1
             for i_aBook in range(a_length+1):   
-                up_left = self.result[row][col]
-                up_right = self.result[row][col+1]
-                down_left = self.result[row+1][col]
+                up_left = self.result[row-1][col-1]
+                up_right = self.result[row-1][col]
+                down_left = self.result[row][col-1]
                 print(up_left, up_right, down_left)
                 if actualBookArray[i_aBook] == desiredBookArray[i_dBook]:
                      no_action = self.A_Match_D(up_left,up_right,down_left)
-                     self.result[col+1].append(no_action) 
+                     self.result[col].append(no_action) 
                 else:
                      do_oneStep = self.A_notMatch_D(up_left,up_right,down_left)
-                     self.result[col+1].append(do_oneStep)
+                     self.result[col].append(do_oneStep)
                 col += 1
                 #print(self.result[i_dBook][i_aBook])
                 print(self.result)
