@@ -2,7 +2,7 @@
 import matrixgenerate, instruction
 
 pseudoBookList = [None,"Book1", "Book2", "Book3", "Book4", "Book5", "Book6", "Book7"]#None acts as a padding component for empty string
-pseudoShelfList = [None, "Book1", "Book4", "Book3", "Book6", "Book2", "Book7", "Book5"]#None acts as a padding component
+pseudoShelfList = [None, "Book1", "Book7", "Book2", "Book3", "Book4", "Book5", "Book6"]#None acts as a padding component
 mg = matrixgenerate.matrixgenerate()
 matrix = mg.getMatrix()
 ig = instruction.instructionGenerate(matrix)
@@ -21,7 +21,7 @@ for step in solutionInd:
     if(bookind == -1):
         print("Remove " + pseudoShelfList[shelfind])
     elif(bookind == -2):
-        print("Add in " + pseudoShelfList[shelfind])
+        print("Add in after" + pseudoShelfList[shelfind])
     else:
         print(pseudoShelfList[shelfind] + " replace with " + pseudoBookList[bookind])
 
