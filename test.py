@@ -21,7 +21,7 @@ for step in solutionInd:
     if(bookind == -1):
         print("Remove " + pseudoShelfList[shelfind])
     elif(bookind == -2):
-        print("Add in after" + pseudoShelfList[shelfind])
+        print("Add in " +pseudoBookList[shelfind]+ " after " + pseudoShelfList[shelfind])
     else:
         print(pseudoShelfList[shelfind] + " replace with " + pseudoBookList[bookind])
 
