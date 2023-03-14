@@ -44,7 +44,3 @@ class matrixgenerate:
     def getMatrix(self):
         return self.result
     
-db = [None,1,2,3,4,5,6]#desired book array
-ab = [None,1,2,3,5,6,4]#actual book array
-m = matrixgenerate(db,ab)
-m.generating(db,ab)

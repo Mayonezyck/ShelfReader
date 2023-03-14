@@ -3,7 +3,8 @@ import matrixgenerate, instruction
 
 pseudoBookList = [None,"Book1", "Book2", "Book3", "Book4", "Book5", "Book6", "Book7"]#None acts as a padding component for empty string
 pseudoShelfList = [None, "Book1", "Book7", "Book2", "Book3", "Book4", "Book5", "Book6"]#None acts as a padding component
-mg = matrixgenerate.matrixgenerate()
+mg = matrixgenerate.matrixgenerate(pseudoBookList,pseudoShelfList)
+mg.generating(pseudoBookList,pseudoShelfList)
 matrix = mg.getMatrix()
 ig = instruction.instructionGenerate(matrix)
 print(ig)
