@@ -30,6 +30,8 @@ class instructionGenerate:
             print("Debug: The top left node was reached")
             return -1, -1
         elif(posx == 0 and posy != 0):
+            self.solutionDictionary[str(posx)] = "-2"#TODO:fill
+            self.solutionIndex.append(str(posx))
             return posx, posy-1
         elif(posx != 0 and posy == 0):
             return posx-1, posy
