@@ -6,7 +6,7 @@ class checking_UI:
     def __init__(self):
         self.filename = 'shelflist.xlsx'
         self.shelfCheckWindow = App(title = "Shelf Checking is in Progress", width = 1000)
-        self.bookList = readfile.readfile(self.filename)
+        self.bookList, self.bookDic = readfile.readfile(self.filename)
         self.currentBook = None
         self.BookTitle = None
         self.BookCallNum = None
@@ -16,6 +16,7 @@ class checking_UI:
         self.ButtonSubmit = None #button number1
         self.barcodeBox = None
         self.reachlast = False
+        self.NbooktracerReachLast = False
         self.startCounting = False
         self.theNthBookTracer = self.bookList.getHead()
         self.N = 20#this is heuristic value of N
@@ -23,10 +24,18 @@ class checking_UI:
         self.expandDesiredBookArray(self.N)
         self.actualBookArray = []
 
+    def destroyWindow(self):
+        self.shelfCheckWindow.warn('Session Over', 'Your Session is over, congratulations')
+        self.shelfCheckWindow.destroy()
+
     def expandDesiredBookArray(self, count = 1):
-        for i in range(count):
-            self.desiredBookArray.append(self.theNthBookTracer)
-            self.theNthBookTracer = self.theNthBookTracer.next_book
+        if not self.NbooktracerReachLast:
+            for i in range(count):
+                self.desiredBookArray.append(self.theNthBookTracer)
+                self.theNthBookTracer = self.theNthBookTracer.next_book
+                if self.theNthBookTracer is None:
+                    self.NbooktracerReachLast = True
+
 
     def start(self, student = None):
         def toEnter():
@@ -46,49 +55,74 @@ class checking_UI:
             self.shelfCheckWindow.display()
         
     def showNextBook(self):
-        self.currentBook = self.currentBook.next_book
-        self.BookTitle.clear()
-        self.BookTitle.append(self.currentBook.title)
-        self.BookCallNum.clear()
-        self.BookCallNum.append(self.currentBook.call_number)
-        self.BookVersion.clear()
-        self.BookVersion.append(self.currentBook.version)
+        if self.currentBook is not None: 
+            if self.currentBook.next_book is not None:
+                self.currentBook = self.currentBook.next_book
+                self.BookTitle.clear()
+                self.BookTitle.append(self.currentBook.title)
+                self.BookCallNum.clear()
+                self.BookCallNum.append(self.currentBook.call_number)
+                self.BookVersion.clear()
+                self.BookVersion.append(self.currentBook.version)
+            else:
+                self.reachlast = True
 
     def checkIfIsTimeToReorder(self):
         #A session should only stop when: startcounting is set
         #and
         #The size of actualBook became N
+        if self.desiredBookArray[-1] == self.actualBookArray[-1]:
+            self.shelfCheckWindow.warn('reshelf time', 'do this and that and this and that')
         pass
 
     def foundButtonPressed(self):
         #when the foundbutton has been pressed, check if the startCounting flag is on
         #The startCounting flag should be on when within a small session, the first "not in place" book was encountered.
-        if(self.startCounting):#this if and else block is used to do the shifitng of the N size block along the linked list
-            self.actualBookArray.append(self.currentBook)
-            pass
+        if not self.reachlast:
+            if(self.startCounting):#this if and else block is used to do the shifitng of the N size block along the linked list
+                self.actualBookArray.append(self.currentBook)
+                self.checkIfIsTimeToReorder()
+                pass
+            else:
+                self.desiredBookArray.remove(self.desiredBookArray[0])
+                self.expandDesiredBookArray()
+            
+            self.showNextBook()
+            print("desiredBook")
+            for i in self.desiredBookArray:# this is for debugging#TODO:CLEAR THIS OUT WHEN PACK
+                print(i.title + i.version)
+            print('')
+            print("CurrentBook")
+            for i in self.actualBookArray:# this is for debugging#TODO:CLEAR THIS OUT WHEN PACK
+                print(i.title + i.version)
+            print('')
         else:
-            self.desiredBookArray.remove(self.desiredBookArray[0])
-            self.expandDesiredBookArray()
-        
-        self.showNextBook()
-        print("desiredBook")
-        for i in self.desiredBookArray:# this is for debugging#TODO:CLEAR THIS OUT WHEN PACK
-            print(i.title + i.version)
-        print('')
-        print("CurrentBook")
-        for i in self.actualBookArray:# this is for debugging#TODO:CLEAR THIS OUT WHEN PACK
-            print(i.title + i.version)
-        print('')
-        pass
+            self.destroyWindow()
+            pass
 
     def submitButtonPressed(self):
         #this button press means a book doesn't match was found
         #When the first time in session when the button was pressed, the flag "StartCounting" should be set to True
-        if not self.startCounting:
-            self.startCounting = True
-        #The nextbook should sure be printed 
-        self.showNextBook()
-        pass
+        if self.barcodeBox.value is not None and self.barcodeBox.value != 'scan in barcode if not found':
+
+            if not self.startCounting:
+                self.startCounting = True
+            #The nextbook should sure be printed 
+            #TODO:search the booklist and see if this book should be immediately pull out
+            print(self.barcodeBox.value)
+            print
+            if int(self.barcodeBox.value) in self.bookDic:#meaning, if this book is belong to the list
+                print('not yet')
+                self.actualBookArray.append(self.bookDic[int(self.barcodeBox.value)])
+            
+            self.showNextBook()
+            #reset the barcodebox
+            self.barcodeBox.value = 'scan in barcode if not found'
+            self.barcodeBox.text_color = "grey"
+            self.checkIfIsTimeToReorder()
+            pass
+        else:
+            self.shelfCheckWindow.warn('warning', 'Please put in barcode before hitting button')
 
     def reorderLoop(self): #this method initiates the reorder loop.
         #It takes in the actualBookArray and desiredBookArray, it will call the matrixgenerate.py
