@@ -12,8 +12,9 @@ def findBookFromList(somebook, bookList):
         if somebook == bookList[i]:
             return i 
     return -1
+
 pseudoBookList = [None,"Book1", "Book2", "Book3", "Book4", "Book5", "Book6", "Book7"]#None acts as a padding component for empty string
-pseudoShelfList = [None, "Book2", "Book3", "Book5", "Book1", "Book4", "Book6", "Book7"]#None acts as a padding component
+pseudoShelfList = [None, "Book1", "Book3", "Book5", "Book2", "Book4", "Book6", "Book7"]#None acts as a padding component
 mg = matrixgenerate.matrixgenerate(pseudoBookList,pseudoShelfList)
 mg.generating(pseudoBookList,pseudoShelfList)
 matrix = mg.getMatrix()
@@ -53,15 +54,23 @@ while len(solutionInd) != 0 or len(booksNeedRemoval) != 0:
     if bookinHand == None and len(solutionInd) == 0:
         break
     bookToDealWith = findBookFromDic(bookinHand,solutionDic,pseudoBookList)
-    if bookToDealWith is None:
+
+    if bookinHand and len(solutionInd) == 1:
+        print("Put " + bookinHand + " in front of their Next Book")
+        break
+    if bookToDealWith is None:#TODO: figure out, if multiple books needs to be add in, how can we know which is which
         #print("BookINHAND", bookinHand)
-        print("Add in " + bookinHand + " after " + pseudoShelfList[findBookFromList(bookinHand,pseudoBookList)])
-        #print("solutionind", findBookFromList(bookinHand,pseudoBookList))
-        solutionInd.remove(str(findBookFromList(bookinHand,pseudoBookList)))
+        print("Add in " + bookinHand + " in front of  " + pseudoShelfList[findBookFromList(bookinHand,pseudoBookList)])
+        #print("This solutionind", findBookFromList(bookinHand,pseudoBookList))
+        #print('list', solutionInd)
+        
+        #solutionInd.remove(str(findBookFromList(bookinHand,pseudoBookList)))
+        solutionInd.remove(str(0))
         bookinHand = None;
 
-    elif (int(solutionDic[bookToDealWith]) == -2):
-        print("Add in " + bookinHand + " after " + pseudoShelfList[findBookFromList(bookinHand,pseudoBookList)])
+    elif (int(solutionDic[bookToDealWith]) == -2):#TODO:figure out why this elif is never used 
+        print("when solution dic is -2 Add in " + bookinHand + " after " + pseudoShelfList[findBookFromList(bookinHand,pseudoBookList)])
+        
         solutionInd.remove(bookToDealWith)
         bookinHand = None
     else:
@@ -72,12 +81,12 @@ while len(solutionInd) != 0 or len(booksNeedRemoval) != 0:
         solutionInd.remove(bookToDealWith)
         bookinHand = pseudoShelfList[int(bookToDealWith)]
     
-    """print("REACH")
+    '''print("REACH")
     print(booksNeedRemoval)
     print(bookToDealWith)
-    print(solutionInd)
+    print('solutionInd',solutionInd)
     print(solutionDic)
-    print(bookinHand)"""
+    print(bookinHand)'''
 #print(solutionInd)
 #for step in solutionInd:
 #    solutionInd.remove(step)
