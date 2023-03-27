@@ -13,7 +13,7 @@ class task_UI:
         self.path = 'shelflist.xlsx'
         self.taskWindow = App(title="Confirm your task")
         self.datestamp = time.ctime(os.path.getmtime(self.path)) # get file modified date
-        self.bookList = readfile.readfile(self.path)
+        self.bookList, temp = readfile.readfile(self.path)
         self.book = self.bookList.getHead()
    
 

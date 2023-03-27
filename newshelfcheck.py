@@ -18,5 +18,7 @@ startTime = time.perf_counter()
 
 cui = checking_UI.checking_UI()
 cui.start(currentStudent)
-
+print('out of here')
 endTime = time.perf_counter()
+print('Start Time:',startTime)
+print('End Time', endTime)

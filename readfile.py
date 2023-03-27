@@ -40,7 +40,13 @@ def readfile(filename):
             }
         #print(book_info[barcode]['barcode'],'\n')
     list = BookList.BookList(book_info)
-    return list
+    bookdic = {}
+    currentbook = list.getHead()
+    while currentbook is not None:
+        bookdic[currentbook.getBarcode()] = currentbook
+        currentbook = currentbook.next_book
+    print(bookdic)
+    return list, bookdic
 
 
 #print(readfile('shelflist.xlsx'))
