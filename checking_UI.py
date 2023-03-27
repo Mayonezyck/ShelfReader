@@ -58,6 +58,8 @@ class checking_UI:
         if self.currentBook is not None: 
             if self.currentBook.next_book is not None:
                 self.currentBook = self.currentBook.next_book
+                if self.currentBook.hasNote:
+                    self.shelfCheckWindow.warn('Reshelf', 'This next book needs to be reshelved to the current position')
                 self.BookTitle.clear()
                 self.BookTitle.append(self.currentBook.title)
                 self.BookCallNum.clear()
@@ -71,8 +73,13 @@ class checking_UI:
         #A session should only stop when: startcounting is set
         #and
         #The size of actualBook became N
-        if self.desiredBookArray[-1] == self.actualBookArray[-1]:
+        if len(self.desiredBookArray) == len(self.actualBookArray):
             self.shelfCheckWindow.warn('reshelf time', 'do this and that and this and that')
+            self.actualBookArray = []
+            self.desiredBookArray = []
+            self.expandDesiredBookArray(self.N)
+            self.startCounting = False
+            
         pass
 
     def foundButtonPressed(self):
@@ -105,21 +112,24 @@ class checking_UI:
         #When the first time in session when the button was pressed, the flag "StartCounting" should be set to True
         if self.barcodeBox.value is not None and self.barcodeBox.value != 'scan in barcode if not found':
 
-            if not self.startCounting:
-                self.startCounting = True
+            
             #The nextbook should sure be printed 
             #TODO:search the booklist and see if this book should be immediately pull out
             print(self.barcodeBox.value)
-            print
             if int(self.barcodeBox.value) in self.bookDic:#meaning, if this book is belong to the list
                 print('not yet')
+                if not self.startCounting:
+                    self.startCounting = True
                 self.actualBookArray.append(self.bookDic[int(self.barcodeBox.value)])
-            
-            self.showNextBook()
+                self.bookDic[int(self.barcodeBox.value)].needsAnounce()
+                self.showNextBook()
+                self.checkIfIsTimeToReorder()
+            else:
+                self.shelfCheckWindow.warn('warning', 'Remove this book and put it on the cart')
             #reset the barcodebox
             self.barcodeBox.value = 'scan in barcode if not found'
             self.barcodeBox.text_color = "grey"
-            self.checkIfIsTimeToReorder()
+            
             pass
         else:
             self.shelfCheckWindow.warn('warning', 'Please put in barcode before hitting button')
