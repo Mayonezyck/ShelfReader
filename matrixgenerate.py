@@ -9,10 +9,12 @@ class matrixgenerate:
         else:    
             self.result = []
             temp = 0
-            for i in range(len(actualBookArray)):
+            self.desiredBookArray = [None]+desiredBookArray
+            self.actualBookArray = [None]+actualBookArray
+            for i in range(len(self.actualBookArray)):
                 self.result.append([temp])
                 temp += 1
-            for i in range(1,len(desiredBookArray)):
+            for i in range(1,len(self.desiredBookArray)):
                 self.result[0].append(i)
         print(self.result[0])
     
@@ -22,9 +24,9 @@ class matrixgenerate:
     def A_notMatch_D(self,a,b,c):
         return min(a,b,c) + 1
     
-    def generating(self,desiredBookArray,actualBookArray):
-        d_length = len(desiredBookArray)
-        a_length = len(actualBookArray)
+    def generating(self):
+        d_length = len(self.desiredBookArray)
+        a_length = len(self.actualBookArray)
         for i_aBook in range(1,a_length):
             for i_dBook in range(1,d_length):   
                 up_left = self.result[i_aBook-1][i_dBook-1]
@@ -32,7 +34,7 @@ class matrixgenerate:
                 up_right = self.result[i_aBook-1][i_dBook]    
                 down_left = self.result[i_aBook][i_dBook-1]
                 #print(up_left, up_right, down_left)
-                if actualBookArray[i_aBook] == desiredBookArray[i_dBook]:
+                if self.actualBookArray[i_aBook] == self.desiredBookArray[i_dBook]:
                      no_action = self.A_Match_D(up_left,up_right,down_left)
                      self.result[i_aBook].append(no_action) 
                 else:

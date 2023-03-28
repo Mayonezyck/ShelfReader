@@ -1,6 +1,7 @@
 #checking_UI.py
 from guizero import *
 import readfile
+import matrixgenerate, instruction
 
 class checking_UI:
     def __init__(self):
@@ -19,7 +20,7 @@ class checking_UI:
         self.NbooktracerReachLast = False
         self.startCounting = False
         self.theNthBookTracer = self.bookList.getHead()
-        self.N = 20#this is heuristic value of N
+        self.N = 7#this is heuristic value of N
         self.desiredBookArray = []
         self.expandDesiredBookArray(self.N)
         self.actualBookArray = []
@@ -74,7 +75,8 @@ class checking_UI:
         #and
         #The size of actualBook became N
         if len(self.desiredBookArray) == len(self.actualBookArray):
-            self.shelfCheckWindow.warn('reshelf time', 'do this and that and this and that')
+
+            self.reorderLoop()
             self.actualBookArray = []
             self.desiredBookArray = []
             self.expandDesiredBookArray(self.N)
@@ -89,20 +91,13 @@ class checking_UI:
             if(self.startCounting):#this if and else block is used to do the shifitng of the N size block along the linked list
                 self.actualBookArray.append(self.currentBook)
                 self.checkIfIsTimeToReorder()
+                print('It is time to Reorder')
                 pass
             else:
                 self.desiredBookArray.remove(self.desiredBookArray[0])
                 self.expandDesiredBookArray()
             
             self.showNextBook()
-            print("desiredBook")
-            for i in self.desiredBookArray:# this is for debugging#TODO:CLEAR THIS OUT WHEN PACK
-                print(i.title + i.version)
-            print('')
-            print("CurrentBook")
-            for i in self.actualBookArray:# this is for debugging#TODO:CLEAR THIS OUT WHEN PACK
-                print(i.title + i.version)
-            print('')
         else:
             self.destroyWindow()
             pass
@@ -130,7 +125,6 @@ class checking_UI:
             self.barcodeBox.value = 'scan in barcode if not found'
             self.barcodeBox.text_color = "grey"
             
-            pass
         else:
             self.shelfCheckWindow.warn('warning', 'Please put in barcode before hitting button')
 
@@ -143,6 +137,23 @@ class checking_UI:
         #The loop should be: use the "Book in the hand" as the key, find where it should fit, replace it, and the replaced book is the new
         #"Book in the hand" 
         #For the extra book in the list, it will point to "-1". We can let the student pull out all the books needed to be picked out first
+        reorderWindow = Window(self.shelfCheckWindow, title="Reshelfing")
+        titleBox = Box(reorderWindow)
+        titleText = Text(titleBox, text = "Please wait until the solution is generated", size = 20, color="red", font="Arial")
+        
+        print("desiredBook")
+        for i in self.desiredBookArray:# this is for debugging#TODO:CLEAR THIS OUT WHEN PACK
+            print(i.title + i.version)
+        print('')
+        print("CurrentBook")
+        for i in self.actualBookArray:# this is for debugging#TODO:CLEAR THIS OUT WHEN PACK
+            print(i.title + i.version)
+        print('')
 
+        reorderWindow.full_screen = True
+        #Calling matrix generation for desired list and actual list
+        mg = matrixgenerate.matrixgenerate(self.desiredBookArray, self.actualBookArray)
+        mg.generating()    
+        reorderWindow.destroy()
                    
         pass
