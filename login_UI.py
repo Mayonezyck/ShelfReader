@@ -62,9 +62,11 @@ class login_UI:
     def check(self,idbox):
         id = idbox.value
         self.strToInt(id)
-        if len(id) == 7 and 0 < int(id) < 10000000:
+        if len(id) == 7 and 0 <= int(id) < 10000000:
             # print(len(id))
             self.currentStudent = self.checkExist(id)  
             self.killWindow()  
+        elif int(id) < 0:
+            self.loginWindow.error('!!!', 'ID number must larger or equal to 0!')
         else:    
             self.loginWindow.error('!!!', 'ID number must be 7 in length!')
