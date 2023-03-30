@@ -6,10 +6,11 @@ import csv
 class notReport(Student):
     filename = 'studentInfo.csv'
 
-    def __init__(self, ID = '00000000', task_num = 0):
+    def __init__(self, ID = '00000000', task_num = 0, currentTaskTime = -1):
         self.ID = ID
         self.isStaff = False
         self.task_num = task_num
+        self.currentTaskTime = currentTaskTime
                 
     def getTaskDoneNum(self):
         return self.task_num
@@ -23,10 +24,18 @@ class notReport(Student):
                            return rowreader.line_num
 
     def task_time(self, start, end):
+         with open(self.filename, newline='') as csvfile:
+              
          pass
     
     def taskDoneNum(self,row):
-         pass
+         if self.currentTaskTime == -1:
+                   self.task_num = self.task_num + 0
+              else:
+                   self.task_num = self.task_num + 1
+                   with open(self.filename, newline='') as csvfile:
+                          
+              pass
     
 # def task_time(int start, int end):
 #     with open(filename, 'a+') as file:
