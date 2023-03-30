@@ -154,6 +154,20 @@ class checking_UI:
         #Calling matrix generation for desired list and actual list
         mg = matrixgenerate.matrixgenerate(self.desiredBookArray, self.actualBookArray)
         mg.generating()    
-        reorderWindow.destroy()
+        matrix = mg.getMatrix()
+        ig = instruction.instructionGenerate(matrix)
+        ig.printMinSteps()
+        ig.tracBackToTop()
+        ig.flipSolutionIndex()
+        solutionDic, solutionInd = ig.getSolution()
+
+        booksNeedRemoval = []
+        for step in solutionInd:
+            if(int(solutionDic[step] == -1)):
+                solutionInd.remove(step)
+                del solutionDic[step]
+                booksNeedRemoval.append(step)
+
+        #reorderWindow.destroy()
                    
         pass
