@@ -3,14 +3,34 @@
 import Student 
 import csv
 
-filename = 'studentInfo.csv'
+class notReport(Student):
+    filename = 'studentInfo.csv'
 
+    def __init__(self, ID = '00000000', task_num = 0):
+        self.ID = ID
+        self.isStaff = False
+        self.task_num = task_num
+                
+    def getTaskDoneNum(self):
+        return self.task_num
+        
+    # find the row of this student with its id number
+    def getPosition(self, id):
+	    with open(self.filename, newline='') as csvfile:
+                 rowreader = csv.reader(csvfile)
+                 for row in rowreader:
+                      if row[0] == str(id):
+                           return rowreader.line_num
+
+    def task_time(self, start, end):
+         pass
+    
+    def taskDoneNum(self,row):
+         pass
+    
 # def task_time(int start, int end):
 #     with open(filename, 'a+') as file:
 #         file.write(start)
 
 # def task_num():
 
-with open(filename, 'a+') as file:
-    writer = csv.writer(file)
-    

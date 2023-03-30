@@ -6,11 +6,12 @@ import login_UI
 import checking_UI
 import task_UI
 import time
-import csv
+import notReport
 
 student = login_UI.login_UI()
 student.login()
 currentStudent = student.getStudent()
+print(currentStudent, type(currentStudent))
 
 taskUI = task_UI.task_UI()
 taskUI.task()
