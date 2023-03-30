@@ -17,8 +17,8 @@ taskUI.task()
 
 startTime = time.perf_counter()
 
-cui = checking_UI.checking_UI()
-cui.start(currentStudent)
+checkingUI = checking_UI.checking_UI()
+checkingUI.start(currentStudent)
 
 endTime = time.perf_counter()
 print('Start Time:',startTime)
