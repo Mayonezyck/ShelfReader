@@ -24,3 +24,8 @@ endTime = time.perf_counter()
 print('Start Time:',startTime)
 print('End Time', endTime)
 
+report = notReport.notReport()
+report.getPosition(currentStudent)
+report.task_time(startTime, endTime)
+report.taskDoneNum(startTime)
+report.renewCSV()

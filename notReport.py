@@ -5,15 +5,12 @@ import csv
 
 class notReport(Student.Student):
     
-    def __init__(self, ID = '00000000', task_num = 0, currentTaskTime = -1):
-        super().__init__(self, ID, task_num)
+    def __init__(self, ID = '00000000'):
+        super().__init__(self, ID)
         self.filename = 'studentInfo.csv'
-        self.currentTaskTime = currentTaskTime
         self.student_list = []
         self.currentRow = 0
-                
-    def getTaskDoneNum(self):
-        return self.task_num
+        self.task_num = 0
         
     # find the row of this student with its id number
     def getPosition(self, id):
@@ -26,11 +23,11 @@ class notReport(Student.Student):
                            for element in row:
                                  self.student_list.append(element)
                                  print(self.student_list)
-                           return rowreader.line_num
+                           return self.currentRow
 
     def task_time(self, start, end):
          self.student_list.append(start)
-         if end < 86400:
+         if end < 86400: 
               self.student_list[-1] = end - start
     
     def taskDoneNum(self,start):
