@@ -22,8 +22,9 @@ class notReport(Student.Student):
                       if row[0] == str(id):
                            print(rowreader.line_num)
                            for element in row:
-                                 self.student_list = list(element)
+                                 self.student_list.append(element)
                                  print(self.student_list)
+                           return rowreader.line_num
 
     def task_time(self, start, end):
          with open(self.filename, newline='') as csvfile:
@@ -31,15 +32,9 @@ class notReport(Student.Student):
     
     def taskDoneNum(self,row):
          if self.currentTaskTime == -1:
-                   self.task_num = self.task_num + 0
+                   self.student_list[1] += 0
          else:
-                   self.task_num = self.task_num + 1
-                   with open(self.filename, newline='') as csvfile:
-                         pass
-    
-# def task_time(int start, int end):
-#     with open(filename, 'a+') as file:
-#         file.write(start)
-
-# def task_num():
-
+                   self.student_list[1] += 1
+         with open(self.filename, 'w') as csvfile:
+                 rowwriter = csv.writer(csvfile)
+                 
