@@ -10,6 +10,7 @@ class notReport(Student.Student):
         self.filename = 'studentInfo.csv'
         self.currentTaskTime = currentTaskTime
         self.student_list = []
+        self.currentRow = 0
                 
     def getTaskDoneNum(self):
         return self.task_num
@@ -20,21 +21,29 @@ class notReport(Student.Student):
                  rowreader = csv.reader(csvfile)
                  for row in rowreader:
                       if row[0] == str(id):
-                           print(rowreader.line_num)
+                           self.currentRow = rowreader.line_num
+                           print(self.currentRow)
                            for element in row:
                                  self.student_list.append(element)
                                  print(self.student_list)
                            return rowreader.line_num
 
     def task_time(self, start, end):
-         with open(self.filename, newline='') as csvfile:
-              pass
+         self.student_list.append(start)
+         if end < 86400:
+              self.student_list[-1] = end - start
     
-    def taskDoneNum(self,row):
-         if self.currentTaskTime == -1:
+    def taskDoneNum(self,start):
+         if self.student_list[-1] == start:
                    self.student_list[1] += 0
          else:
                    self.student_list[1] += 1
-         with open(self.filename, 'w') as csvfile:
-                 rowwriter = csv.writer(csvfile)
-                 
+                
+    def renewCSV(self):
+        index = 0
+        with open(self.filename, 'w') as csvfile:
+            rowwriter = csv.writer(csvfile)
+            for row in rowwriter:
+                  if index == self.currentRow:
+                       rowwriter.writerow(self.student_list)
+                  index += 1
