@@ -30,7 +30,7 @@ class task_UI:
         PushButton(self.taskWindow, text='Yes', command=self.killWindow, align='left')
         #TODO:button for abort
         PushButton(self.taskWindow, text='No', command=self.findHelp, align="right")
-        #self.taskWindow.set_full_screen()
+        self.taskWindow.set_full_screen()
         self.taskWindow.display()
     
     def killWindow(self):

@@ -42,6 +42,8 @@ class login_UI:
         arrange_box=Box(self.loginWindow, height="fill")
         #PushButton(arrange_box, text = 'OK', command = self.check, args = [UserIdBox], align = "right")  
         PushButton(arrange_box, text = 'OK', command = self.check, args = [UserIdBox], align = "right")  
+        #nextPage = PushButton(self.loginWindow, text = 'Next', align = "bottom")
+        # nextPage.when_clicked = nextWindow
         # loginWindow.set_full_screen()
         self.loginWindow.display()  
              

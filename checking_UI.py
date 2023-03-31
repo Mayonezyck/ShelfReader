@@ -70,6 +70,7 @@ class checking_UI:
             self.barcodeBox.when_clicked = toEnter
             self.ButtonBookFound = PushButton(self.shelfCheckWindow, text = 'Book Found', command = self.foundButtonPressed)
             self.ButtonSubmit = PushButton(self.shelfCheckWindow, text = 'Submit', command = self.submitButtonPressed)
+            self.shelfCheckWindow.set_full_screen()
             self.shelfCheckWindow.display()
         
     def showNextBook(self):
@@ -284,11 +285,11 @@ class checking_UI:
                     if situation == '-1':#if remove
                         insertPlace = findIfCanInsert()
                         if insertPlace != -1:
-                            insertInstruction(insertPlace)
+                            insertInstruction(actualBookArray[int(self.bookinHand)])
                             del solutionDic[self.bookinHand]
                             solutionInd.remove(str(insertPlace))
                             del solutionDic[str(insertPlace)]
-                            bookInHandClear()
+                            self.bookinHand = None
                         else:
                             temp = None
                             bookHand = actualBookArray[int(self.bookinHand)]
@@ -323,9 +324,10 @@ class checking_UI:
                             self.bookinHand = str(findBookToDealWith(bookToReplace))
                             solutionInd.remove(self.bookinHand)
                         else:
-                            insertInstruction(int(self.bookinHand))
+                            insertInstruction(actualBookArray[int(self.bookinHand)])
                             del solutionDic[self.bookinHand]
-                            bookInHandClear()
+                            self.loophead = None
+                            self.bookinHand = None
                         
 
                         '''del solutionDic[self.bookinHand]
