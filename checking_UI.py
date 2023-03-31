@@ -41,15 +41,33 @@ class checking_UI:
                 if self.theNthBookTracer is None:
                     self.NbooktracerReachLast = True
 
-
     def start(self, student = None):
         def toEnter():
             self.barcodeBox.value = ''
             self.barcodeBox.text_color='black'
         print(student)
+
+        # def __str__():
+        #      book_title = ''
+        #      if len(self.currentBook.title) > 15:
+        #         #  book_title.append(self.currentBook.title.split()[:10])
+        #         #  book_title.append('\n')
+        #         #  book_title.append(self.currentBook.title.split()[10:-1])
+        #         book_title = " ".join(self.currentBook.title.split()[:10])
+        #      else:
+        #          book_title = self.currentBook.title
+        #      return book_title
+        #   #  self.currentBook.title = str(self.currentBook.title)
+        #    # return self.currentBook.title.split()[:10] + '\n' + self.currentBook.title.split()[10:-1]
+
         while not self.reachlast:#the window should be destroyed already by the previous method
             self.currentBook = self.bookList.getHead()
-            self.BookTitle = Text(self.shelfCheckWindow, text = self.currentBook.title,size = 30)
+            book_title = ''
+            if len(self.currentBook.title) > 15:
+                book_title = " ".join(self.currentBook.title.split()[:10])
+            else:
+                 book_title = self.currentBook.title
+            self.BookTitle = Text(self.shelfCheckWindow, text = book_title, size = 30)
             self.BookCallNum = Text(self.shelfCheckWindow, text = self.currentBook.call_number, size = 20)
             self.BookVersion = Text(self.shelfCheckWindow, text= self.currentBook.version, size=20)
             self.barcodeBox = TextBox(self.shelfCheckWindow, text="scan in barcode if not found", width=25, align="top")
