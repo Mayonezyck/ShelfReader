@@ -9,8 +9,8 @@ class matrixgenerate:
         else:    
             self.result = []
             temp = 0
-            self.desiredBookArray = [None]+desiredBookArray
-            self.actualBookArray = [None]+actualBookArray
+            self.desiredBookArray = desiredBookArray
+            self.actualBookArray = actualBookArray
             for i in range(len(self.actualBookArray)):
                 self.result.append([temp])
                 temp += 1

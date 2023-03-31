@@ -118,9 +118,9 @@ class checking_UI:
                 print('lost books', thisBook)
                 if thisBook.ifneedsAnounce():
                     print('this book needs anounce')
-                    nextBookAvailable = thisBook.next_Book
+                    nextBookAvailable = thisBook.next_book
                     while int(nextBookAvailable.barcode) in self.lostBookDic:
-                        nextBookAvailable = nextBookAvailable.next_Book
+                        nextBookAvailable = nextBookAvailable.next_book
                         
                     reshelfInstruction = 'Place \n' + thisBook.title + ' in front of \n' + nextBookAvailable.title
                     self.shelfCheckWindow.warn('Reshelf',reshelfInstruction)
@@ -180,6 +180,124 @@ class checking_UI:
         def exitReshelf():
             print('pressedd')
             reorderWindow.destroy()
+        def findBookToDealWith():
+            handBook = actualBookArray[int(self.bookinHand)]
+            ind = 0
+            for book in desiredBookArray:
+                if book == handBook:
+                    return ind
+                ind += 1
+            return None
+        def findIfCanInsert():
+            handBook = actualBookArray[int(self.bookinHand)]
+            for key in solutionDic:
+                if solutionDic[key] == '-2':
+                    if desiredBookArray[int(key)+1] == handBook:
+                        return int(key)
+            return -1
+        def bookInHandRefresh():
+            BookInHandText.clear()
+            BookInHandText.append(actualBookArray[int(self.bookinHand)].title)
+        def bookInHandClear():
+            self.bookinHand = None
+            BookInHandText.clear()
+            BookInHandText.append('Nothing')
+        def takeOutInstruction(theBook):
+            InstructionLine1.clear()
+            InstructionLine1.append('Take Out')
+            InstructionLine2.clear()
+            InstructionLine2.append(theBook.title)
+            InstructionLine3.clear()
+            InstructionLine3.append('From Shelf')
+        def putAwayInstruction():
+            InstructionLine1.clear()
+            InstructionLine1.append('Put')
+            InstructionLine2.clear()
+            InstructionLine2.append('the book in your hand')
+            InstructionLine3.clear()
+            InstructionLine3.append('On the cart for future use')
+        def replaceInstruction(theBook):
+            InstructionLine1.clear()
+            InstructionLine1.append('Replace')
+            InstructionLine2.clear()
+            InstructionLine2.append(theBook.title)
+            InstructionLine3.clear()
+            InstructionLine3.append('with the Book in Hand')
+        def insertInstruction(thePosition):
+            InstructionLine1.clear()
+            InstructionLine1.append('Put')
+            InstructionLine2.clear()
+            InstructionLine2.append('The book in hand')
+            InstructionLine3.clear()
+            if thePosition < len(actualBookArray)-1:
+                bookAtThePosition = actualBookArray[thePosition+1]
+                InstructionLine3.append(('in front of ' + bookAtThePosition.title))
+            else:
+                bookAtThePosition = actualBookArray[-1]
+                
+                InstructionLine3.append(('behind ' + bookAtThePosition.title))
+        def nextStepShow():
+            if self.bookinHand is not None:
+                bookInHandRefresh()
+
+            if self.bookinHand is None:
+                if len(booksNeedRemoval) > 0 :
+                    takeOutInstruction(actualBookArray[int(booksNeedRemoval[0])])
+                    self.bookinHand = booksNeedRemoval[0]
+                    del booksNeedRemoval[0]
+                    #bookInHandRefresh()
+                else:
+                    if len(solutionInd) > 0:
+                        takeOutInstruction(actualBookArray[int(solutionInd[0])])
+                        self.bookinHand = solutionInd[0]
+                        del solutionInd[0]
+                        bookInHandRefresh()
+                    else:
+                        exitReshelf()
+                    
+            else:
+                if self.bookinHand in solutionDic:
+                    print('is it in solutiondic?')
+                    situation = solutionDic[self.bookinHand]
+                    print('situation',situation)
+                    if situation == '-1':
+                        insertPlace = findIfCanInsert()
+                        if insertPlace != -1:
+                            insertInstruction(insertPlace)
+                            del solutionDic[self.bookinHand]
+                            solutionInd.remove(str(insertPlace))
+                            del solutionDic[str(insertPlace)]
+                            bookInHandClear()
+                    else:
+                    #print('book', bookToDealWith)
+                    #print(actualBookArray)
+                        if len(solutionInd) > 0:
+                            ind = findBookToDealWith()
+                            print('ind', ind)
+                            if ind != -1:
+                                del solutionDic[self.bookinHand]
+                                replaceInstruction(actualBookArray[ind])
+                                self.bookinHand = str(ind)
+                                print('now solution',solutionInd)
+                                print('now book', self.bookinHand)
+                                solutionInd.remove(self.bookinHand)
+                            else:
+                                putAwayInstruction()  
+                                bookInHandClear()     
+                        else:
+                            ind = findBookToDealWith()
+                            insertInstruction(ind)
+                            del solutionDic[self.bookinHand]
+                            #solutionInd.remove(str(insertPlace))
+                            self.bookinHand = None
+                else:
+                    putAwayInstruction()
+                    bookInHandClear()
+                
+                print(booksNeedRemoval)
+                print(solutionDic)
+                print(solutionInd)
+            pass
         #It takes in the actualBookArray and desiredBookArray, it will call the matrixgenerate.py
         #after getting the matrix back from the call, it will pass the matrix to the instruction.py
         #the instruction.py will have a solution dictionary and solution index passed back. 
@@ -191,26 +309,39 @@ class checking_UI:
         reorderWindow = Window(self.shelfCheckWindow, title="Reshelfing")
         titleBox = Box(reorderWindow)
         titleText = Text(titleBox, text = "Please wait until the solution is generated", size = 20, color="red", font="Arial")
+        instructionBox = Box(reorderWindow)
+        Text(instructionBox, text = "Book in Hand")
+        BookInHandText = Text(instructionBox, text = "Nothing")
+        InstructionLine1 = Text(instructionBox, text = "Instruction Line 1")
+        InstructionLine2 = Text(instructionBox, text = "Instruction Line 2")
+        InstructionLine3 = Text(instructionBox, text = "Instruction Line 3")
         finishButton = PushButton(titleBox, text="Finish",command = exitReshelf)
+        nextStepButton = PushButton(instructionBox, text="Next Step", command = nextStepShow)
+        
+        desiredBookArray =[None]+self.desiredBookArray
+        actualBookArray = [None]+self.actualBookArray
+        
         for eachBook in self.desiredBookDic:
             #print('key',eachBook)
             #print('value',self.desiredBookDic[eachBook])
             if(self.desiredBookDic[eachBook] == False):
-                self.desiredBookArray.remove(self.bookDic[eachBook])
+                desiredBookArray.remove(self.bookDic[eachBook])
                 self.lostBookDic[eachBook] = self.bookDic[eachBook]#add this book to the lostBookDictionary
         print(self.desiredBookDic)
         print("desiredBook")
-        for i in self.desiredBookArray:# this is for debugging#TODO:CLEAR THIS OUT WHEN PACK
-            print(i.title + i.version)
+        for i in desiredBookArray:# this is for debugging#TODO:CLEAR THIS OUT WHEN PACK
+            if i is not None:
+                print(i.title + i.version)
         print('')
         print("CurrentBook")
-        for i in self.actualBookArray:# this is for debugging#TODO:CLEAR THIS OUT WHEN PACK
-            print(i.title + i.version)
+        for i in actualBookArray:# this is for debugging#TODO:CLEAR THIS OUT WHEN PACK
+            if i is not None:
+                print(i.title + i.version)
         print('')
 
         #reorderWindow.full_screen = True
         #Calling matrix generation for desired list and actual list
-        mg = matrixgenerate.matrixgenerate(self.desiredBookArray, self.actualBookArray)
+        mg = matrixgenerate.matrixgenerate(desiredBookArray, actualBookArray)
         mg.generating()    
         matrix = mg.getMatrix()
         ig = instruction.instructionGenerate(matrix)
@@ -218,17 +349,21 @@ class checking_UI:
         ig.tracBackToTop()
         ig.flipSolutionIndex()
         solutionDic, solutionInd = ig.getSolution()
-
-        booksNeedRemoval = []
-        for step in solutionInd:
-            if(int(solutionDic[step] == -1)):
-                solutionInd.remove(step)
-                del solutionDic[step]
-                booksNeedRemoval.append(step)
-        bookinHand = None
         print(solutionDic)
         print(solutionInd)
-        print(self.lostBookDic)
+        booksNeedRemoval = []
+        for step in solutionInd:
+            if(int(solutionDic[step] == '-1')):
+                solutionInd.remove(step)
+                #del solutionDic[step]
+                booksNeedRemoval.append(step)
+        self.bookinHand = None
+
+        nextStepShow()
+        #print(booksNeedRemoval)
+        #print(solutionDic)
+        #print(solutionInd)
+        #print(self.lostBookDic)
         reorderWindow.show()
                    
         pass

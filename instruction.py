@@ -30,10 +30,14 @@ class instructionGenerate:
             print("Debug: The top left node was reached")
             return -1, -1
         elif(posx == 0 and posy != 0):
+            print("Book should be taken somewhere else and insert to here")
             self.solutionDictionary[str(posx)] = "-2"#TODO:fill
             self.solutionIndex.append(str(posx))
             return posx, posy-1
         elif(posx != 0 and posy == 0):
+            print("Remove the book at the " + str(posx) + " position")
+            self.solutionDictionary[str(posx)] = "-1"
+            self.solutionIndex.append(str(posx))
             return posx-1, posy
         else:
             if(self.workingMatrix[posx-1][posy-1] == self.workingMatrix[posx][posy]-1): 
