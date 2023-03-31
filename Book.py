@@ -15,7 +15,12 @@ class Book:
         #self.skip = False
     
     def __str__(self):
-        return self.title +'\t'+ str(self.call_number) + '\t'+ str(self.version) +'\t'+ str(self.barcode)
+        # book_title = ''
+        # if len(self.title) > 15:
+        #     book_title = " ".join(self.title.split()[:10])
+        # else:
+        #     book_title = self.title
+        return book_title +'\t'+ str(self.call_number) + '\t'+ str(self.version) +'\t'+ str(self.barcode)
     def getBarcode(self):
         return self.barcode
     

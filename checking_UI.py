@@ -62,12 +62,7 @@ class checking_UI:
 
         while not self.reachlast:#the window should be destroyed already by the previous method
             self.currentBook = self.bookList.getHead()
-            book_title = ''
-            if len(self.currentBook.title) > 15:
-                book_title = " ".join(self.currentBook.title.split()[:10])
-            else:
-                 book_title = self.currentBook.title
-            self.BookTitle = Text(self.shelfCheckWindow, text = book_title, size = 30)
+            self.BookTitle = Text(self.shelfCheckWindow, text = self.currentBook.title, size = 30)
             self.BookCallNum = Text(self.shelfCheckWindow, text = self.currentBook.call_number, size = 20)
             self.BookVersion = Text(self.shelfCheckWindow, text= self.currentBook.version, size=20)
             self.barcodeBox = TextBox(self.shelfCheckWindow, text="scan in barcode if not found", width=25, align="top")
