@@ -5,12 +5,11 @@ import csv
 
 class notReport(Student.Student):
     
-    def __init__(self, ID = '00000000'):
-        super().__init__(self, ID)
+    def __init__(self):
+        self.ID = '0000000'
         self.filename = 'studentInfo.csv'
         self.student_list = []
         self.currentRow = 0
-        self.task_num = 0
         
     # find the row of this student with its id number
     def getPosition(self, id):
@@ -27,20 +26,34 @@ class notReport(Student.Student):
 
     def task_time(self, start, end):
          self.student_list.append(start)
-         if end < 86400: 
+         if end < 43200: # 12 hours
               self.student_list[-1] = end - start
+         print(self.student_list)
     
     def taskDoneNum(self,start):
-         if self.student_list[-1] == start:
-                   self.student_list[1] += 0
+         time = float(self.student_list[-1])
+         if self.student_list[1] == '':
+               taskDone_num = 0
+         else: 
+               taskDone_num = int(self.student_list[1])
+         if time == start:
+                   taskDone_num += 0
          else:
-                   self.student_list[1] += 1
+                   taskDone_num += 1
+         self.student_list[1] = str(taskDone_num)
                 
     def renewCSV(self):
-        index = 0
-        with open(self.filename, 'w') as csvfile:
+        with open(self.filename, 'a+', newline='') as csvfile:
             rowwriter = csv.writer(csvfile)
-            for row in rowwriter:
+            rowreader = csv.reader(csvfile)
+            for index in range(len(list(rowreader))):
+                  print(self.student_list)
                   if index == self.currentRow:
                        rowwriter.writerow(self.student_list)
-                  index += 1
+                       print(self.student_list)
+
+report = notReport()
+report.getPosition(str(1234567))
+report.task_time(1, 40)
+report.taskDoneNum(1)
+report.renewCSV()
