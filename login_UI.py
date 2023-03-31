@@ -42,8 +42,6 @@ class login_UI:
         arrange_box=Box(self.loginWindow, height="fill")
         #PushButton(arrange_box, text = 'OK', command = self.check, args = [UserIdBox], align = "right")  
         PushButton(arrange_box, text = 'OK', command = self.check, args = [UserIdBox], align = "right")  
-        #nextPage = PushButton(self.loginWindow, text = 'Next', align = "bottom")
-        # nextPage.when_clicked = nextWindow
         # loginWindow.set_full_screen()
         self.loginWindow.display()  
              
@@ -60,13 +58,12 @@ class login_UI:
             self.loginWindow.error('!!!', 'ID number cannot contain any letters, special symbols or spaces, nor be empty!')
 
     def check(self,idbox):
-        id = idbox.value
-        self.strToInt(id)
-        if len(id) == 7 and 0 <= int(id) < 10000000:
+        id = int(int(idbox.value)/10)
+        if len(str(id)) == 9 and 0 <= int(id) < 10000000000:
             # print(len(id))
             self.currentStudent = self.checkExist(id)  
             self.killWindow()  
         elif int(id) < 0:
             self.loginWindow.error('!!!', 'ID number must larger or equal to 0!')
         else:    
-            self.loginWindow.error('!!!', 'ID number must be 7 in length!')
+            self.loginWindow.error('!!!', 'ID number must be 9 in length!')

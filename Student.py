@@ -1,7 +1,7 @@
 # this class of student represents each studnet object that is unique
 
 class Student:
-	def __init__(self,ID = '00000000'):
+	def __init__(self,ID = '0000000000'):
 		self.ID = ID
 		self.isStaff = False
 
