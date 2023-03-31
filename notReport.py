@@ -62,8 +62,8 @@ class notReport(Student.Student):
         studentinfo.to_csv(self.filename,index=False)
         print(studentinfo)
 
-report = notReport()
-report.getPosition('1234567')
-report.task_time(1, 40)
-report.updateTaskDoneNum(1)
-report.renewCSV()
+# report = notReport()
+# report.getPosition('1234567')
+# report.task_time(1, 40)
+# report.updateTaskDoneNum(1)
+# report.renewCSV()
