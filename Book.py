@@ -20,7 +20,7 @@ class Book:
         #     book_title = " ".join(self.title.split()[:10])
         # else:
         #     book_title = self.title
-        return book_title +'\t'+ str(self.call_number) + '\t'+ str(self.version) +'\t'+ str(self.barcode)
+        return self.title +'\t'+ str(self.call_number) + '\t'+ str(self.version) +'\t'+ str(self.barcode)
     def getBarcode(self):
         return self.barcode
     
