@@ -250,6 +250,9 @@ class checking_UI:
                     if len(solutionInd) > 0:
                         takeOutInstruction(actualBookArray[int(solutionInd[0])])
                         self.bookinHand = solutionInd[0]
+                        if self.loophead == None:
+                            self.loophead = actualBookArray[int(self.bookinHand)]
+                            print('loophead', self.loophead)
                         del solutionInd[0]
                         #bookInHandRefresh()
                     else:
@@ -271,7 +274,16 @@ class checking_UI:
                     else:
                     #print('book', bookToDealWith)
                     #print(actualBookArray)
-                        if len(solutionInd) > 0:
+                        ind = findBookToDealWith()
+                        if ind != -1:
+                            del solutionDic[self.bookinHand]
+                            if actualBookArray[ind] != self.loophead:
+                                replaceInstruction(actualBookArray[ind])
+                            else:
+                                insertInstruction(ind)
+                            self.loophead = None
+                            self.bookInHand = None
+                        '''if len(solutionInd) > 0:
                             ind = findBookToDealWith()
                             print('ind', ind)
                             if ind != -1:
@@ -289,7 +301,7 @@ class checking_UI:
                             insertInstruction(ind)
                             del solutionDic[self.bookinHand]
                             #solutionInd.remove(str(insertPlace))
-                            self.bookinHand = None
+                            self.bookinHand = None'''
                 else:
                     putAwayInstruction()
                     bookInHandClear()
@@ -358,7 +370,7 @@ class checking_UI:
                 #del solutionDic[step]
                 booksNeedRemoval.append(step)
         self.bookinHand = None
-
+        self.loophead = None
         nextStepShow()
         #print(booksNeedRemoval)
         #print(solutionDic)
