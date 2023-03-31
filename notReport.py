@@ -12,6 +12,7 @@ class notReport(Student.Student):
         self.student_list = []
         self.currentRow = 0
         self.taskNum = 0
+        self.tempTimePosition = 0
         
     # find the row of this student with its id number
     def getPosition(self, id):
@@ -24,46 +25,44 @@ class notReport(Student.Student):
                            for element in row:
                                  self.student_list.append(element)
                                  # print(self.student_list)
+                           if self.student_list[1] == '':
+                              self.taskNum = 0
+                           else: 
+                              self.taskNum = int(self.student_list[1])
                            return self.currentRow
 
-    def task_time(self, start, end):
-         if self.student_list[1] == '':
-               self.taskNum = 0
-         else: 
-               self.taskNum = int(self.student_list[1])
-         print(self.taskNum+2)
-         self.student_list[self.taskNum+2] = start
-         # print(self.student_list)
-         print(self.student_list[self.taskNum+2])
+    def task_time(self, start, end):  
+         self.tempTimePosition = self.taskNum + 2    
+         if self.student_list[self.tempTimePosition] != '':
+              self.tempTimePosition = self.taskNum + 3
+         self.student_list[self.tempTimePosition] = start
+         # print(self.tempTimePosition, self.student_list[self.tempTimePosition],float(end - start))
          if end < 43200: # 12 hours
-              self.student_list[self.taskNum+2] = str(float(end - start))
+            self.student_list[self.tempTimePosition] = str(float(end - start))
          print(self.student_list)
-    
+
     def updateTaskDoneNum(self,start):
-         time = float(self.student_list[self.taskNum+1])
-         if self.student_list[1] == '':
-               taskDone_num = 0
-         else: 
-               taskDone_num = int(self.student_list[1])
+         time = float(self.student_list[self.tempTimePosition])
          if time == start:
-                   taskDone_num += 0
+                   self.taskNum += 0
          else:
-                   taskDone_num += 1
-         self.student_list[1] = str(taskDone_num)
+                   self.taskNum += 1
+         self.student_list[1] = str(self.taskNum)
                 
     def renewCSV(self):
         studentinfo = pd.read_csv(self.filename, encoding = 'utf-8')
         # print(self.currentRow-2, self.taskNum+2)
-        # print(self.student_list)
-        x,y = self.currentRow-2, self.taskNum+2
+        print(self.student_list)
+        x,y = self.currentRow-2, self.tempTimePosition
         studentinfo.iloc[x,1] = self.student_list[1]
+        print(studentinfo.iloc[x,1])
         studentinfo.iloc[x,y] = self.student_list[y]
-        print('fii')
+        print(studentinfo.iloc[x,y])
         studentinfo.to_csv(self.filename,index=False)
         print(studentinfo)
 
 # report = notReport()
-# report.getPosition('1234567')
-# report.task_time(1, 40)
+# report.getPosition('123456789')
+# report.task_time(10, 100)
 # report.updateTaskDoneNum(1)
 # report.renewCSV()
