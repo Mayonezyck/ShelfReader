@@ -12,6 +12,7 @@ class Book:
         self.hasNote = False
         self.next_book = next_book
         self.pre_book = pre_book
+        #self.skip = False
     
     def __str__(self):
         return self.title +'\t'+ str(self.call_number) + '\t'+ str(self.version) +'\t'+ str(self.barcode)
@@ -26,7 +27,7 @@ class Book:
     #     print('[Call number]: \n\t' + self.call_number)
         
 
-    def GUI_printBook(self, GUI_window,textList):
+    '''def GUI_printBook(self, GUI_window,textList):
         if(self.hasNote == True):
             GUI_window.warn("Alert","Next Book was found before, place it back in")
         textList[0].clear()
@@ -34,10 +35,19 @@ class Book:
         textList[1].clear()
         textList[1].append(self.barcode)
         textList[2].clear()
-        textList[2].append(self.call_number)
+        textList[2].append(self.call_number)'''
         
     def founD(self):
         self.inPlace = True
         
     def needsAnounce(self):
         self.hasNote = True
+    
+    def ifneedsAnounce(self):
+        return self.hasNote
+    '''def needsSkip(self):
+        print(self.title,'need skip')
+        self.skip = True
+    
+    def ifNeedsSkip(self):
+        return self.skip'''
