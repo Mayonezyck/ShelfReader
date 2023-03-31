@@ -59,6 +59,11 @@ class instructionGenerate:
                     self.solutionDictionary[str(posx)] = "-1"
                     self.solutionIndex.append(str(posx))
                     return posx-1, posy
+                elif left < topleft and top < topleft:
+                    print("Remove the book at the " + str(posx) + "position")
+                    self.solutionDictionary[str(posx)] = "-1"
+                    self.solutionIndex.append(str(posx))
+                    return posx-1, posy
                 else:
                     print("this step can be omited because of matching elements")
                     self.solutionStepCount -= 1

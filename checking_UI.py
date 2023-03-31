@@ -193,14 +193,13 @@ class checking_UI:
         def exitReshelf():
             print('pressedd')
             reorderWindow.destroy()
-        def findBookToDealWith():
-            handBook = actualBookArray[int(self.bookinHand)]
+        def findBookToDealWith(handBook):
             ind = 0
-            for book in desiredBookArray:
+            for book in actualBookArray:
                 if book == handBook:
                     return ind
                 ind += 1
-            return None
+            return -1
         def findIfCanInsert():
             handBook = actualBookArray[int(self.bookinHand)]
             for key in solutionDic:
@@ -236,22 +235,28 @@ class checking_UI:
             InstructionLine2.append(theBook.title)
             InstructionLine3.clear()
             InstructionLine3.append('with the Book in Hand')
-        def insertInstruction(thePosition):
+        def insertInstruction(theBook):
             InstructionLine1.clear()
             InstructionLine1.append('Put')
             InstructionLine2.clear()
             InstructionLine2.append('The book in hand')
             InstructionLine3.clear()
-            if thePosition < len(actualBookArray)-1:
-                bookAtThePosition = actualBookArray[thePosition+1]
-                InstructionLine3.append(('in front of ' + bookAtThePosition.title))
-            else:
-                bookAtThePosition = actualBookArray[-1]
-                
-                InstructionLine3.append(('behind ' + bookAtThePosition.title))
+            done = False
+            for book in desiredBookArray:
+                if book is not None:
+                    if book.next_book == theBook:
+                        InstructionLine3.append('to the right of ' + book.title)
+                        done = True
+            if not done:
+                if desiredBookArray[1] != theBook:
+                    InstructionLine3.append(('to the left of ' + desiredBookArray[1].title))
+                else:
+                    InstructionLine3.append(('to the left of ' + desiredBookArray[2].title))
         def nextStepShow():
             if self.bookinHand is not None:
                 bookInHandRefresh()
+            else:
+                bookInHandClear()
 
             if self.bookinHand is None:
                 if len(booksNeedRemoval) > 0 :
@@ -263,6 +268,9 @@ class checking_UI:
                     if len(solutionInd) > 0:
                         takeOutInstruction(actualBookArray[int(solutionInd[0])])
                         self.bookinHand = solutionInd[0]
+                        if self.loophead == None:
+                            self.loophead = actualBookArray[int(self.bookinHand)]
+                            print('loophead', self.loophead)
                         del solutionInd[0]
                         #bookInHandRefresh()
                     else:
@@ -271,9 +279,9 @@ class checking_UI:
             else:
                 if self.bookinHand in solutionDic:
                     print('is it in solutiondic?')
-                    situation = solutionDic[self.bookinHand]
+                    situation = solutionDic[self.bookinHand]#situation can be -2: plugin -1: remove positive number:index 
                     print('situation',situation)
-                    if situation == '-1':
+                    if situation == '-1':#if remove
                         insertPlace = findIfCanInsert()
                         if insertPlace != -1:
                             insertInstruction(insertPlace)
@@ -281,9 +289,52 @@ class checking_UI:
                             solutionInd.remove(str(insertPlace))
                             del solutionDic[str(insertPlace)]
                             bookInHandClear()
-                    else:
+                        else:
+                            temp = None
+                            bookHand = actualBookArray[int(self.bookinHand)]
+                            print('bh',bookHand)
+                            for key in solutionDic:
+                                if desiredBookArray[int(solutionDic[key])] == bookHand:
+                                    bookToReplace = actualBookArray[int(key)]
+                                    temp = key
+                                    replaceInstruction(bookToReplace)
+                                    del solutionDic[self.bookinHand]
+
+                                    self.bookinHand = temp
+                                    del solutionDic[self.bookinHand]
+                                    solutionInd.remove(self.bookinHand)
+                                    break
+                            '''for key in solutionDic:
+                                if solutionDic[key] == self.bookinHand:
+                                    bookToReplace = actualBookArray[int(key)]
+                                    temp = key
+                                    replaceInstruction(bookToReplace)
+                                    del solutionDic[self.bookinHand]
+                                    self.bookinHand = temp
+                                    solutionInd.remove(self.bookinHand)'''
+                    else:#if not remove, most times switching
                     #print('book', bookToDealWith)
                     #print(actualBookArray)
+                        #ind = self.bookinHand
+                        bookToReplace = desiredBookArray[int(self.bookinHand)]
+                        if bookToReplace != self.loophead:
+                            replaceInstruction(bookToReplace)
+                            del solutionDic[self.bookinHand]
+                            self.bookinHand = str(findBookToDealWith(bookToReplace))
+                            solutionInd.remove(self.bookinHand)
+                        else:
+                            insertInstruction(int(self.bookinHand))
+                            del solutionDic[self.bookinHand]
+                            bookInHandClear()
+                        
+
+                        '''del solutionDic[self.bookinHand]
+                            if actualBookArray[ind] != self.loophead:
+                                replaceInstruction(actualBookArray[ind])
+                            else:
+                                insertInstruction(ind)
+                                self.loophead = None
+                            self.bookInHand = None
                         if len(solutionInd) > 0:
                             ind = findBookToDealWith()
                             print('ind', ind)
@@ -302,10 +353,22 @@ class checking_UI:
                             insertInstruction(ind)
                             del solutionDic[self.bookinHand]
                             #solutionInd.remove(str(insertPlace))
-                            self.bookinHand = None
+                            self.bookinHand = None'''
                 else:
-                    putAwayInstruction()
-                    bookInHandClear()
+                    inserted = False
+                    for key in solutionDic:
+                        if solutionDic[key] == '-2':
+                            if desiredBookArray[int(key)+1] == actualBookArray[int(self.bookinHand)]:
+                                insertInstruction(actualBookArray[int(self.bookinHand)])
+                                #del solutionDic[self.bookinHand]
+                                solutionInd.remove(key)
+                                del solutionDic[key]
+                                self.bookinHand = None
+                                inserted = True
+                                break
+                    if not inserted:
+                        putAwayInstruction()
+                        bookInHandClear()
                 
                 print(booksNeedRemoval)
                 print(solutionDic)
@@ -371,7 +434,7 @@ class checking_UI:
                 #del solutionDic[step]
                 booksNeedRemoval.append(step)
         self.bookinHand = None
-
+        self.loophead = None
         nextStepShow()
         #print(booksNeedRemoval)
         #print(solutionDic)
