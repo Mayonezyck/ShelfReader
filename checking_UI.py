@@ -251,7 +251,7 @@ class checking_UI:
                         takeOutInstruction(actualBookArray[int(solutionInd[0])])
                         self.bookinHand = solutionInd[0]
                         del solutionInd[0]
-                        bookInHandRefresh()
+                        #bookInHandRefresh()
                     else:
                         exitReshelf()
                     
