@@ -70,6 +70,7 @@ class checking_UI:
             self.barcodeBox.when_clicked = toEnter
             self.ButtonBookFound = PushButton(self.shelfCheckWindow, text = 'Book Found', command = self.foundButtonPressed)
             self.ButtonSubmit = PushButton(self.shelfCheckWindow, text = 'Submit', command = self.submitButtonPressed)
+            self.shelfCheckWindow.set_full_screen()
             self.shelfCheckWindow.display()
         
     def showNextBook(self):

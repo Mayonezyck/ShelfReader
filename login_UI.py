@@ -44,7 +44,7 @@ class login_UI:
         PushButton(arrange_box, text = 'OK', command = self.check, args = [UserIdBox], align = "right")  
         #nextPage = PushButton(self.loginWindow, text = 'Next', align = "bottom")
         # nextPage.when_clicked = nextWindow
-        # loginWindow.set_full_screen()
+        self.loginWindow.set_full_screen()
         self.loginWindow.display()  
              
     def getStudent(self):
