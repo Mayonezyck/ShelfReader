@@ -12,7 +12,7 @@ class login_UI:
 
     def addStaff(self,id):
         with open(self.filename, 'a+') as file:
-            file.write("\n" + str(id))
+            file.write("\n00" + str(id))
             print('added')
             
     def checkExist(self,id):
@@ -22,7 +22,7 @@ class login_UI:
             for row in csvreader:
                 # print(row[0])
                 # print(str(id))
-                if str(id) == row[0]:   
+                if '00'+str(id) == row[0]:   
                     isExist = True
             if isExist == False:
                 self.addStaff(id)
@@ -60,8 +60,8 @@ class login_UI:
             self.loginWindow.error('!!!', 'ID number cannot contain any letters, special symbols or spaces, nor be empty!')
 
     def check(self,idbox):
-        id = int(int(idbox.value)/10)
-        if len(str(id)) == 9 and 0 <= int(id) < 10000000000:
+        id = int(idbox.value[:-1])
+        if len('00'+str(id)) == 9 and 0 <= int(id) < 10000000:
             # print(len(id))
             self.currentStudent = self.checkExist(id)  
             self.killWindow()  
