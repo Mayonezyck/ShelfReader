@@ -47,19 +47,6 @@ class checking_UI:
             self.barcodeBox.text_color='black'
         print(student)
 
-        # def __str__():
-        #      book_title = ''
-        #      if len(self.currentBook.title) > 15:
-        #         #  book_title.append(self.currentBook.title.split()[:10])
-        #         #  book_title.append('\n')
-        #         #  book_title.append(self.currentBook.title.split()[10:-1])
-        #         book_title = " ".join(self.currentBook.title.split()[:10])
-        #      else:
-        #          book_title = self.currentBook.title
-        #      return book_title
-        #   #  self.currentBook.title = str(self.currentBook.title)
-        #    # return self.currentBook.title.split()[:10] + '\n' + self.currentBook.title.split()[10:-1]
-
         while not self.reachlast:#the window should be destroyed already by the previous method
             self.currentBook = self.bookList.getHead()
             self.BookTitle = Text(self.shelfCheckWindow, text = self.currentBook.title, size = 30)
@@ -70,8 +57,10 @@ class checking_UI:
             self.barcodeBox.when_clicked = toEnter
             self.ButtonBookFound = PushButton(self.shelfCheckWindow, text = 'Book Found', command = self.foundButtonPressed)
             self.ButtonSubmit = PushButton(self.shelfCheckWindow, text = 'Submit', command = self.submitButtonPressed)
-            self.shelfCheckWindow.set_full_screen()
+            #self.shelfCheckWindow.set_full_screen()
+            print(self.desiredBookDic)
             self.shelfCheckWindow.display()
+        
         
     def showNextBook(self):
         if self.currentBook is not None: 
@@ -79,8 +68,9 @@ class checking_UI:
                 #if self.currentBook.next_book.ifNeedsSkip():
                 if self.desiredBookDic[int(self.currentBook.next_book.barcode)] is False:
                     print(self.currentBook.title,'skiped')
-                    self.desiredBookDic[int(self.currentBook.next_book.barcode)] = True
-                    self.currentBook = self.currentBook.next_book
+                    while self.desiredBookDic[int(self.currentBook.next_book.barcode)] == False:
+                        self.desiredBookDic[int(self.currentBook.next_book.barcode)] = True
+                        self.currentBook = self.currentBook.next_book
                 self.currentBook = self.currentBook.next_book
                 if self.currentBook.ifneedsAnounce():
                     self.shelfCheckWindow.warn('Reshelf', 'This next book needs to be reshelved to the current position')
@@ -147,7 +137,6 @@ class checking_UI:
         #When the first time in session when the button was pressed, the flag "StartCounting" should be set to True
         if self.barcodeBox.value is not None and self.barcodeBox.value != 'scan in barcode if not found':
             #The nextbook should sure be printed 
-            #TODO:search the booklist and see if this book should be immediately pull out
             print(self.barcodeBox.value)#this is for debug
             if int(self.barcodeBox.value) in self.bookDic:#meaning, if this book is belong to the list
                 shouldShow = True
@@ -305,6 +294,9 @@ class checking_UI:
                                     del solutionDic[self.bookinHand]
                                     solutionInd.remove(self.bookinHand)
                                     break
+                            if temp == None:
+                                insertInstruction(actualBookArray[int(self.bookinHand)])
+                                self.bookinHand = None
                             '''for key in solutionDic:
                                 if solutionDic[key] == self.bookinHand:
                                     bookToReplace = actualBookArray[int(key)]
@@ -329,33 +321,6 @@ class checking_UI:
                             self.loophead = None
                             self.bookinHand = None
                         
-
-                        '''del solutionDic[self.bookinHand]
-                            if actualBookArray[ind] != self.loophead:
-                                replaceInstruction(actualBookArray[ind])
-                            else:
-                                insertInstruction(ind)
-                                self.loophead = None
-                            self.bookInHand = None
-                        if len(solutionInd) > 0:
-                            ind = findBookToDealWith()
-                            print('ind', ind)
-                            if ind != -1:
-                                del solutionDic[self.bookinHand]
-                                replaceInstruction(actualBookArray[ind])
-                                self.bookinHand = str(ind)
-                                print('now solution',solutionInd)
-                                print('now book', self.bookinHand)
-                                solutionInd.remove(self.bookinHand)
-                            else:
-                                putAwayInstruction()  
-                                bookInHandClear()     
-                        else:
-                            ind = findBookToDealWith()
-                            insertInstruction(ind)
-                            del solutionDic[self.bookinHand]
-                            #solutionInd.remove(str(insertPlace))
-                            self.bookinHand = None'''
                 else:
                     inserted = False
                     for key in solutionDic:
@@ -384,17 +349,7 @@ class checking_UI:
         #The loop should be: use the "Book in the hand" as the key, find where it should fit, replace it, and the replaced book is the new
         #"Book in the hand" 
         #For the extra book in the list, it will point to "-1". We can let the student pull out all the books needed to be picked out first
-        reorderWindow = Window(self.shelfCheckWindow, title="Reshelfing")
-        titleBox = Box(reorderWindow)
-        titleText = Text(titleBox, text = "Please wait until the solution is generated", size = 20, color="red", font="Arial")
-        instructionBox = Box(reorderWindow)
-        Text(instructionBox, text = "Book in Hand")
-        BookInHandText = Text(instructionBox, text = "Nothing")
-        InstructionLine1 = Text(instructionBox, text = "Instruction Line 1")
-        InstructionLine2 = Text(instructionBox, text = "Instruction Line 2")
-        InstructionLine3 = Text(instructionBox, text = "Instruction Line 3")
-        finishButton = PushButton(titleBox, text="Finish",command = exitReshelf)
-        nextStepButton = PushButton(instructionBox, text="Next Step", command = nextStepShow)
+        
         
         desiredBookArray =[None]+self.desiredBookArray
         actualBookArray = [None]+self.actualBookArray
@@ -437,11 +392,19 @@ class checking_UI:
                 booksNeedRemoval.append(step)
         self.bookinHand = None
         self.loophead = None
-        nextStepShow()
-        #print(booksNeedRemoval)
-        #print(solutionDic)
-        #print(solutionInd)
-        #print(self.lostBookDic)
-        reorderWindow.show()
+        if(solutionInd != [] or booksNeedRemoval != []):
+            reorderWindow = Window(self.shelfCheckWindow, title="Reshelfing")
+            titleBox = Box(reorderWindow)
+            titleText = Text(titleBox, text = "Please wait until the solution is generated", size = 20, color="red", font="Arial")
+            instructionBox = Box(reorderWindow)
+            Text(instructionBox, text = "Book in Hand")
+            BookInHandText = Text(instructionBox, text = "Nothing")
+            InstructionLine1 = Text(instructionBox, text = "Instruction Line 1")
+            InstructionLine2 = Text(instructionBox, text = "Instruction Line 2")
+            InstructionLine3 = Text(instructionBox, text = "Instruction Line 3")
+            finishButton = PushButton(titleBox, text="Finish",command = exitReshelf)
+            nextStepButton = PushButton(instructionBox, text="Next Step", command = nextStepShow)
+            nextStepShow()
+            reorderWindow.show()
                    
         pass
