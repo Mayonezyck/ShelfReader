@@ -66,11 +66,10 @@ class checking_UI:
         if self.currentBook is not None: 
             if self.currentBook.next_book is not None:
                 #if self.currentBook.next_book.ifNeedsSkip():
-                if self.desiredBookDic[int(self.currentBook.next_book.barcode)] is False:
+                while int(self.currentBook.next_book.barcode) in self.desiredBookDic and self.desiredBookDic[int(self.currentBook.next_book.barcode)] is False:
                     print(self.currentBook.title,'skiped')
-                    while self.desiredBookDic[int(self.currentBook.next_book.barcode)] == False:
-                        self.desiredBookDic[int(self.currentBook.next_book.barcode)] = True
-                        self.currentBook = self.currentBook.next_book
+                    self.desiredBookDic[int(self.currentBook.next_book.barcode)] = True
+                    self.currentBook = self.currentBook.next_book
                 self.currentBook = self.currentBook.next_book
                 if self.currentBook.ifneedsAnounce():
                     self.shelfCheckWindow.warn('Reshelf', 'This next book needs to be reshelved to the current position')
