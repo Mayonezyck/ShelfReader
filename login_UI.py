@@ -13,7 +13,7 @@ class login_UI:
 
     def addStaff(self,id):
         student_table = pd.read_csv(self.filename, sep = ',')
-        new_studnet = [id]
+        new_studnet = [str(id)]
         col_num = len(student_table.columns) - 1
         for i in range(col_num):
             new_studnet.append('')
@@ -27,7 +27,7 @@ class login_UI:
             csvreader = csv.reader(file)
             for row in csvreader:
                 # print(row[0])
-                # print(str(id))
+                print(str(id))
                 if str(id) == row[0]:   
                     isExist = True
             if isExist == False:
