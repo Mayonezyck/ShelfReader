@@ -63,11 +63,11 @@ class login_UI:
             self.loginWindow.error('!!!', 'ID number cannot contain any letters, special symbols or spaces, nor be empty!')
 
     def check(self,idbox):
-        id = idbox.value[:-1]
-        self.strToInt(id)
+        self.strToInt(idbox.value)
+        id = int(idbox.value[:-1])
         if len('00'+str(id)) == 9 and 0 <= int(id) < 10000000:
             # print(len(id))
-            self.currentStudent = self.checkExist(int(id))  
+            self.currentStudent = self.checkExist(id)  
             self.killWindow()  
         elif int(id) < 0:
             self.loginWindow.error('!!!', 'ID number must larger or equal to 0!')
