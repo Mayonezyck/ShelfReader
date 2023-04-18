@@ -20,13 +20,27 @@ class checking_UI:
         self.NbooktracerReachLast = False
         self.startCounting = False
         self.theNthBookTracer = self.bookList.getHead()
-        self.N = 7#this is heuristic value of N
+        self.N = 7 #this is heuristic value of N
         self.Noffset = 0
         self.desiredBookArray = []
         self.desiredBookDic = {}
         self.expandDesiredBookArray(self.N)
         self.actualBookArray = []
         self.lostBookDic = {}
+        self.misplaceCount = 0 #Number of books that are misplaced, but within shelf.
+        self.outsiderBookCount = 0 #Number of books that are from other shelves.
+        self.lostBookCount = 0
+        self.outsiderBooks = []
+
+    def reportGen(self):
+        result = {}
+        result['Misplaced'] = self.misplaceCount
+        result['Misplaced Percentage'] = self.misplaceCount/len(self.bookList)
+        result['Stranger'] = self.outsiderBookCount
+        result['Stranger barcode'] = self.outsiderBooks
+        result['LostCount'] = self.lostBookCount
+        return result
+        
 
     def destroyWindow(self):
         self.shelfCheckWindow.warn('Session Over', 'Your Session is over, congratulations')
@@ -118,8 +132,11 @@ class checking_UI:
             #at the end of shelf, no more book to look at
             for eachBook in self.lostBookDic:
                 thisBook = self.lostBookDic[eachBook]
+                self.lostBookCount += 1
                 print('lost books', thisBook)
                 if thisBook.ifneedsAnounce():
+                    self.lostBookCount -= 1
+                    self.misplaceCount += 1 
                     print('this book needs anounce')
                     nextBookAvailable = thisBook.next_book
                     while int(nextBookAvailable.barcode) in self.lostBookDic:
@@ -169,6 +186,8 @@ class checking_UI:
                     self.showNextBook()
                 self.checkIfIsTimeToReorder()
             else:
+                self.outsiderBookCount += 1
+                self.outsiderBooks.append(self.barcodeBox.value + '\n')
                 self.shelfCheckWindow.warn('warning', 'Remove this book and put it on the cart, this is gonna be returned to the desk')
             #reset the barcodebox
             self.barcodeBox.value = 'scan in barcode if not found'
@@ -387,6 +406,7 @@ class checking_UI:
         print(actualBookArray)
         solutionString = ''
         for eachKey in solutionDic:
+            self.misplaceCount += 1
             if solutionDic[eachKey] == '-1':
                 solutionString += ('Remove \n' + actualBookArray[int(eachKey)].title + '\n from shelf\n')
             elif solutionDic[eachKey] == '-2':
@@ -394,12 +414,13 @@ class checking_UI:
             else:   
                 print(eachKey,solutionDic[eachKey])
                 solutionString += 'Replace \n' + actualBookArray[int(eachKey)].title + '\n with \n' + desiredBookArray[int(solutionDic[eachKey])].title + '\n'
-        InstructionWindow = Window(self.shelfCheckWindow, title="Reshelfing")
-        titleBox = Box(InstructionWindow)
-        Text(titleBox, text="Please Following the instructions below", size = 20)
-        instructionBox = Box(InstructionWindow)
-        InstructionLine1 = Text(instructionBox, text = solutionString)
-        finishButton = PushButton(titleBox, text="Finish",command = exitReshelf)
+        if solutionString != '':
+            InstructionWindow = Window(self.shelfCheckWindow, title="Reshelfing")
+            titleBox = Box(InstructionWindow)
+            Text(titleBox, text="Please Following the instructions below", size = 20)
+            instructionBox = Box(InstructionWindow)
+            InstructionLine1 = Text(instructionBox, text = solutionString)
+            finishButton = PushButton(titleBox, text="Finish",command = exitReshelf)
         
         
         '''booksNeedRemoval = []

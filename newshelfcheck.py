@@ -20,6 +20,9 @@ startTime = time.perf_counter()
 checkingUI = checking_UI.checking_UI()
 checkingUI.start(currentStudent)
 
+report = checkingUI.reportGen()
+print(report)
+
 endTime = time.perf_counter()
 print('Start Time:',startTime)
 print('End Time', endTime)
