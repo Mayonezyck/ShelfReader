@@ -353,12 +353,12 @@ class checking_UI:
         desiredBookArray =[None]+self.desiredBookArray
         actualBookArray = [None]+self.actualBookArray
         
-        for eachBook in self.desiredBookDic:
+        for eachBook in self.desiredBookArray:
             #print('key',eachBook)
             #print('value',self.desiredBookDic[eachBook])
-            if(self.desiredBookDic[eachBook] == False):
-                desiredBookArray.remove(self.bookDic[eachBook])
-                self.lostBookDic[eachBook] = self.bookDic[eachBook]#add this book to the lostBookDictionary
+            if(eachBook not in self.actualBookArray):
+                desiredBookArray.remove(eachBook)
+                self.lostBookDic[eachBook.barcode] = eachBook#add this book to the lostBookDictionary
         print(self.desiredBookDic)
         print("desiredBook")
         for i in desiredBookArray:# this is for debugging#TODO:CLEAR THIS OUT WHEN PACK
