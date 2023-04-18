@@ -18,7 +18,7 @@ class task_UI:
    
 
     def task(self):
-        Text(self.taskWindow, text="Is this your today's task?", size=30)
+        Text(self.taskWindow, text="Current Task", size=30)
         confirm_date = TitleBox(self.taskWindow, "Today is", height=65, width=460)
         Text(confirm_date, text=self.today, size=14)
         confirm_fileDate = TitleBox(self.taskWindow, "The file is uploaded on", height=65, width=460)
