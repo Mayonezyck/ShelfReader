@@ -8,7 +8,7 @@ import Student
 class login_UI:
     def __init__(self) -> None:
         self.filename = 'studentInfo.csv'
-        self.loginWindow = App(title="Log in")
+        self.loginWindow = App(title="Log in", width = 480, height = 320)
         self.currentStudent = None
 
     def addStaff(self,id):
@@ -63,10 +63,11 @@ class login_UI:
             self.loginWindow.error('!!!', 'ID number cannot contain any letters, special symbols or spaces, nor be empty!')
 
     def check(self,idbox):
-        id = int(idbox.value[:-1])
+        id = idbox.value[:-1]
+        self.strToInt(id)
         if len('00'+str(id)) == 9 and 0 <= int(id) < 10000000:
             # print(len(id))
-            self.currentStudent = self.checkExist(id)  
+            self.currentStudent = self.checkExist(int(id))  
             self.killWindow()  
         elif int(id) < 0:
             self.loginWindow.error('!!!', 'ID number must larger or equal to 0!')
