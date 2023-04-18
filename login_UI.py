@@ -40,7 +40,7 @@ class login_UI:
             UserIdBox.value = ''
             UserIdBox.text_color='black'
 
-        Text(self.loginWindow, text="\nWelcome!", size=30)
+        Text(self.loginWindow, text="\nLog in to ShelfReader", size=29)
         Text(self.loginWindow, text="   ID number: ", align="left", size=18)
         UserIdBox = TextBox(self.loginWindow, text="Please enter your ID number", width=25, align="left")
         UserIdBox.text_color = 'grey'
