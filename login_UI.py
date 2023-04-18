@@ -2,6 +2,7 @@
 
 from guizero import *
 import csv
+import pandas as pd
 import Student
 
 class login_UI:
@@ -11,9 +12,14 @@ class login_UI:
         self.currentStudent = None
 
     def addStaff(self,id):
-        with open(self.filename, 'a+') as file:
-            file.write("\n00" + str(id))
-            print('added')
+        student_table = pd.read_csv(self.filename, sep = ',')
+        new_studnet = [id]
+        col_num = len(student_table.columns) - 1
+        for i in range(col_num):
+            new_studnet.append('')
+        student_table.loc[len(student_table)] = new_studnet
+        student_table.to_csv(self.filename,index=False)
+        print('added')
             
     def checkExist(self,id):
         with open(self.filename, 'r') as file:
@@ -22,7 +28,7 @@ class login_UI:
             for row in csvreader:
                 # print(row[0])
                 # print(str(id))
-                if '00'+str(id) == row[0]:   
+                if str(id) == row[0]:   
                     isExist = True
             if isExist == False:
                 self.addStaff(id)
@@ -34,17 +40,14 @@ class login_UI:
             UserIdBox.value = ''
             UserIdBox.text_color='black'
 
-        Text(self.loginWindow, text="\nWelcome!\n", size=40)
-        Text(self.loginWindow, text="ID number: ",align="left")
+        Text(self.loginWindow, text="\nWelcome!", size=30)
+        Text(self.loginWindow, text="   ID number: ", align="left", size=18)
         UserIdBox = TextBox(self.loginWindow, text="Please enter your ID number", width=25, align="left")
         UserIdBox.text_color = 'grey'
         UserIdBox.when_clicked = toEnter   # clear text in textbox when click on it
-        arrange_box=Box(self.loginWindow, height="fill")
-        #PushButton(arrange_box, text = 'OK', command = self.check, args = [UserIdBox], align = "right")  
+        arrange_box=Box(self.loginWindow, height="fill") 
         PushButton(arrange_box, text = 'OK', command = self.check, args = [UserIdBox], align = "right")  
-        #nextPage = PushButton(self.loginWindow, text = 'Next', align = "bottom")
-        # nextPage.when_clicked = nextWindow
-        # loginWindow.set_full_screen()
+        self.loginWindow.set_full_screen()
         self.loginWindow.display()  
              
     def getStudent(self):
