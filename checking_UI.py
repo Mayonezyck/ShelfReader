@@ -356,7 +356,7 @@ class checking_UI:
         for eachBook in self.desiredBookDic:
             #print('key',eachBook)
             #print('value',self.desiredBookDic[eachBook])
-            if(self.desiredBookDic[eachBook] == False):
+            if(self.desiredBookDic[eachBook] not in self.actualBookArray):
                 desiredBookArray.remove(self.bookDic[eachBook])
                 self.lostBookDic[eachBook] = self.bookDic[eachBook]#add this book to the lostBookDictionary
         print(self.desiredBookDic)
