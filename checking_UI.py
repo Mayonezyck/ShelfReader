@@ -388,12 +388,12 @@ class checking_UI:
         solutionString = ''
         for eachKey in solutionDic:
             if solutionDic[eachKey] == '-1':
-                solutionString += ('Remove ' + actualBookArray[int(eachKey)].title + ' from shelf\n')
+                solutionString += ('Remove \n' + actualBookArray[int(eachKey)].title + '\n from shelf\n')
             elif solutionDic[eachKey] == '-2':
-                solutionString += ('Add ' + desiredBookArray[int(eachKey)+1].title + ' to the left of ' + desiredBookArray[int(eachKey)+1].next_book.title + '\n')
+                solutionString += ('Add \n' + desiredBookArray[int(eachKey)+1].title + '\n to the left of \n' + desiredBookArray[int(eachKey)+1].next_book.title + '\n')
             else:   
                 print(eachKey,solutionDic[eachKey])
-                solutionString += 'Replace ' + actualBookArray[int(eachKey)].title + ' with ' + desiredBookArray[int(solutionDic[eachKey])].title + '\n'
+                solutionString += 'Replace \n' + actualBookArray[int(eachKey)].title + '\n with \n' + desiredBookArray[int(solutionDic[eachKey])].title + '\n'
         InstructionWindow = Window(self.shelfCheckWindow, title="Reshelfing")
         titleBox = Box(InstructionWindow)
         Text(titleBox, text="Please Following the instructions below", size = 20)
