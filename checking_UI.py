@@ -181,7 +181,8 @@ class checking_UI:
     def reorderLoop(self): #this method initiates the reorder loop.
         def exitReshelf():
             print('pressedd')
-            reorderWindow.destroy()
+            InstructionWindow.destroy()
+        '''
         def findBookToDealWith(handBook):
             ind = 0
             for book in actualBookArray:
@@ -198,6 +199,7 @@ class checking_UI:
             return -1
         def bookInHandRefresh():
             BookInHandText.clear()
+            print('setting book in hand text to', self.bookinHand)
             BookInHandText.append(actualBookArray[int(self.bookinHand)].title)
         def bookInHandClear():
             self.bookinHand = None
@@ -286,41 +288,39 @@ class checking_UI:
                                 if desiredBookArray[int(solutionDic[key])] == bookHand:
                                     bookToReplace = actualBookArray[int(key)]
                                     temp = key
+                                    print('temp:',temp)
                                     replaceInstruction(bookToReplace)
+                                    print('about to delete', self.bookinHand)
                                     del solutionDic[self.bookinHand]
 
                                     self.bookinHand = temp
+                                    print('then, delete', self.bookinHand)
                                     del solutionDic[self.bookinHand]
                                     solutionInd.remove(self.bookinHand)
                                     break
+                            print('ever been here?')
                             if temp == None:
                                 insertInstruction(actualBookArray[int(self.bookinHand)])
                                 self.bookinHand = None
-                            '''for key in solutionDic:
-                                if solutionDic[key] == self.bookinHand:
-                                    bookToReplace = actualBookArray[int(key)]
-                                    temp = key
-                                    replaceInstruction(bookToReplace)
-                                    del solutionDic[self.bookinHand]
-                                    self.bookinHand = temp
-                                    solutionInd.remove(self.bookinHand)'''
-                    else:#if not remove, most times switching
-                    #print('book', bookToDealWith)
-                    #print(actualBookArray)
-                        #ind = self.bookinHand
+                    else:
                         bookToReplace = desiredBookArray[int(self.bookinHand)]
                         if bookToReplace != self.loophead:
                             replaceInstruction(bookToReplace)
                             del solutionDic[self.bookinHand]
                             self.bookinHand = str(findBookToDealWith(bookToReplace))
                             solutionInd.remove(self.bookinHand)
+                            print('okay I am here, book in hand', self.bookinHand)
                         else:
                             insertInstruction(actualBookArray[int(self.bookinHand)])
+                            print('maybe Im here')
                             del solutionDic[self.bookinHand]
                             self.loophead = None
                             self.bookinHand = None
                         
                 else:
+                    print("This next book in hand is not in the solution dic")
+                    print(self.bookinHand)
+                    print(solutionDic)
                     inserted = False
                     for key in solutionDic:
                         if solutionDic[key] == '-2':
@@ -349,7 +349,7 @@ class checking_UI:
         #"Book in the hand" 
         #For the extra book in the list, it will point to "-1". We can let the student pull out all the books needed to be picked out first
         
-        
+        '''
         desiredBookArray =[None]+self.desiredBookArray
         actualBookArray = [None]+self.actualBookArray
         
@@ -379,16 +379,38 @@ class checking_UI:
         ig = instruction.instructionGenerate(matrix)
         ig.printMinSteps()
         ig.tracBackToTop()
-        ig.flipSolutionIndex()
+        #ig.flipSolutionIndex()
         solutionDic, solutionInd = ig.getSolution()
         print(solutionDic)
         print(solutionInd)
-        booksNeedRemoval = []
+        print(desiredBookArray)
+        print(actualBookArray)
+        solutionString = ''
+        for eachKey in solutionDic:
+            if solutionDic[eachKey] == '-1':
+                solutionString += ('Remove ' + actualBookArray[int(eachKey)].title + ' from shelf\n')
+            elif solutionDic[eachKey] == '-2':
+                solutionString += ('Add ' + desiredBookArray[int(eachKey)+1].title + ' to the left of ' + desiredBookArray[int(eachKey)+1].next_book.title + '\n')
+            else:   
+                print(eachKey,solutionDic[eachKey])
+                solutionString += 'Replace ' + actualBookArray[int(eachKey)].title + ' with ' + desiredBookArray[int(solutionDic[eachKey])].title + '\n'
+        InstructionWindow = Window(self.shelfCheckWindow, title="Reshelfing")
+        titleBox = Box(InstructionWindow)
+        Text(titleBox, text="Please Following the instructions below", size = 20)
+        instructionBox = Box(InstructionWindow)
+        InstructionLine1 = Text(instructionBox, text = solutionString)
+        finishButton = PushButton(titleBox, text="Finish",command = exitReshelf)
+        
+        
+        '''booksNeedRemoval = []
         for step in solutionInd:
             if(int(solutionDic[step] == '-1')):
                 solutionInd.remove(step)
                 #del solutionDic[step]
                 booksNeedRemoval.append(step)
+        
+
+        #The following commented line are for step-by-step instruction generation
         self.bookinHand = None
         self.loophead = None
         if(solutionInd != [] or booksNeedRemoval != []):
@@ -405,5 +427,5 @@ class checking_UI:
             nextStepButton = PushButton(instructionBox, text="Next Step", command = nextStepShow)
             nextStepShow()
             reorderWindow.show()
-                   
+        '''           
         pass
