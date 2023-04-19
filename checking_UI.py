@@ -411,7 +411,7 @@ class checking_UI:
             if solutionDic[eachKey] == '-1':
                 solutionString += ('Remove \n' + actualBookArray[int(eachKey)].title + '\n from shelf\n')
             elif solutionDic[eachKey] == '-2':
-                solutionString += ('Add \n' + desiredBookArray[int(eachKey)+1].title + '\n to the left of \n' + desiredBookArray[int(eachKey)+1].next_book.title + '\n')
+                solutionString += ('Add \n' + desiredBookArray[int(eachKey)].title + '\n to the left of \n' + desiredBookArray[int(eachKey)].next_book.title + '\n')
             else:   
                 print(eachKey,solutionDic[eachKey])
                 solutionString += 'Replace \n' + actualBookArray[int(eachKey)].title + '\n with \n' + desiredBookArray[int(solutionDic[eachKey])].title + '\n'
