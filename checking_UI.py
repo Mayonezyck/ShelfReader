@@ -63,8 +63,8 @@ class checking_UI:
 
         while not self.reachlast:#the window should be destroyed already by the previous method
             self.currentBook = self.bookList.getHead()
-            self.BookTitle = Text(self.shelfCheckWindow, text = self.currentBook.title, size = 30)
-            self.BookCallNum = Text(self.shelfCheckWindow, text = self.currentBook.call_number, size = 20)
+            self.BookTitle = Text(self.shelfCheckWindow, text = self.currentBook.title, size = 9)
+            self.BookCallNum = Text(self.shelfCheckWindow, text = self.currentBook.call_number, size = 25)
             self.BookVersion = Text(self.shelfCheckWindow, text= self.currentBook.version, size=20)
             self.barcodeBox = TextBox(self.shelfCheckWindow, text="scan in barcode if not found", width=25, align="top")
             self.barcodeBox.text_color = "grey"
@@ -79,22 +79,23 @@ class checking_UI:
     def showNextBook(self):
         if self.currentBook is not None: 
             if self.currentBook.next_book is not None:
-                #if self.currentBook.next_book.ifNeedsSkip():
-                while int(self.currentBook.next_book.barcode) in self.desiredBookDic and self.desiredBookDic[int(self.currentBook.next_book.barcode)] is False:
-                    print(self.currentBook.title,'skiped')
-                    self.desiredBookDic[int(self.currentBook.next_book.barcode)] = True
+                if self.currentBook.next_book.next_book is not None:
+                    #if self.currentBook.next_book.ifNeedsSkip():
+                    while int(self.currentBook.next_book.barcode) in self.desiredBookDic and self.desiredBookDic[int(self.currentBook.next_book.barcode)] is False:
+                        print(self.currentBook.title,'skiped')
+                        self.desiredBookDic[int(self.currentBook.next_book.barcode)] = True
+                        self.currentBook = self.currentBook.next_book
                     self.currentBook = self.currentBook.next_book
-                self.currentBook = self.currentBook.next_book
-                if self.currentBook.ifneedsAnounce():
-                    self.shelfCheckWindow.warn('Reshelf', 'This next book needs to be reshelved to the current position')
-                self.BookTitle.clear()
-                self.BookTitle.append(self.currentBook.title)
-                self.BookCallNum.clear()
-                self.BookCallNum.append(self.currentBook.call_number)
-                self.BookVersion.clear()
-                self.BookVersion.append(self.currentBook.version)
-            else:
-                self.reachlast = True
+                    if self.currentBook.ifneedsAnounce():
+                        self.shelfCheckWindow.warn('Reshelf', 'This next book needs to be reshelved to the current position')
+                    self.BookTitle.clear()
+                    self.BookTitle.append(self.currentBook.title)
+                    self.BookCallNum.clear()
+                    self.BookCallNum.append(self.currentBook.call_number)
+                    self.BookVersion.clear()
+                    self.BookVersion.append(self.currentBook.version)
+                else:
+                    self.reachlast = True
 
     def checkIfIsTimeToReorder(self):
         #A session should only stop when: startcounting is set
