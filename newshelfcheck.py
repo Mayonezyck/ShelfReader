@@ -7,6 +7,7 @@ import checking_UI
 import task_UI
 import time
 import notReport
+import yaml
 
 student = login_UI.login_UI()
 student.login()
@@ -22,6 +23,9 @@ checkingUI.start(currentStudent)
 
 report = checkingUI.reportGen()
 print(report)
+timestr = time.strftime("%Y%m%d-%H%M%S")
+with open((timestr+'.yaml'),'w') as file:
+    yaml.dump(report,file)
 
 endTime = time.perf_counter()
 print('Start Time:',startTime)
