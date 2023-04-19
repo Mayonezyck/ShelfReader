@@ -409,12 +409,12 @@ class checking_UI:
         for eachKey in solutionDic:
             self.misplaceCount += 1
             if solutionDic[eachKey] == '-1':
-                solutionString += ('Remove \n' + actualBookArray[int(eachKey)].title + '\n from shelf\n')
+                solutionString += ('Remove \n' + actualBookArray[int(eachKey)].call_number + '\n from shelf\n')
             elif solutionDic[eachKey] == '-2':
-                solutionString += ('Add \n' + desiredBookArray[int(eachKey)].title + '\n to the left of \n' + desiredBookArray[int(eachKey)].next_book.title + '\n')
+                solutionString += ('Add \n' + desiredBookArray[int(eachKey)].call_number + '\n to the left of \n' + desiredBookArray[int(eachKey)].next_book.call_number + '\n')
             else:   
                 print(eachKey,solutionDic[eachKey])
-                solutionString += 'Replace \n' + actualBookArray[int(eachKey)].title + '\n with \n' + desiredBookArray[int(solutionDic[eachKey])].title + '\n'
+                solutionString += 'Replace \n' + actualBookArray[int(eachKey)].call_number + '\n with \n' + desiredBookArray[int(solutionDic[eachKey])].call_number + '\n'
         if solutionString != '':
             InstructionWindow = Window(self.shelfCheckWindow, title="Reshelfing")
             titleBox = Box(InstructionWindow)
