@@ -40,13 +40,13 @@ class login_UI:
             UserIdBox.value = ''
             UserIdBox.text_color='black'
 
-        Text(self.loginWindow, text="\nLog in to ShelfReader", size=29)
-        Text(self.loginWindow, text="   ID number: ", align="left", size=18)
-        UserIdBox = TextBox(self.loginWindow, text="Please enter your ID number", width=25, align="left")
+        Text(self.loginWindow, text="\nLog in to ShelfReader", size=40)
+        Text(self.loginWindow, text="\tID number: ", align="left", size=23)
+        UserIdBox = TextBox(self.loginWindow, text="Please enter your ID number", width=28, align="left")
         UserIdBox.text_color = 'grey'
         UserIdBox.when_clicked = toEnter   # clear text in textbox when click on it
         arrange_box=Box(self.loginWindow, height="fill") 
-        PushButton(arrange_box, text = 'OK', command = self.check, args = [UserIdBox], align = "right")  
+        PushButton(arrange_box, text = 'OK', command = self.check, args = [UserIdBox], align = "right", width=7, height=2)  
         self.loginWindow.set_full_screen()
         self.loginWindow.display()  
              

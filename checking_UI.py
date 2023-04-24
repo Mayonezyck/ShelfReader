@@ -7,6 +7,7 @@ class checking_UI:
     def __init__(self):
         self.filename = 'shelflist.xlsx'
         self.shelfCheckWindow = App(title = "Shelf Checking is in Progress", width = 1000)
+        Text(self.shelfCheckWindow, text="", size=20)
         self.bookList, self.bookDic = readfile.readfile(self.filename)
         self.currentBook = None
         self.BookTitle = None
@@ -63,14 +64,20 @@ class checking_UI:
 
         while not self.reachlast:#the window should be destroyed already by the previous method
             self.currentBook = self.bookList.getHead()
-            self.BookTitle = Text(self.shelfCheckWindow, text = self.currentBook.title, size = 9)
+            self.BookTitle = Text(self.shelfCheckWindow, text = self.currentBook.title, size = 10)
+            Text(self.shelfCheckWindow, text="", size=10)
             self.BookCallNum = Text(self.shelfCheckWindow, text = self.currentBook.call_number, size = 25)
             self.BookVersion = Text(self.shelfCheckWindow, text= self.currentBook.version, size=20)
-            self.barcodeBox = TextBox(self.shelfCheckWindow, text="scan in barcode if not found", width=25, align="top")
+            Text(self.shelfCheckWindow, text="", size=10)
+            self.barcodeBox = TextBox(self.shelfCheckWindow, text="scan in barcode if not found", width=40, height=2, multiline=True)
             self.barcodeBox.text_color = "grey"
             self.barcodeBox.when_clicked = toEnter
-            self.ButtonBookFound = PushButton(self.shelfCheckWindow, text = 'Book Found', command = self.foundButtonPressed)
-            self.ButtonSubmit = PushButton(self.shelfCheckWindow, text = 'Submit', command = self.submitButtonPressed)
+            Text(self.shelfCheckWindow, text="", size=15)
+            self.ButtonBookFound = PushButton(self.shelfCheckWindow, text = 'Book Found', command = self.foundButtonPressed, width=10, height=2)
+            self.ButtonBookFound.text_size = 20
+            Text(self.shelfCheckWindow, text="", size=7)
+            self.ButtonSubmit = PushButton(self.shelfCheckWindow, text = 'Submit', command = self.submitButtonPressed, width=10, height=2)
+            self.ButtonSubmit.text_size = 20
             self.shelfCheckWindow.set_full_screen()
             print(self.desiredBookDic)
             self.shelfCheckWindow.display()
