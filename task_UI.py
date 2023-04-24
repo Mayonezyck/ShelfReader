@@ -18,18 +18,23 @@ class task_UI:
    
 
     def task(self):
+        Text(self.taskWindow, text="", size=10)
         Text(self.taskWindow, text="Current Task", size=30)
-        confirm_date = TitleBox(self.taskWindow, "Today is", height=65, width=460)
+        Text(self.taskWindow, text="", size=5)
+        confirm_date = TitleBox(self.taskWindow, "Today is", height=90, width=750)
         Text(confirm_date, text=self.today, size=14)
-        confirm_fileDate = TitleBox(self.taskWindow, "The file is uploaded on", height=65, width=460)
-        Text(confirm_fileDate, text=self.datestamp, size=14)
-        confirm_firstBook = TitleBox(self.taskWindow, "The first book in this list is", height=90, width=460)
-        Text(confirm_firstBook, text=self.book.call_number, size=14)
-        Text(confirm_firstBook, text=self.book.title, size=14)
+        confirm_fileDate = TitleBox(self.taskWindow, "The file is uploaded on", height=90, width=750)
+        Text(confirm_fileDate, text=self.datestamp, size=15)
+        confirm_firstBook = TitleBox(self.taskWindow, "The first book in this list is", height=105, width=750)
+        Text(confirm_firstBook, text=self.book.call_number, size=15)
+        Text(confirm_firstBook, text=self.book.title, size=15)
+        Text(self.taskWindow, text="", size=5)
         #button for confirm
-        PushButton(self.taskWindow, text='Yes', command=self.killWindow, align='left', height="fill", width="fill")
+        yes = PushButton(self.taskWindow, text='Yes', command=self.killWindow, align='left', height="fill", width="fill")
+        yes.text_size = 18
         #button for abort
-        PushButton(self.taskWindow, text='No', command=self.findHelp, align="right", height="fill", width="fill")
+        no = PushButton(self.taskWindow, text='No', command=self.findHelp, align="right", height="fill", width="fill")
+        no.text_size = 18
         self.taskWindow.set_full_screen()
         self.taskWindow.display()
     
