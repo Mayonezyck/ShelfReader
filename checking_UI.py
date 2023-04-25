@@ -8,7 +8,8 @@ class checking_UI:
     def __init__(self):
         self.filename = 'shelflist.xlsx'
         self.shelfCheckWindow = App(title = "Shelf Checking is in Progress", width = 1000)
-        Text(self.shelfCheckWindow, text="", size=28)
+        Text(self.shelfCheckWindow, text="", size=12)
+        self.booktitle_box = Box(self.shelfCheckWindow, width=900, height=110)
         self.bookList, self.bookDic = readfile.readfile(self.filename)
         self.currentBook = None
         self.BookTitle = None
@@ -65,21 +66,17 @@ class checking_UI:
 
         while not self.reachlast:#the window should be destroyed already by the previous method
             self.currentBook = self.bookList.getHead()
-            #title = textwrap.fill(self.currentBook.title[:-1], width=70)
-            #print(title)
-            self.BookTitle = Text(self.shelfCheckWindow, text = self.currentBook.title, size=18)
-            #print('123',title)
-            Text(self.shelfCheckWindow, text="", size=10)
+            self.BookTitle = Text(self.booktitle_box, text = self.currentBook.title[:-1], size=18)  
             self.BookCallNum = Text(self.shelfCheckWindow, text = self.currentBook.call_number, size = 25)
             self.BookVersion = Text(self.shelfCheckWindow, text= self.currentBook.version, size=20)
             Text(self.shelfCheckWindow, text="", size=10)
-            self.barcodeBox = TextBox(self.shelfCheckWindow, text="scan in barcode if not found", width=40, height=2, multiline=True)
+            self.barcodeBox = TextBox(self.shelfCheckWindow, text="scan in barcode if not found", width=40)
             self.barcodeBox.text_color = "grey"
             self.barcodeBox.when_clicked = toEnter
-            Text(self.shelfCheckWindow, text="", size=15)
+            Text(self.shelfCheckWindow, text="", size=6)
             self.ButtonBookFound = PushButton(self.shelfCheckWindow, text = 'Book Found', command = self.foundButtonPressed, width=10, height=2)
             self.ButtonBookFound.text_size = 20
-            Text(self.shelfCheckWindow, text="", size=7)
+            Text(self.shelfCheckWindow, text="", size=5)
             self.ButtonSubmit = PushButton(self.shelfCheckWindow, text = 'Submit', command = self.submitButtonPressed, width=10, height=2)
             self.ButtonSubmit.text_size = 20
             self.shelfCheckWindow.set_full_screen()
@@ -100,7 +97,7 @@ class checking_UI:
                     if self.currentBook.ifneedsAnounce():
                         self.shelfCheckWindow.warn('Reshelf', 'This next book needs to be reshelved to the current position')
                     self.BookTitle.clear()
-                    self.BookTitle.append(self.currentBook.title)
+                    self.BookTitle.append(textwrap.fill(self.currentBook.title[:-1], width=70))
                     self.BookCallNum.clear()
                     self.BookCallNum.append(self.currentBook.call_number)
                     self.BookVersion.clear()
