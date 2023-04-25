@@ -33,6 +33,7 @@ class notReport(Student.Student):
 
     def task_time(self, start, end):  
          self.tempTimePosition = self.taskNum + 2    
+         print(self.student_list[self.tempTimePosition])
          if self.student_list[self.tempTimePosition] != '':
               self.tempTimePosition = self.taskNum + 3
          self.student_list[self.tempTimePosition] = start
@@ -62,7 +63,7 @@ class notReport(Student.Student):
         print(studentinfo)
 
 # report = notReport()
-# report.getPosition('123456789')
-# report.task_time(10, 100)
+# report.getPosition('0020956484')
+# report.task_time(10, 140)
 # report.updateTaskDoneNum(1)
 # report.renewCSV()
