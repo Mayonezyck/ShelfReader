@@ -2,12 +2,13 @@
 from guizero import *
 import readfile
 import matrixgenerate, instruction
+import textwrap
 
 class checking_UI:
     def __init__(self):
         self.filename = 'shelflist.xlsx'
         self.shelfCheckWindow = App(title = "Shelf Checking is in Progress", width = 1000)
-        Text(self.shelfCheckWindow, text="", size=20)
+        Text(self.shelfCheckWindow, text="", size=28)
         self.bookList, self.bookDic = readfile.readfile(self.filename)
         self.currentBook = None
         self.BookTitle = None
@@ -64,16 +65,10 @@ class checking_UI:
 
         while not self.reachlast:#the window should be destroyed already by the previous method
             self.currentBook = self.bookList.getHead()
-            title = self.currentBook.title
-            while len(title) > 17:
-                if title[17] == '':
-                    self.currentBook.title = title[:17]
-                    title = title[18:]
-                else:
-                    i = title[17:].find('',1)
-                    self.currentBook.title = title[:i]
-                    title = title[i+1:]
-            self.BookTitle = Text(self.shelfCheckWindow, text = self.currentBook.title, size = 10)
+            title = textwrap.fill(self.currentBook.title[:-1], width=70)
+            #print(title)
+            self.BookTitle = Text(self.shelfCheckWindow, text = title, size=18)
+            #print('123',title)
             Text(self.shelfCheckWindow, text="", size=10)
             self.BookCallNum = Text(self.shelfCheckWindow, text = self.currentBook.call_number, size = 25)
             self.BookVersion = Text(self.shelfCheckWindow, text= self.currentBook.version, size=20)
