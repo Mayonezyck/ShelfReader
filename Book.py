@@ -1,8 +1,7 @@
 #this class of book represents one single book object that is unique and have a barcode of its
 #own
 from guizero import *
-import textwrap
-#
+
 class Book:
     def __init__(self, title = 'Something', barcode = '-1', call_number = '-1', version = '', next_book = None, pre_book = None):
         self.title = title
@@ -16,13 +15,8 @@ class Book:
         #self.skip = False
     
     def __str__(self):
-        # book_title = ''
-        # if len(self.title) > 15:
-        #     book_title = " ".join(self.title.split()[:10])
-        # else:
-        #     book_title = self.title
-        booktitle = textwrap.fill(self.title, width=70)
-        return booktitle +'\t'+ str(self.call_number) + '\t'+ str(self.version) +'\t'+ str(self.barcode)
+        return self.title +'\t'+ str(self.call_number) + '\t'+ str(self.version) +'\t'+ str(self.barcode)
+    
     def getBarcode(self):
         return self.barcode
     
