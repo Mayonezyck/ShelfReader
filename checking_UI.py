@@ -65,9 +65,9 @@ class checking_UI:
 
         while not self.reachlast:#the window should be destroyed already by the previous method
             self.currentBook = self.bookList.getHead()
-            title = textwrap.fill(self.currentBook.title[:-1], width=70)
+            #title = textwrap.fill(self.currentBook.title[:-1], width=70)
             #print(title)
-            self.BookTitle = Text(self.shelfCheckWindow, text = title, size=18)
+            self.BookTitle = Text(self.shelfCheckWindow, text = self.currentBook.title, size=18)
             #print('123',title)
             Text(self.shelfCheckWindow, text="", size=10)
             self.BookCallNum = Text(self.shelfCheckWindow, text = self.currentBook.call_number, size = 25)
