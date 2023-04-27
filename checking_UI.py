@@ -11,7 +11,7 @@ class checking_UI:
         Text(self.shelfCheckWindow, text="", size=12)
         self.booktitle_box = Box(self.shelfCheckWindow, width=900, height=110)
         self.bookList, self.bookDic = readfile.readfile(self.filename)
-        self.currentBook = None
+        self.currentBook = self.bookList.getHead()
         self.BookTitle = None
         self.BookCallNum = None
         self.BookBarcode = None
@@ -43,7 +43,14 @@ class checking_UI:
         result['Stranger barcode'] = self.outsiderBooks
         result['LostCount'] = self.lostBookCount
         return result
-        
+    
+    def checkIfCurrentBookAndFirstDeisreMatch(self):
+        print(self.currentBook,self.theNthBookTracer)
+        if self.currentBook != self.theNthBookTracer:
+            for item in self.bookList:
+                if item == self.currentBook.next_book:
+                    self.theNthBookTracer = item
+                    break
 
     def destroyWindow(self):
         self.shelfCheckWindow.warn('Session Over', 'Your Session is over, congratulations')
@@ -52,11 +59,13 @@ class checking_UI:
     def expandDesiredBookArray(self, count = 1):
         if not self.NbooktracerReachLast:
             for i in range(count):
-                self.desiredBookArray.append(self.theNthBookTracer)
-                self.desiredBookDic[self.theNthBookTracer.barcode] = True
-                self.theNthBookTracer = self.theNthBookTracer.next_book
-                if self.theNthBookTracer is None:
-                    self.NbooktracerReachLast = True
+                if not self.NbooktracerReachLast:
+                    self.desiredBookArray.append(self.theNthBookTracer)
+                    print('currently adding',self.theNthBookTracer.barcode)
+                    self.desiredBookDic[self.theNthBookTracer.barcode] = True
+                    self.theNthBookTracer = self.theNthBookTracer.next_book
+                    if self.theNthBookTracer is None:
+                        self.NbooktracerReachLast = True
 
     def start(self, student = None):
         def toEnter():
@@ -65,7 +74,6 @@ class checking_UI:
         print(student)
 
         while not self.reachlast:#the window should be destroyed already by the previous method
-            self.currentBook = self.bookList.getHead()
             self.BookTitle = Text(self.booktitle_box, text = self.currentBook.title[:-1], size=18)  
             self.BookCallNum = Text(self.shelfCheckWindow, text = self.currentBook.call_number, size = 25)
             self.BookVersion = Text(self.shelfCheckWindow, text= self.currentBook.version, size=20)
@@ -111,13 +119,13 @@ class checking_UI:
         #and
         #The size of actualBook became N
         if len(self.desiredBookArray) == len(self.actualBookArray) + self.Noffset:
-
             self.reorderLoop()
             print('End of one reorderLoop')
             self.actualBookArray = []
             self.desiredBookArray = []
             self.desiredBookDic.clear()
             self.Noffset = 0
+            self.checkIfCurrentBookAndFirstDeisreMatch()
             self.expandDesiredBookArray(self.N)
             self.startCounting = False
             
@@ -182,6 +190,7 @@ class checking_UI:
                         print('reached here')
                         self.Noffset -= 1
                         self.desiredBookDic[int(self.barcodeBox.value)] = True
+                        self.shelfCheckWindow.warn('Next Book', 'Please look at the next Book.')
                         shouldShow = False
                     #self.bookDic[int(self.barcodeBox.value)].needsSkip()
                 else:
@@ -193,8 +202,10 @@ class checking_UI:
                 if shouldStart:
                     self.actualBookArray.append(self.bookDic[int(self.barcodeBox.value)])
                 if shouldShow:
+                    self.checkIfIsTimeToReorder()
                     self.showNextBook()
-                self.checkIfIsTimeToReorder()
+
+                
             else:
                 self.outsiderBookCount += 1
                 self.outsiderBooks.append(self.barcodeBox.value + '\n')
