@@ -78,8 +78,8 @@ class checking_UI:
             self.BookCallNum = Text(self.shelfCheckWindow, text = self.currentBook.call_number, size = 30)
             self.BookVersion = Text(self.shelfCheckWindow, text= self.currentBook.version, size=20)
             # Text(self.shelfCheckWindow, text="-------------------", size=8)
-            barcode_box=Box(self.shelfCheckWindow, width=900, height=100, border=True)
-            self.barcodeBox = TextBox(barcode_box, text="scan in barcode if not found", width=40, height=2, multiline=True)
+            # barcode_box=Box(self.shelfCheckWindow, width=900, height=100, border=True)
+            self.barcodeBox = TextBox(self.shelfCheckWindow, text="scan in barcode if not found", width=40)
             self.barcodeBox.text_color = "grey"
             self.barcodeBox.when_clicked = toEnter
             # Text(self.shelfCheckWindow, text="-------------------", size=8)
