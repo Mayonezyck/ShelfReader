@@ -80,9 +80,10 @@ class checking_UI:
             # Text(self.shelfCheckWindow, text="-------------------", size=8)
             # barcode_box=Box(self.shelfCheckWindow, width=900, height=100, border=True)
             self.barcodeBox = TextBox(self.shelfCheckWindow, text="scan in barcode if not found", width=40)
+            self.barcodeBox.text_size = 20
             self.barcodeBox.text_color = "grey"
             self.barcodeBox.when_clicked = toEnter
-            # Text(self.shelfCheckWindow, text="-------------------", size=8)
+            Text(self.shelfCheckWindow, text="", size=10)
             self.ButtonBookFound = PushButton(self.shelfCheckWindow, text = 'Book Found', command = self.foundButtonPressed, width="fill", height="fill", align='left')
             self.ButtonBookFound.text_size = 20
             self.ButtonSubmit = PushButton(self.shelfCheckWindow, text = 'Submit', command = self.submitButtonPressed, width='fill', height='fill', align='right')
