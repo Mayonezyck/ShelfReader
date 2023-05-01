@@ -77,11 +77,12 @@ class checking_UI:
             self.BookTitle = Text(self.booktitle_box, text =textwrap.fill(self.currentBook.title[:-1], width=70), size=20)  
             self.BookCallNum = Text(self.shelfCheckWindow, text = self.currentBook.call_number, size = 30)
             self.BookVersion = Text(self.shelfCheckWindow, text= self.currentBook.version, size=20)
-            Text(self.shelfCheckWindow, text="-------------------", size=8)
-            self.barcodeBox = TextBox(self.shelfCheckWindow, text="scan in barcode if not found", width=40)
+            # Text(self.shelfCheckWindow, text="-------------------", size=8)
+            barcode_box=Box(self.shelfCheckWindow, width=900, height=100, border=True)
+            self.barcodeBox = TextBox(barcode_box, text="scan in barcode if not found", width=40, height=2, multiline=True)
             self.barcodeBox.text_color = "grey"
             self.barcodeBox.when_clicked = toEnter
-            Text(self.shelfCheckWindow, text="-------------------", size=8)
+            # Text(self.shelfCheckWindow, text="-------------------", size=8)
             self.ButtonBookFound = PushButton(self.shelfCheckWindow, text = 'Book Found', command = self.foundButtonPressed, width="fill", height="fill", align='left')
             self.ButtonBookFound.text_size = 20
             self.ButtonSubmit = PushButton(self.shelfCheckWindow, text = 'Submit', command = self.submitButtonPressed, width='fill', height='fill', align='right')
