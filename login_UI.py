@@ -43,6 +43,7 @@ class login_UI:
         Text(self.loginWindow, text="\nLog in to ShelfReader", size=40)
         Text(self.loginWindow, text="\tID number: ", align="left", size=23)
         UserIdBox = TextBox(self.loginWindow, text="Please enter your ID number", width=28, align="left")
+        UserIdBox.text_size = 20
         UserIdBox.text_color = 'grey'
         UserIdBox.when_clicked = toEnter   # clear text in textbox when click on it
         arrange_box=Box(self.loginWindow, height="fill") 

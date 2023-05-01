@@ -77,7 +77,7 @@ class checking_UI:
             self.BookTitle = Text(self.booktitle_box, text =textwrap.fill(self.currentBook.title[:-1], width=70), size=20)  
             self.BookCallNum = Text(self.shelfCheckWindow, text = self.currentBook.call_number, size = 30)
             self.BookVersion = Text(self.shelfCheckWindow, text= self.currentBook.version, size=20)
-            # Text(self.shelfCheckWindow, text="-------------------", size=8)
+            Text(self.shelfCheckWindow, text="", size=5)
             # barcode_box=Box(self.shelfCheckWindow, width=900, height=100, border=True)
             self.barcodeBox = TextBox(self.shelfCheckWindow, text="scan in barcode if not found", width=40)
             self.barcodeBox.text_size = 20
