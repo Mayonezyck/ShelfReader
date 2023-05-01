@@ -74,8 +74,8 @@ class checking_UI:
         print(student)
 
         while not self.reachlast:#the window should be destroyed already by the previous method
-            self.BookTitle = Text(self.booktitle_box, text =textwrap.fill(self.currentBook.title[:-1], width=70), size=20)  
-            self.BookCallNum = Text(self.shelfCheckWindow, text = self.currentBook.call_number, size = 30)
+            self.BookTitle = Text(self.booktitle_box, text =textwrap.fill(self.currentBook.title[:-1], width=70), size=19)  
+            self.BookCallNum = Text(self.shelfCheckWindow, text = self.currentBook.call_number, size = 40)
             self.BookVersion = Text(self.shelfCheckWindow, text= self.currentBook.version, size=20)
             Text(self.shelfCheckWindow, text="", size=5)
             # barcode_box=Box(self.shelfCheckWindow, width=900, height=100, border=True)
@@ -443,6 +443,7 @@ class checking_UI:
             instructionBox = Box(InstructionWindow)
             InstructionLine1 = Text(instructionBox, text = solutionString)
             finishButton = PushButton(titleBox, text="Finish",command = exitReshelf)
+            InstructionWindow.set_full_screen()
         
         
         '''booksNeedRemoval = []
