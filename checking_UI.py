@@ -74,18 +74,17 @@ class checking_UI:
         print(student)
 
         while not self.reachlast:#the window should be destroyed already by the previous method
-            self.BookTitle = Text(self.booktitle_box, text = self.currentBook.title[:-1], size=18)  
-            self.BookCallNum = Text(self.shelfCheckWindow, text = self.currentBook.call_number, size = 25)
+            self.BookTitle = Text(self.booktitle_box, text =textwrap.fill(self.currentBook.title[:-1], width=70), size=20)  
+            self.BookCallNum = Text(self.shelfCheckWindow, text = self.currentBook.call_number, size = 30)
             self.BookVersion = Text(self.shelfCheckWindow, text= self.currentBook.version, size=20)
-            Text(self.shelfCheckWindow, text="", size=10)
+            Text(self.shelfCheckWindow, text="-------------------", size=8)
             self.barcodeBox = TextBox(self.shelfCheckWindow, text="scan in barcode if not found", width=40)
             self.barcodeBox.text_color = "grey"
             self.barcodeBox.when_clicked = toEnter
-            Text(self.shelfCheckWindow, text="", size=6)
-            self.ButtonBookFound = PushButton(self.shelfCheckWindow, text = 'Book Found', command = self.foundButtonPressed, width=10, height=2)
+            Text(self.shelfCheckWindow, text="-------------------", size=8)
+            self.ButtonBookFound = PushButton(self.shelfCheckWindow, text = 'Book Found', command = self.foundButtonPressed, width="fill", height="fill", align='left')
             self.ButtonBookFound.text_size = 20
-            Text(self.shelfCheckWindow, text="", size=5)
-            self.ButtonSubmit = PushButton(self.shelfCheckWindow, text = 'Submit', command = self.submitButtonPressed, width=10, height=2)
+            self.ButtonSubmit = PushButton(self.shelfCheckWindow, text = 'Submit', command = self.submitButtonPressed, width='fill', height='fill', align='right')
             self.ButtonSubmit.text_size = 20
             self.shelfCheckWindow.set_full_screen()
             print(self.desiredBookDic)
