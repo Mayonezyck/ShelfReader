@@ -439,12 +439,14 @@ class checking_UI:
         if solutionString != '':
             InstructionWindow = Window(self.shelfCheckWindow, title="Reshelfing")
             titleBox = Box(InstructionWindow)
-            Text(titleBox, text="/nPlease Following the instructions below", size = 20)
+            Text(titleBox, text="", size = 5)
+            Text(titleBox, text="Please Following the instructions below", size = 20, color="red")
             Text(titleBox, text="", size = 5)
             instructionBox = Box(InstructionWindow, height='fill', width='fill')
-            InstructionLine1 = Text(instructionBox, text = solutionString, size=25)
+            InstructionLine1 = Text(instructionBox, text = solutionString, size=20)
             finishButton = PushButton(titleBox, text="Finish",command = exitReshelf, align='bottom', width=900, height=3)
             finishButton.text_size = 18
+            Text(titleBox, text="", size = 5)
             InstructionWindow.set_full_screen()
         
         
