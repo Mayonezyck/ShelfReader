@@ -46,8 +46,9 @@ class login_UI:
         UserIdBox.text_size = 15
         UserIdBox.text_color = 'grey'
         UserIdBox.when_clicked = toEnter   # clear text in textbox when click on it
-        arrange_box=Box(self.loginWindow, height="fill") 
-        PushButton(arrange_box, text = 'OK', command = self.check, args = [UserIdBox], align = "right", width=7, height=2)  
+        arrange_box = Box(self.loginWindow, height="fill") 
+        enterButton = PushButton(arrange_box, text = 'OK', command = self.check, args = [UserIdBox], align = "right", width=7, height=2)  
+        enterButton.text_size = 15
         self.loginWindow.set_full_screen()
         self.loginWindow.display()  
              
